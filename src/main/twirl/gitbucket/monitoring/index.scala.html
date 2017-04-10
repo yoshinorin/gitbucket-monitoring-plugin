@@ -1,4 +1,5 @@
-@(info: Option[Any])(implicit context: gitbucket.core.controller.Context)
+@(info: Option[Any],
+  osInfo: gitbucket.monitoring.controllers.OSInfo)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
@@ -8,10 +9,28 @@
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @information(info)
-        <div class="content-wrapper main-center">
-          <div class="head">
-            <h2 style="margin-top: 0px;">Monitoring</h2>
-          <div>
+      <div class="panel panel-default">
+        <div class="panel-heading strong">Operationg System</div>
+        <div class="panel-body">
+          <table class="table table-borderd">
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+            <tr>
+              <td>OS</td>
+              <td>@osInfo.osName</td>
+            </tr>
+            <tr>
+              <td>Version</td>
+              <td>@osInfo.osVersion</td>
+            </tr>
+            <tr>
+              <td>Architecture</td>
+              <td>@osInfo.osArch</td>
+            </tr>
+          </table>
         </div>
+      </div>
   }
 }

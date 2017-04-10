@@ -12,7 +12,18 @@ import java.net._
 import scala.collection.JavaConversions._
 
 class MonitoringController extends ControllerBase with AdminAuthenticator {
+
   get("/admin/monitoring")(adminOnly {
-    html.index(None);
+    val osInfo = getOSInfo()
+    html.index(None, osInfo);
   })
+
+  def getOSInfo(): OSInfo = {
+    new OSInfo(System.getProperty("os.name"), System.getProperty("os.version"), System.getProperty("os.arch"))
+  }
 }
+
+case class OSInfo (
+  osName: String,
+  osVersion: String,
+  osArch: String)
