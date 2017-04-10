@@ -1,5 +1,6 @@
 @(info: Option[Any],
   osInfo: gitbucket.monitoring.controllers.OSInfo,
+  machineResources: gitbucket.monitoring.controllers.MachineResources,
   jvmInfo: gitbucket.monitoring.controllers.JVMInfo)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
@@ -15,6 +16,9 @@
           <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active">
               <a href="#os" aria-controls="os" role="tab" data-toggle="tab">Operationg System</a>
+            </li>
+            <li role="presentation">
+              <a href="#machineResouces" aria-controls="machineResouces" role="tab" data-toggle="tab">Machine Resouces</a>
             </li>
             <li role="presentation">
               <a href="#jvm" aria-controls="jvm" role="tab" data-toggle="tab">JVM</a>
@@ -38,6 +42,18 @@
                 <tr>
                   <td>Architecture</td>
                   <td>@osInfo.osArch</td>
+                </tr>
+              </table>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="machineResouces">
+              <table class="table table-borderd">
+                <tr>
+                  <th>Property</th>
+                  <th>Value</th>
+                </tr>
+                <tr>
+                  <td>CPU Core</td>
+                  <td>@machineResources.core</td>
                 </tr>
               </table>
             </div>

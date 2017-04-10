@@ -16,11 +16,16 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   get("/admin/monitoring")(adminOnly {
     val osInfo = getOSInfo()
     val jvmInfo = getJVMInfo()
-    html.index(None, osInfo, jvmInfo);
+    val machineResources = getMachineResources()
+    html.index(None, osInfo, machineResources, jvmInfo);
   })
 
   def getOSInfo(): OSInfo = {
     new OSInfo(System.getProperty("os.name"), System.getProperty("os.version"), System.getProperty("os.arch"))
+  }
+
+  def getMachineResources(): MachineResources = {
+    new MachineResources(Runtime.getRuntime().availableProcessors())
   }
 
   def getJVMInfo(): JVMInfo = {
@@ -36,6 +41,9 @@ case class OSInfo (
   osName: String,
   osVersion: String,
   osArch: String)
+
+case class MachineResources (
+  core: Int)
 
 case class JVMInfo(
   vmName: String,
