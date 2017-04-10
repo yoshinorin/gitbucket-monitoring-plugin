@@ -10,63 +10,70 @@
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @information(info)
-      <div class="panel panel-default">
-        <div class="panel-heading strong">Operationg System</div>
-          <div class="panel-body">
-            <table class="table table-borderd">
-              <tr>
-                <th>Property</th>
-                <th>Value</th>
-              </tr>
-              <tr>
-                <td>OS</td>
-                <td>@osInfo.osName</td>
-              </tr>
-              <tr>
-                <td>Version</td>
-                <td>@osInfo.osVersion</td>
-              </tr>
-              <tr>
-                <td>Architecture</td>
-                <td>@osInfo.osArch</td>
-              </tr>
-            </table>
+      <div id="tabbed-contents" display="none">
+        <div>
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+              <a href="#os" aria-controls="os" role="tab" data-toggle="tab">Operationg System</a>
+            </li>
+            <li role="presentation">
+              <a href="#jvm" aria-controls="jvm" role="tab" data-toggle="tab">JVM</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="os">
+              <table class="table table-borderd">
+                <tr>
+                  <th>Property</th>
+                  <th>Value</th>
+                </tr>
+                <tr>
+                  <td>OS</td>
+                  <td>@osInfo.osName</td>
+                </tr>
+                <tr>
+                  <td>Version</td>
+                  <td>@osInfo.osVersion</td>
+                </tr>
+                <tr>
+                  <td>Architecture</td>
+                  <td>@osInfo.osArch</td>
+                </tr>
+              </table>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="jvm">
+              <table class="table table-borderd">
+                <tr>
+                  <th>Property</th>
+                  <th>Value</th>
+                </tr>
+                <tr>
+                  <td>Name</td>
+                  <td>@jvmInfo.vmName</td>
+                </tr>
+                <tr>
+                  <td>Version</td>
+                  <td>@jvmInfo.runtimeVersion</td>
+                </tr>
+                <tr>
+                  <td>Total Memory</td>
+                  <td>@jvmInfo.memTotal MB</td>
+                </tr>
+                <tr>
+                  <td>Free Memory</td>
+                  <td>@jvmInfo.memFree MB</td>
+                </tr>
+                <tr>
+                  <td>Used Memory</td>
+                  <td>@jvmInfo.memUsed MB</td>
+                </tr>
+                <tr>
+                  <td>Max Memory</td>
+                  <td>@jvmInfo.memMax MB</td>
+                </tr>
+              </table>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading strong">JVM</div>
-          <div class="panel-body">
-            <table class="table table-borderd">
-              <tr>
-                <th>Property</th>
-                <th>Value</th>
-              </tr>
-              <tr>
-                <td>Name</td>
-                <td>@jvmInfo.vmName</td>
-              </tr>
-              <tr>
-                <td>Version</td>
-                <td>@jvmInfo.runtimeVersion</td>
-              </tr>
-              <tr>
-                <td>Total Memory</td>
-                <td>@jvmInfo.memTotal MB</td>
-              </tr>
-              <tr>
-                <td>Free Memory</td>
-                <td>@jvmInfo.memFree MB</td>
-              </tr>
-              <tr>
-                <td>Used Memory</td>
-                <td>@jvmInfo.memUsed MB</td>
-              </tr>
-              <tr>
-                <td>Max Memory</td>
-                <td>@jvmInfo.memMax MB</td>
-            </table>
-           </div>
         </div>
       </div>
   }
