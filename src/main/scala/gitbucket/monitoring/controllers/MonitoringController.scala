@@ -43,5 +43,4 @@ case class JVMInfo(
   memTotal: Long,
   memFree: Long,
   memUsed: Long,
-  memMax: Long
-)
+  memMax: Long)
