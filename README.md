@@ -1,0 +1,2 @@
+# gitbucket-monitoring-plugin
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/677a69ed2e5f4137ba35986dbb02995f)](https://www.codacy.com/app/YoshinoriN/gitbucket-monitoring-plugin?utm_source=github.com&utm_medium=referral&utm_content=YoshinoriN/gitbucket-monitoring-plugin&utm_campaign=badger)
