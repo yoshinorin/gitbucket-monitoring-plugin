@@ -1,0 +1,43 @@
+@(systeminformation: gitbucket.monitoring.models.SystemInformation)(implicit context: gitbucket.core.controller.Context)
+@import context._
+@import gitbucket.core.html.main
+@import gitbucket.core.admin.html.menu
+@import gitbucket.core.helper.html.information
+@import gitbucket.core.view.helpers._
+@gitbucket.core.html.main("Monitoring") {
+  @gitbucket.core.admin.html.menu("monitoring") {
+    @information(None)
+    <div class="pagination-bar">
+      <nav aria-label="Page navigation">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="@context.path/admin/monitoring/systeminformation">System Information</a></li>
+          <li class="page-item"><a class="page-link" href="@context.path/admin/monitoring/machineresources">Machine Resources</a></li>
+          <li class="page-item"><a class="page-link" href="@context.path/admin/monitoring/jvm">JVM</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading strong">System Information</div>
+      <div class="panel-body">
+        <table class="table table-borderd">
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>OS</td>
+            <td>@systeminformation.osName</td>
+          </tr>
+          <tr>
+            <td>Version</td>
+            <td>@systeminformation.osVersion</td>
+          </tr>
+          <tr>
+            <td>Architecture</td>
+            <td>@systeminformation.osArch</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  }
+}
