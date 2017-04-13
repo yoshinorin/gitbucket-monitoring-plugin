@@ -22,11 +22,7 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   })
 
   get("/admin/monitoring/jvm")(adminOnly {
-    val memTotal = (Runtime.getRuntime().totalMemory() / (1024 * 1024))
-    val memFree = (Runtime.getRuntime().freeMemory() / (1024 * 1024))
-    val memUsed = memTotal - memFree
-    val memMax = (Runtime.getRuntime().maxMemory() / (1024 * 1024))
-    gitbucket.monitoring.information.html.jvm(new JVM(System.getProperty("java.vm.name"), System.getProperty("java.runtime.version"), memTotal, memFree, memUsed, memMax));
+    gitbucket.monitoring.information.html.jvm(new JVM());
   })
 
   get("/admin/monitoring/machineresources")(adminOnly {
