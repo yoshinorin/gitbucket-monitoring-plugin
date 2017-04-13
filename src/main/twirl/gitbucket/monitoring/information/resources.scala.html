@@ -9,7 +9,7 @@
     @information(None)
     @gitbucket.monitoring.html.navigation(context)
     <div class="panel panel-default">
-      <div class="panel-heading strong">Machine Resources Information</div>
+      <div class="panel-heading strong">CPU Information</div>
         <div class="panel-body">
           <table class="table table-borderd">
             <tr>
@@ -22,6 +22,30 @@
             </tr>
           </table>
         </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading strong">Disk Information</div>
+        <div class="panel-body">
+          <table class="table table-borderd">
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+            <tr>
+              <td>Used Space</td>
+              <td>@resources.usedSpace GB</td>
+            </tr>
+            <tr>
+              <td>Free Space</td>
+              <td>@resources.freeSpace GB</td>
+            </tr>
+            <tr>
+              <td>Total Space</td>
+              <td>@resources.totalSpace GB</td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
   }
 }
