@@ -4,12 +4,9 @@ import io.github.gitbucket.scalatra.forms._
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
 import gitbucket.core.view.helpers._
-import java.net._
-import java.io.File
 
-import scala.collection.JavaConversions._
 import gitbucket.monitoring.information.html._
-import gitbucket.monitoring.models.{MachineResources, SystemInformation, _}
+import gitbucket.monitoring.models._
 
 class MonitoringController extends ControllerBase with AdminAuthenticator {
 
