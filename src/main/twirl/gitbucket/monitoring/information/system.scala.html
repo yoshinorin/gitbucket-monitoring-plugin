@@ -1,4 +1,4 @@
-@(systeminformation: gitbucket.monitoring.models.SystemInformation)(implicit context: gitbucket.core.controller.Context)
+@(system: gitbucket.monitoring.models.SystemInformation)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
@@ -18,15 +18,15 @@
           </tr>
           <tr>
             <td>OS</td>
-            <td>@systeminformation.osName</td>
+            <td>@system.osName</td>
           </tr>
           <tr>
             <td>Version</td>
-            <td>@systeminformation.osVersion</td>
+            <td>@system.osVersion</td>
           </tr>
           <tr>
             <td>Architecture</td>
-            <td>@systeminformation.osArch</td>
+            <td>@system.osArch</td>
           </tr>
         </table>
       </div>
