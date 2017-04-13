@@ -1,3 +1,5 @@
 package gitbucket.monitoring.models
 
-case class MachineResources(core: Int)
+class MachineResources extends OperatingSystem() {
+  def core = Runtime.getRuntime().availableProcessors()
+}

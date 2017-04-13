@@ -9,7 +9,7 @@ import java.io.File
 
 import scala.collection.JavaConversions._
 import gitbucket.monitoring.information.html._
-import gitbucket.monitoring.models.{MachineResources, _}
+import gitbucket.monitoring.models.{MachineResources, SystemInformation, _}
 
 class MonitoringController extends ControllerBase with AdminAuthenticator {
 
@@ -18,7 +18,7 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   })
 
   get("/admin/monitoring/systeminformation")(adminOnly {
-    gitbucket.monitoring.information.html.system(new SystemInformation(System.getProperty("os.name"), System.getProperty("os.version"), System.getProperty("os.arch")));
+    gitbucket.monitoring.information.html.system(new SystemInformation());
   })
 
   get("/admin/monitoring/jvm")(adminOnly {
@@ -30,6 +30,6 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   })
 
   get("/admin/monitoring/machineresources")(adminOnly {
-    gitbucket.monitoring.information.html.resources(new MachineResources(Runtime.getRuntime().availableProcessors()));
+    gitbucket.monitoring.information.html.resources(new MachineResources());
   })
 }
