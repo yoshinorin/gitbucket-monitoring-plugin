@@ -1,0 +1,10 @@
+@(implicit context: gitbucket.core.controller.Context)
+<div class="pagination-bar">
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" href="@context.path/admin/monitoring/systeminformation">System Information</a></li>
+      <li class="page-item"><a class="page-link" href="@context.path/admin/monitoring/machineresources">Machine Resources</a></li>
+      <li class="page-item"><a class="page-link" href="@context.path/admin/monitoring/jvm">JVM</a></li>
+    </ul>
+  </nav>
+</div>
