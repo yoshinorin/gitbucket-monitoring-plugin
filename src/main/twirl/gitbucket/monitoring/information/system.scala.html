@@ -10,26 +10,53 @@
     @gitbucket.monitoring.html.navigation(context)
     <div class="panel panel-default">
       <div class="panel-heading strong">System Information</div>
-      <div class="panel-body">
-        <table class="table table-borderd">
-          <tr>
-            <th>Property</th>
-            <th>Value</th>
-          </tr>
-          <tr>
-            <td>OS</td>
-            <td>@system.osName</td>
-          </tr>
-          <tr>
-            <td>Version</td>
-            <td>@system.osVersion</td>
-          </tr>
-          <tr>
-            <td>Architecture</td>
-            <td>@system.osArch</td>
-          </tr>
-        </table>
-      </div>
+        <div class="panel-body">
+          <table class="table table-borderd">
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+            <tr>
+              <td>OS</td>
+              <td>@system.osName</td>
+           </tr>
+            <tr>
+              <td>Version</td>
+              <td>@system.osVersion</td>
+            </tr>
+            <tr>
+              <td>Architecture</td>
+              <td>@system.osArch</td>
+            </tr>
+          </table>
+        </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading strong">Time Information</div>
+        <div class="panel-body">
+          <table class="table table-borderd">
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+            <tr>
+              <td>Now Time</td>
+              <td>@system.nowTime</td>
+            </tr>
+            <tr>
+              <td>TimeZone</td>
+              <td>@system.timeZone</td>
+            </tr>
+            <tr>
+              <td>Zone Offset</td>
+              <td>@system.zoneOffset</td>
+            </tr>
+            <tr>
+              <td>Day Of Week</td>
+              <td>@system.dayOfWeek</td>
+            </tr>
+          </table>
+        </div>
     </div>
   }
 }
