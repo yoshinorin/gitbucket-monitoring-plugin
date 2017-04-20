@@ -31,6 +31,38 @@
         </div>
     </div>
     <div class="panel panel-default">
+      <div class="panel-heading strong">Memory Information</div>
+        <div class="panel-body">
+          <table class="table table-borderd">
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+            <tr>
+              <td>Total</td>
+              @resources.memory match {
+                case Left(message) => { <td>@message</td> }
+                case Right(m) => { <td>@m.total MB</td> }
+              }
+            </tr>
+            <tr>
+              <td>Used</td>
+              @resources.memory match {
+                case Left(message) => { <td>@message</td> }
+                case Right(m) => { <td>@m.used MB</td> }
+              }
+            </tr>
+            <tr>
+              <td>Free</td>
+              @resources.memory match {
+                case Left(message) => { <td>@message</td> }
+                case Right(m) => { <td>@m.free MB</td> }
+              }
+            </tr>
+          </table>
+        </div>
+    </div>
+    <div class="panel panel-default">
       <div class="panel-heading strong">Disk Information</div>
         <div class="panel-body">
           <table class="table table-borderd">

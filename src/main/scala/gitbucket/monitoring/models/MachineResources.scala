@@ -11,8 +11,8 @@ class MachineResources extends OperatingSystem() {
   def freeSpace = ByteConverter.ByteToGB(fileStore.getUnallocatedSpace())
   def usedSpace = totalSpace - freeSpace
 
-  private def topCommandToArray(commandResult: String): Array[String] = {
-    commandResult.replace(" ","").drop(commandResult.indexOf(":") + 1).split(",")
+  private def topCommandToArray(commandResult: String, splitPattern:String): Array[String] = {
+    commandResult.drop(commandResult.indexOf(":") + 1).trim().split(splitPattern)
   }
 
   def cpu: Either[String, Cpu] = {
@@ -21,7 +21,7 @@ class MachineResources extends OperatingSystem() {
     }
 
     try {
-      val resouces = topCommandToArray(Process("top -b -n 1") #| Process("grep Cpu(s)") !!)
+      val resouces = topCommandToArray(Process("top -b -n 1") #| Process("grep Cpu(s)") !! ,",")
       Right(Cpu(
         resouces.filter(c => c.contains("us")).head.replace("us",""),
         resouces.filter(c => c.contains("sy")).head.replace("sy",""),
@@ -32,6 +32,24 @@ class MachineResources extends OperatingSystem() {
         resouces.filter(c => c.contains("si")).head.replace("si",""),
         resouces.filter(c => c.contains("st")).head.replace("st",""),
         (100 - resouces.filter(c => c.contains("id")).head.replace("id","").toDouble).toString()
+      ))
+    } catch {
+      //TODO: create logfile.
+      case e: Exception => Left("ERROR")
+    }
+  }
+
+  def memory: Either[String, Memory] = {
+    if (!super.isLinux) {
+      return Left(super.onlyLinuxMessage)
+    }
+
+    try {
+      val resouces = topCommandToArray(Process("free -mt") #| Process("grep Mem") !! ,"\\s+")
+      Right(Memory(
+        resouces(0),
+        resouces(1),
+        resouces(2)
       ))
     } catch {
       //TODO: create logfile.
@@ -52,9 +70,8 @@ class MachineResources extends OperatingSystem() {
   )
 
   case class Memory (
-    total: Int,
-    free: Int,
-    used: Int,
-    buffer_cache: Int
+    total: String,
+    used: String,
+    free: String
   )
 }
