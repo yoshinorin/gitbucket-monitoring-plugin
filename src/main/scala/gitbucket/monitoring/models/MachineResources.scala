@@ -10,17 +10,18 @@ class MachineResources extends OperatingSystem() {
   def totalSpace = ByteConverter.ByteToGB(fileStore.getTotalSpace())
   def freeSpace = ByteConverter.ByteToGB(fileStore.getUnallocatedSpace())
   def usedSpace = totalSpace - freeSpace
-  def cpu: Either[String, Cpu] = {
 
+  private def topCommandToArray(commandResult: String): Array[String] = {
+    commandResult.replace(" ","").drop(commandResult.indexOf(":") + 1).split(",")
+  }
+
+  def cpu: Either[String, Cpu] = {
     if (!super.isLinux) {
       return Left(super.onlyLinuxMessage)
     }
 
     try {
-      val res = Process("top -b -n 1") #| Process("grep Cpu(s)") !!
-      val result = res.replace(" ","")
-      val resouces = result.drop(res.indexOf(":") + 1).split(",")
-
+      val resouces = topCommandToArray(Process("top -b -n 1") #| Process("grep Cpu(s)") !!)
       Right(Cpu(
         resouces.filter(c => c.contains("us")).head.replace("us",""),
         resouces.filter(c => c.contains("sy")).head.replace("sy",""),
