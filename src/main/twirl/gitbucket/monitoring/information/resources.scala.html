@@ -22,7 +22,10 @@
             </tr>
             <tr>
               <td>CPU Usaga</td>
-              <td>@resources.cpu.usaga</td>
+              @resources.cpu match {
+                case Left(message) => { <td>@message</td> }
+                case Right(c) => { <td>@c.usaga</td> }
+              }
             </tr>
           </table>
         </div>
