@@ -13,7 +13,7 @@ class MachineResources extends OperatingSystem() {
   def cpu: Either[String, Cpu] = {
 
     if (!super.isLinux) {
-      return Left("Only support Linux")
+      return Left(super.onlyLinuxMessage)
     }
 
     try {
