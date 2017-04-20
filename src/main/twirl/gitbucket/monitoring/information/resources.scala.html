@@ -24,7 +24,7 @@
               <td>CPU Usaga</td>
               @resources.cpu match {
                 case Left(message) => { <td>@message</td> }
-                case Right(c) => { <td>@c.usaga</td> }
+                case Right(c) => { <td>@c.usaga %</td> }
               }
             </tr>
           </table>

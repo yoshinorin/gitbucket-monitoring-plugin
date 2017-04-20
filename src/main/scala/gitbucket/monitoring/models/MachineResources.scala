@@ -22,15 +22,15 @@ class MachineResources extends OperatingSystem() {
       val resouces = result.drop(res.indexOf(":") + 1).split(",")
 
       Right(Cpu(
-        (100 - resouces.filter(c => c.contains("id")).head.replace("id","").toDouble).toString() + "%",
-        resouces.filter(c => c.contains("us")).head.replace("us","") + "%",
-        resouces.filter(c => c.contains("sy")).head.replace("sy","") + "%",
-        resouces.filter(c => c.contains("ni")).head.replace("ni","") + "%",
-        resouces.filter(c => c.contains("id")).head.replace("id","") + "%",
-        resouces.filter(c => c.contains("wa")).head.replace("wa","") + "%",
-        resouces.filter(c => c.contains("hi")).head.replace("hi","") + "%",
-        resouces.filter(c => c.contains("si")).head.replace("si","") + "%",
-        resouces.filter(c => c.contains("st")).head.replace("st","") + "%"
+        resouces.filter(c => c.contains("us")).head.replace("us",""),
+        resouces.filter(c => c.contains("sy")).head.replace("sy",""),
+        resouces.filter(c => c.contains("ni")).head.replace("ni",""),
+        resouces.filter(c => c.contains("id")).head.replace("id",""),
+        resouces.filter(c => c.contains("wa")).head.replace("wa",""),
+        resouces.filter(c => c.contains("hi")).head.replace("hi",""),
+        resouces.filter(c => c.contains("si")).head.replace("si",""),
+        resouces.filter(c => c.contains("st")).head.replace("st",""),
+        (100 - resouces.filter(c => c.contains("id")).head.replace("id","").toDouble).toString()
       ))
     } catch {
       //TODO: create logfile.
@@ -39,7 +39,6 @@ class MachineResources extends OperatingSystem() {
   }
 
   case class Cpu (
-    usaga: String,
     us: String,
     sy: String,
     ni: String,
@@ -47,7 +46,8 @@ class MachineResources extends OperatingSystem() {
     wa: String,
     hi: String,
     si: String,
-    st: String
+    st: String,
+    usaga: String
   )
 
   case class Memory (
