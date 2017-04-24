@@ -2,7 +2,7 @@ package gitbucket.monitoring.models
 
 import scala.sys.process._
 
-class OperatingSystem {
+object OperatingSystem {
   def osName = System.getProperty("os.name")
   def osVersion = System.getProperty("os.version")
   def osArch = System.getProperty("os.arch")

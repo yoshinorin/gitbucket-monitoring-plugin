@@ -4,7 +4,7 @@ import java.nio.file._
 import scala.sys.process._
 import gitbucket.monitoring.utils.{ByteConverter}
 
-class MachineResources extends OperatingSystem() {
+class MachineResources {
   def fileStore = Files.getFileStore(Paths.get("."))
   def core = Runtime.getRuntime().availableProcessors()
   def totalSpace = ByteConverter.ByteToGB(fileStore.getTotalSpace())
@@ -16,8 +16,8 @@ class MachineResources extends OperatingSystem() {
   }
 
   def cpu: Either[String, Cpu] = {
-    if (!super.isLinux) {
-      return Left(super.onlyLinuxMessage)
+    if (!OperatingSystem.isLinux) {
+      return Left(OperatingSystem.onlyLinuxMessage)
     }
 
     try {
@@ -40,8 +40,8 @@ class MachineResources extends OperatingSystem() {
   }
 
   def memory: Either[String, Memory] = {
-    if (!super.isLinux) {
-      return Left(super.onlyLinuxMessage)
+    if (!OperatingSystem.isLinux) {
+      return Left(OperatingSystem.onlyLinuxMessage)
     }
 
     try {
