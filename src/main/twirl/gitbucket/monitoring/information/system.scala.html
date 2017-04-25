@@ -9,57 +9,45 @@
     @information(None)
     @gitbucket.monitoring.html.navigation(context)
     <div class="panel panel-default">
-      <div class="panel-heading strong">System Information</div>
+      <div class="panel-heading strong">Operating System</div>
         <div class="panel-body">
-          <table class="table table-borderd">
-            <tr>
-              <th>Property</th>
-              <th>Value</th>
-            </tr>
-            <tr>
-              <td>OS</td>
-              <td>@system.operatingSystem.osName</td>
-            </tr>
-            <tr>
-              <td>Distribution</td>
-              <td>@system.operatingSystem.distribution</td>
-            </tr>
-            <tr>
-              <td>Version</td>
-              <td>@system.operatingSystem.osVersion</td>
-            </tr>
-            <tr>
-              <td>Architecture</td>
-              <td>@system.operatingSystem.osArch</td>
-            </tr>
-          </table>
+          <div class="row">
+            <label class="col-md-2">OS</label>
+            <span class="col-md-10">@system.operatingSystem.osName</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Distribution</label>
+            <span class="col-md-10">@system.operatingSystem.distribution</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Version</label>
+            <span class="col-md-10">@system.operatingSystem.osVersion</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Architecture</label>
+            <span class="col-md-10">@system.operatingSystem.osArch</span>
+          </div>
         </div>
     </div>
     <div class="panel panel-default">
-      <div class="panel-heading strong">Time Information</div>
+      <div class="panel-heading strong">Time</div>
         <div class="panel-body">
-          <table class="table table-borderd">
-            <tr>
-              <th>Property</th>
-              <th>Value</th>
-            </tr>
-            <tr>
-              <td>Now Time</td>
-              <td>@system.nowTime</td>
-            </tr>
-            <tr>
-              <td>TimeZone</td>
-              <td>@system.timeZone</td>
-            </tr>
-            <tr>
-              <td>Zone Offset</td>
-              <td>@system.zoneOffset</td>
-            </tr>
-            <tr>
-              <td>Day Of Week</td>
-              <td>@system.dayOfWeek</td>
-            </tr>
-          </table>
+          <div class="row">
+            <label class="col-md-2">Now</label>
+            <span class="col-md-10">@system.nowTime</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Time Zone</label>
+            <span class="col-md-10">@system.timeZone</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Zone Offset</label>
+            <span class="col-md-10">@system.zoneOffset</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Day Of Week</label>
+            <span class="col-md-10">@system.dayOfWeek</span>
+          </div>
         </div>
     </div>
   }

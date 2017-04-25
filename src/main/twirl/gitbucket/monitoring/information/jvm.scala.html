@@ -9,38 +9,47 @@
     @information(None)
     @gitbucket.monitoring.html.navigation(context)
     <div class="panel panel-default">
-      <div class="panel-heading strong">JVM Information</div>
+      <div class="panel-heading strong">JVM</div>
         <div class="panel-body">
-          <table class="table table-borderd">
-            <tr>
-              <th>Property</th>
-              <th>Value</th>
-            </tr>
-            <tr>
-              <td>Name</td>
-              <td>@jvm.vmName</td>
-            </tr>
-            <tr>
-              <td>Version</td>
-              <td>@jvm.javaVersion</td>
-            </tr>
-            <tr>
-              <td>Total Memory</td>
-              <td>@jvm.memTotal MB</td>
-            </tr>
-            <tr>
-              <td>Free Memory</td>
-              <td>@jvm.memFree MB</td>
-            </tr>
-            <tr>
-              <td>Used Memory</td>
-              <td>@jvm.memUsed MB</td>
-            </tr>
-            <tr>
-              <td>Max Memory</td>
-              <td>@jvm.memMax MB</td>
-            </tr>
-          </table>
+          <div class="row">
+            <label class="col-md-2">Name</label>
+            <span class="col-md-10">@jvm.vmName</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Version</label>
+            <span class="col-md-10">@jvm.javaVersion</span>
+          </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading strong">Memory</div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Free</div>
+                <div class="panel-body text-right">@jvm.memFree MB</div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Used</div>
+                <div class="panel-body text-right">@jvm.memUsed MB</div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Total</div>
+                <div class="panel-body text-right">@jvm.memTotal MB</div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Max</div>
+                <div class="panel-body text-right">@jvm.memMax MB</div>
+              </div>
+            </div>
+          </div>
         </div>
     </div>
   }

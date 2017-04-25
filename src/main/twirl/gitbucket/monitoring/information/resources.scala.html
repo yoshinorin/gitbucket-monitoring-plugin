@@ -8,68 +8,77 @@
   @gitbucket.core.admin.html.menu("monitoring") {
     @information(None)
     @gitbucket.monitoring.html.navigation(context)
-      <label>CPU<span class="strong"></span></label>
-      <hr>
-      <div class="row">
-        <div class="col-sm-2">
-          <div class="panel panel-default">
-            <div class="panel-heading strong">Core</div>
-              <div class="panel-body text-right">@resources.core</div>
-          </div>
-        </div>
-        <div class="col-sm-2">
-          <div class="panel panel-default">
-            <div class="panel-heading strong">Used</div>
-              <div class="panel-body text-right">
-                @resources.cpu match {
-                  case Left(message) => { @message }
-                  case Right(c) => { @c.usaga %}
-                }
+    <div class="panel panel-default">
+      <div class="panel-heading strong">CPU</div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Core</div>
+                <div class="panel-body text-right">@resources.core</div>
               </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Used</div>
+                  <div class="panel-body text-right">
+                    @resources.cpu match {
+                      case Left(message) => { @message }
+                      case Right(c) => { @c.usaga %}
+                    }
+                  </div>
+                </div>
+            </div>
           </div>
         </div>
-      </div>
-      <label>Memory<span class="strong"></span></label>
-      <hr>
-      <div class="row">
-        <div class="col-sm-2">
-          <div class="panel panel-default">
-            <div class="panel-heading strong">Used</div>
-              <div class="panel-body text-right">
-                @resources.memory match {
-                  case Left(message) => { @message }
-                  case Right(m) => { @m.used / @m.total MB }
-                }
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading strong">Memory</div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Used</div>
+                  <div class="panel-body text-right">
+                    @resources.memory match {
+                      case Left(message) => { @message }
+                      case Right(m) => { @m.used / @m.total MB }
+                    }
+                  </div>
               </div>
-          </div>
-        </div>
-        <div class="col-sm-2">
-          <div class="panel panel-default">
-            <div class="panel-heading strong">Free</div>
-              <div class="panel-body text-right">
-                @resources.memory match {
-                  case Left(message) => { @message }
-                  case Right(m) => { @m.free / @m.total MB }
-                }
+            </div>
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Free</div>
+                  <div class="panel-body text-right">
+                    @resources.memory match {
+                      case Left(message) => { @message }
+                      case Right(m) => { @m.free / @m.total MB }
+                    }
+                  </div>
               </div>
+            </div>
           </div>
         </div>
-      </div>
-      <label>Disk<span class="strong"></span></label>
-      <hr>
-      <div class="row">
-        <div class="col-sm-2">
-          <div class="panel panel-default">
-            <div class="panel-heading strong">Used</div>
-              <div class="panel-body text-right">@resources.usedSpace / @resources.totalSpace GB</div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading strong">Disk</div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Used</div>
+                <div class="panel-body text-right">@resources.usedSpace / @resources.totalSpace GB</div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Free</div>
+                <div class="panel-body text-right">@resources.freeSpace / @resources.totalSpace GB</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-sm-2">
-          <div class="panel panel-default">
-            <div class="panel-heading strong">Free</div>
-              <div class="panel-body text-right">@resources.freeSpace / @resources.totalSpace GB</div>
-          </div>
-        </div>
-      </div>
+    </div>
   }
 }
