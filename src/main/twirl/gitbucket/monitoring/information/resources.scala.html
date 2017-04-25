@@ -8,83 +8,68 @@
   @gitbucket.core.admin.html.menu("monitoring") {
     @information(None)
     @gitbucket.monitoring.html.navigation(context)
-    <div class="panel panel-default">
-      <div class="panel-heading strong">CPU Information</div>
-        <div class="panel-body">
-          <table class="table table-borderd">
-            <tr>
-              <th>Property</th>
-              <th>Value</th>
-            </tr>
-            <tr>
-              <td>CPU Core</td>
-              <td>@resources.core</td>
-            </tr>
-            <tr>
-              <td>CPU Usaga</td>
-              @resources.cpu match {
-                case Left(message) => { <td>@message</td> }
-                case Right(c) => { <td>@c.usaga %</td> }
-              }
-            </tr>
-          </table>
+      <label>CPU<span class="strong"></span></label>
+      <hr>
+      <div class="row">
+        <div class="col-sm-2">
+          <div class="panel panel-default">
+            <div class="panel-heading strong">Core</div>
+              <div class="panel-body text-right">@resources.core</div>
+          </div>
         </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading strong">Memory Information</div>
-        <div class="panel-body">
-          <table class="table table-borderd">
-            <tr>
-              <th>Property</th>
-              <th>Value</th>
-            </tr>
-            <tr>
-              <td>Total</td>
-              @resources.memory match {
-                case Left(message) => { <td>@message</td> }
-                case Right(m) => { <td>@m.total MB</td> }
-              }
-            </tr>
-            <tr>
-              <td>Used</td>
-              @resources.memory match {
-                case Left(message) => { <td>@message</td> }
-                case Right(m) => { <td>@m.used MB</td> }
-              }
-            </tr>
-            <tr>
-              <td>Free</td>
-              @resources.memory match {
-                case Left(message) => { <td>@message</td> }
-                case Right(m) => { <td>@m.free MB</td> }
-              }
-            </tr>
-          </table>
-        </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading strong">Disk Information</div>
-        <div class="panel-body">
-          <table class="table table-borderd">
-            <tr>
-              <th>Property</th>
-              <th>Value</th>
-            </tr>
-            <tr>
-              <td>Used Space</td>
-              <td>@resources.usedSpace GB</td>
-            </tr>
-            <tr>
-              <td>Free Space</td>
-              <td>@resources.freeSpace GB</td>
-            </tr>
-            <tr>
-              <td>Total Space</td>
-              <td>@resources.totalSpace GB</td>
-            </tr>
-          </table>
+        <div class="col-sm-2">
+          <div class="panel panel-default">
+            <div class="panel-heading strong">Used</div>
+              <div class="panel-body text-right">
+                @resources.cpu match {
+                  case Left(message) => { @message }
+                  case Right(c) => { @c.usaga %}
+                }
+              </div>
+          </div>
         </div>
       </div>
-    </div>
+      <label>Memory<span class="strong"></span></label>
+      <hr>
+      <div class="row">
+        <div class="col-sm-2">
+          <div class="panel panel-default">
+            <div class="panel-heading strong">Used</div>
+              <div class="panel-body text-right">
+                @resources.memory match {
+                  case Left(message) => { @message }
+                  case Right(m) => { @m.used / @m.total MB }
+                }
+              </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="panel panel-default">
+            <div class="panel-heading strong">Free</div>
+              <div class="panel-body text-right">
+                @resources.memory match {
+                  case Left(message) => { @message }
+                  case Right(m) => { @m.free / @m.total MB }
+                }
+              </div>
+          </div>
+        </div>
+      </div>
+      <label>Disk<span class="strong"></span></label>
+      <hr>
+      <div class="row">
+        <div class="col-sm-2">
+          <div class="panel panel-default">
+            <div class="panel-heading strong">Used</div>
+              <div class="panel-body text-right">@resources.usedSpace / @resources.totalSpace GB</div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="panel panel-default">
+            <div class="panel-heading strong">Free</div>
+              <div class="panel-body text-right">@resources.freeSpace / @resources.totalSpace GB</div>
+          </div>
+        </div>
+      </div>
   }
 }
