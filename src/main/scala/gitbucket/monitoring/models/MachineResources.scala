@@ -23,15 +23,16 @@ class MachineResources {
     try {
       val resouces = topCommandToArray(Process("top -b -n 1") #| Process("grep Cpu(s)") !! ,",")
       Right(Cpu(
-        resouces.filter(c => c.contains("us")).head.replace("us",""),
-        resouces.filter(c => c.contains("sy")).head.replace("sy",""),
-        resouces.filter(c => c.contains("ni")).head.replace("ni",""),
-        resouces.filter(c => c.contains("id")).head.replace("id",""),
-        resouces.filter(c => c.contains("wa")).head.replace("wa",""),
-        resouces.filter(c => c.contains("hi")).head.replace("hi",""),
-        resouces.filter(c => c.contains("si")).head.replace("si",""),
-        resouces.filter(c => c.contains("st")).head.replace("st",""),
-        (100 - resouces.filter(c => c.contains("id")).head.replace("id","").toDouble).toString()
+        resouces.filter(c => c.contains("us")).headOption.getOrElse("-").replace("us",""),
+        resouces.filter(c => c.contains("sy")).headOption.getOrElse("-").replace("sy",""),
+        resouces.filter(c => c.contains("ni")).headOption.getOrElse("-").replace("ni",""),
+        resouces.filter(c => c.contains("id")).headOption.getOrElse("-").replace("id",""),
+        resouces.filter(c => c.contains("wa")).headOption.getOrElse("-").replace("wa",""),
+        resouces.filter(c => c.contains("hi")).headOption.getOrElse("-").replace("hi",""),
+        resouces.filter(c => c.contains("si")).headOption.getOrElse("-").replace("si",""),
+        resouces.filter(c => c.contains("st")).headOption.getOrElse("-").replace("st",""),
+        //TODO: Set "-" to Cpu.usaga, if can not toDouble.
+        (100 - resouces.filter(c => c.contains("id")).headOption.getOrElse("-").replace("id","").toDouble).toString()
       ))
     } catch {
       //TODO: create logfile.

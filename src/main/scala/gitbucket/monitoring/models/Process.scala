@@ -16,11 +16,11 @@ class Process {
     try {
       val resouces = topCommandToArray(Process("top -b -n 1") #| Process("grep Tasks") !!, ",")
       Right(Tasks(
-        resouces.filter(c => c.contains("total")).head.replace("total",""),
-        resouces.filter(c => c.contains("running")).head.replace("running",""),
-        resouces.filter(c => c.contains("sleeping")).head.replace("sleeping",""),
-        resouces.filter(c => c.contains("stopped")).head.replace("stopped",""),
-        resouces.filter(c => c.contains("zombie")).head.replace("zombie","")
+        resouces.filter(c => c.contains("total")).headOption.getOrElse("-").replace("total",""),
+        resouces.filter(c => c.contains("running")).headOption.getOrElse("-").replace("running",""),
+        resouces.filter(c => c.contains("sleeping")).headOption.getOrElse("-").replace("sleeping",""),
+        resouces.filter(c => c.contains("stopped")).headOption.getOrElse("-").replace("stopped",""),
+        resouces.filter(c => c.contains("zombie")).headOption.getOrElse("-").replace("zombie","")
       ))
     } catch {
       //TODO: create logfile.
