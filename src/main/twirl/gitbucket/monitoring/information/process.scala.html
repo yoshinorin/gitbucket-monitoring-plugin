@@ -1,0 +1,61 @@
+@(resources: gitbucket.monitoring.models.Process)(implicit context: gitbucket.core.controller.Context)
+@import context._
+@import gitbucket.core.html.main
+@import gitbucket.core.admin.html.menu
+@import gitbucket.core.view.helpers._
+@gitbucket.core.html.main("Monitoring") {
+  @gitbucket.core.admin.html.menu("monitoring") {
+    @gitbucket.monitoring.html.navigation(context)
+    <div class="panel panel-default">
+      <div class="panel-heading strong">Process</div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Running</div>
+                  <div class="panel-body text-right">
+                    @resources.tasks match {
+                      case Left(message) => { @message }
+                      case Right(t) => { @t.running / @t.total }
+                    }
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Sleeping</div>
+                  <div class="panel-body text-right">
+                    @resources.tasks match {
+                      case Left(message) => { @message }
+                      case Right(t) => { @t.sleeping / @t.total }
+                    }
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Stopped</div>
+                  <div class="panel-body text-right">
+                    @resources.tasks match {
+                      case Left(message) => { @message }
+                      case Right(t) => { @t.stopped / @t.total }
+                    }
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Zombie</div>
+                  <div class="panel-body text-right">
+                    @resources.tasks match {
+                      case Left(message) => { @message }
+                      case Right(t) => { @t.zombie / @t.total }
+                    }
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  }
+}

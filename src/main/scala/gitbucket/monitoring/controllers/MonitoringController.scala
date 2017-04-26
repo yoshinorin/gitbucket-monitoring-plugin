@@ -25,4 +25,8 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   get("/admin/monitoring/machineresources")(adminOnly {
     gitbucket.monitoring.information.html.resources(new MachineResources());
   })
+
+  get("/admin/monitoring/process")(adminOnly {
+    gitbucket.monitoring.information.html.process(new Process());
+  })
 }
