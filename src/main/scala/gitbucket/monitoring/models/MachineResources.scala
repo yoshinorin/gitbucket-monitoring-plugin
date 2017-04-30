@@ -28,8 +28,11 @@ class MachineResources {
           resouces.filter(c => c.contains("hi")).headOption.getOrElse("-").replace("hi",""),
           resouces.filter(c => c.contains("si")).headOption.getOrElse("-").replace("si",""),
           resouces.filter(c => c.contains("st")).headOption.getOrElse("-").replace("st",""),
-          //TODO: Set "-" to Cpu.usaga, if can not toDouble.
-          (100 - resouces.filter(c => c.contains("id")).headOption.getOrElse("-").replace("id","").toDouble).toString()
+          try {
+            (100 - resouces.filter(c => c.contains("id")).headOption.getOrElse("-").replace("id","").toDouble).toString()
+          } catch {
+            case e: Exception => "ERROR"
+          }
         ))
       } catch {
         //TODO: create logfile.
