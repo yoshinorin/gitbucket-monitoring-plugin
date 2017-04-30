@@ -3,29 +3,37 @@ package gitbucket.monitoring.models
 import scala.sys.process._
 
 object OperatingSystem {
-  def osName = System.getProperty("os.name")
+  sealed abstract class OSType
+  case object Linux extends OSType
+  case object Windows extends OSType
+  case object Unknown extends OSType
+
   def osVersion = System.getProperty("os.version")
   def osArch = System.getProperty("os.arch")
   def onlyLinuxMessage = "Supports only Linux"
-  def isLinux = {
-    if (osName.toLowerCase == "linux") {
-      true
+  def osType: OSType = {
+    if (System.getProperty("os.name").toLowerCase == "linux") {
+      Linux
+    } else if (System.getProperty("os.name").toLowerCase == "windows")  {
+      Windows
     } else {
-      false
+      Unknown
     }
   }
 
-  def distribution: String = {
-    if (!isLinux) {
-      return onlyLinuxMessage
+  def distribution: String = osType match {
+    case Linux => {
+      try {
+        val result = Process("cat /etc/issue") !!
+        val d = result.replace("\\n","").replace("\\l","").replace(" ","")
+        d
+      } catch {
+        //TODO: create logfile.
+        case e: Exception => "ERROR"
+      }
     }
-    try {
-      val result = Process("cat /etc/issue") !!
-      val d = result.replace("\\n","").replace("\\l","").replace(" ","")
-      d
-    } catch {
-      //TODO: create logfile.
-      case e: Exception => "ERROR"
+    case _ => {
+      onlyLinuxMessage
     }
   }
 }
