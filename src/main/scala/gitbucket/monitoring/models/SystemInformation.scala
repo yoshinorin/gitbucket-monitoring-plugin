@@ -30,7 +30,7 @@ class SystemInformation {
       Left(OperatingSystem.onlyLinuxMessage)
     }
     case OperatingSystem.Unknown => {
-      Left(OperatingSystem.onlyLinuxMessage)
+      Left(OperatingSystem.notSupportedMessage)
     }
   }
 

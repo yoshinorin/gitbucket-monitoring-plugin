@@ -41,7 +41,7 @@ class MachineResources {
       Left(OperatingSystem.onlyLinuxMessage)
     }
     case OperatingSystem.Unknown => {
-      Left(OperatingSystem.onlyLinuxMessage)
+      Left(OperatingSystem.notSupportedMessage)
     }
   }
 
@@ -64,7 +64,7 @@ class MachineResources {
       Left(OperatingSystem.onlyLinuxMessage)
     }
     case OperatingSystem.Unknown => {
-      Left(OperatingSystem.onlyLinuxMessage)
+      Left(OperatingSystem.notSupportedMessage)
     }
   }
 
