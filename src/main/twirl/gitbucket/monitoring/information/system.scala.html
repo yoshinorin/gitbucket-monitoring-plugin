@@ -6,6 +6,10 @@
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)
+    @if(system.onDocker) {
+      <h6><span class="label label-primary">On Docker</span></h6>
+      <hr>
+    }
     <div class="panel panel-default">
       <div class="panel-heading strong">Operating System</div>
         <div class="panel-body">

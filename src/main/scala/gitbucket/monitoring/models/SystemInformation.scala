@@ -2,6 +2,7 @@ package gitbucket.monitoring.models
 
 import java.util._
 import java.time._
+import java.nio.file.{Paths, Files}
 import scala.sys.process._
 
 class SystemInformation {
@@ -10,6 +11,14 @@ class SystemInformation {
   def timeZone = ZoneId.systemDefault()
   def zoneOffset = timeZone.getRules().getOffset(nowTime)
   def dayOfWeek = nowTime.getDayOfWeek()
+
+  def onDocker: Boolean = {
+    try {
+      Files.exists(Paths.get("/.dockerenv"))
+    } catch {
+      case e: Exception => false
+    }
+  }
 
   def upTime: Either[String, UpTime] = OperatingSystem.osType match {
     case OperatingSystem.Linux => {
