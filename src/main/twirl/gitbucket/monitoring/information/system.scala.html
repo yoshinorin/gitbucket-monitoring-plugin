@@ -28,6 +28,27 @@
         </div>
     </div>
     <div class="panel panel-default">
+      <div class="panel-heading strong">UpTime</div>
+        <div class="panel-body">
+          <div class="row">
+            <label class="col-md-2">StartTime</label>
+            <span class="col-md-10">@system.upTime match {
+                case Left(message) => { @message }
+                case Right(u) => { @u.startTime }
+              }
+            </span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">UpTime</label>
+            <span class="col-md-10">@system.upTime match {
+                case Left(message) => { @message }
+                case Right(u) => { @u.uptime }
+              }
+            </span>
+          </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
       <div class="panel-heading strong">Time</div>
         <div class="panel-body">
           <div class="row">
