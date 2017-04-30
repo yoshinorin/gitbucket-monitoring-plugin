@@ -22,10 +22,9 @@ class SystemInformation {
 
   def upTime: Either[String, UpTime] = OperatingSystem.osType match {
     case OperatingSystem.Linux => {
-      val result = Process("uptime") !!
-      val list = result.drop(result.indexOf("up") + 2).split(",")
-
       try {
+        val result = Process("uptime") !!
+        val list = result.drop(result.indexOf("up") + 2).split(",")
         Right(UpTime(
           list(0),
           Process("uptime -s") !!
