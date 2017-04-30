@@ -33,11 +33,40 @@ class Process {
     }
   }
 
+  def loadAve: Either[String, LoadAve] = OperatingSystem.osType match {
+    case OperatingSystem.Linux => {
+      try {
+        val result = Process("uptime") !!
+        val list = result.drop(result.indexOf("average:") + 8).split(",")
+        Right(LoadAve(
+          list(0),
+          list(1),
+          list(2)
+        ))
+      } catch {
+        case e: Exception => Left("ERROR")
+      }
+    }
+    case OperatingSystem.Windows => {
+      //TODO: create command for Windows
+      Left(OperatingSystem.onlyLinuxMessage)
+    }
+    case OperatingSystem.Unknown => {
+      Left(OperatingSystem.onlyLinuxMessage)
+    }
+  }
+
   case class Tasks (
     total: String,
     running: String,
     sleeping: String,
     stopped: String,
     zombie: String
+  )
+
+  case class LoadAve (
+    oneMin: String,
+    fiveMin: String,
+    fifteenMin: String
   )
 }

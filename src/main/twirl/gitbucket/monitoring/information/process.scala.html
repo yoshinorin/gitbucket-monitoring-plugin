@@ -7,6 +7,46 @@
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)
     <div class="panel panel-default">
+      <div class="panel-heading strong">Load Average</div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Recent 1min</div>
+                  <div class="panel-body text-right">
+                    @resources.loadAve match {
+                      case Left(message) => { @message }
+                      case Right(l) => { @l.oneMin }
+                    }
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Recent 5min</div>
+                  <div class="panel-body text-right">
+                    @resources.loadAve match {
+                      case Left(message) => { @message }
+                      case Right(l) => { @l.fiveMin }
+                    }
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Recent 15min</div>
+                  <div class="panel-body text-right">
+                    @resources.loadAve match {
+                      case Left(message) => { @message }
+                      case Right(l) => { @l.fifteenMin }
+                    }
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
       <div class="panel-heading strong">Process</div>
         <div class="panel-body">
           <div class="row">
