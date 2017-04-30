@@ -10,7 +10,7 @@ object OperatingSystem {
 
   def osVersion = System.getProperty("os.version")
   def osArch = System.getProperty("os.arch")
-  def onlyLinuxMessage = "Supports only Linux"
+  val onlyLinuxMessage = "Supports only Linux"
   val notSupportedMessage = "This Operating System is not supported"
   def osType: OSType = {
     if (System.getProperty("os.name").toLowerCase == "linux") {
