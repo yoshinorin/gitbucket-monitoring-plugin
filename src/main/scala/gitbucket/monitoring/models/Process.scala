@@ -28,13 +28,13 @@ class Process {
       //TODO: create command for Windows
       Left(OperatingSystem.onlyLinuxMessage)
     }
-    case OperatingSystem.Unknown => {
+    case _ => {
       Left(OperatingSystem.notSupportedMessage)
     }
   }
 
   def loadAve: Either[String, LoadAve] = OperatingSystem.osType match {
-    case OperatingSystem.Linux => {
+    case OperatingSystem.Linux | OperatingSystem.Mac => {
       try {
         val result = Process("uptime") !!
         val list = result.drop(result.indexOf("average:") + 8).split(",")
@@ -51,7 +51,7 @@ class Process {
       //TODO: create command for Windows
       Left(OperatingSystem.onlyLinuxMessage)
     }
-    case OperatingSystem.Unknown => {
+    case _ => {
       Left(OperatingSystem.notSupportedMessage)
     }
   }

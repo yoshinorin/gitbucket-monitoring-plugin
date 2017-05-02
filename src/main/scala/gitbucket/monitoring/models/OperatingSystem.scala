@@ -6,7 +6,8 @@ object OperatingSystem {
   sealed abstract class OSType
   case object Linux extends OSType
   case object Windows extends OSType
-  case object Unknown extends OSType
+  case object Mac extends OSType
+  case object Other extends OSType
 
   def osVersion = System.getProperty("os.version")
   def osArch = System.getProperty("os.arch")
@@ -14,12 +15,14 @@ object OperatingSystem {
   val onlyLinuxMessage = "Supports only Linux"
   val notSupportedMessage = "This Operating System is not supported"
   def osType: OSType = {
-    if (System.getProperty("os.name").toLowerCase == "linux") {
+    if (osName.toLowerCase.contains("linux")) {
       Linux
-    } else if (System.getProperty("os.name").toLowerCase == "windows")  {
+    } else if (osName.toLowerCase.contains("windows")) {
       Windows
+    } else if (osName.toLowerCase.contains("mac")) {
+      Mac
     } else {
-      Unknown
+      Other
     }
   }
 

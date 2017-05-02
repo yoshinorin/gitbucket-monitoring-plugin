@@ -21,7 +21,7 @@ class SystemInformation {
   }
 
   def upTime: Either[String, UpTime] = OperatingSystem.osType match {
-    case OperatingSystem.Linux => {
+    case OperatingSystem.Linux | OperatingSystem.Mac => {
       try {
         val result = Process("uptime") !!
         val list = result.drop(result.indexOf("up") + 2).split(",")
@@ -37,7 +37,7 @@ class SystemInformation {
       //TODO: create command for Windows
       Left(OperatingSystem.onlyLinuxMessage)
     }
-    case OperatingSystem.Unknown => {
+    case _ => {
       Left(OperatingSystem.notSupportedMessage)
     }
   }

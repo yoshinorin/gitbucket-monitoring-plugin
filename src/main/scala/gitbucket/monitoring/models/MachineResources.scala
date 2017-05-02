@@ -43,13 +43,13 @@ class MachineResources {
       //TODO: create command for Windows
       Left(OperatingSystem.onlyLinuxMessage)
     }
-    case OperatingSystem.Unknown => {
+    case _ => {
       Left(OperatingSystem.notSupportedMessage)
     }
   }
 
   def memory: Either[String, Memory] = OperatingSystem.osType match {
-    case OperatingSystem.Linux => {
+    case OperatingSystem.Linux | OperatingSystem.Mac => {
       try {
         val resouces = topCommandToArray(Process("free -mt") #| Process("grep Mem") !! ,"\\s+")
         Right(Memory(
@@ -66,7 +66,7 @@ class MachineResources {
       //TODO: create command for Windows
       Left(OperatingSystem.onlyLinuxMessage)
     }
-    case OperatingSystem.Unknown => {
+    case _ => {
       Left(OperatingSystem.notSupportedMessage)
     }
   }
