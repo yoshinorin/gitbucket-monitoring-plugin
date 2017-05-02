@@ -13,7 +13,7 @@ object OperatingSystem {
   def osArch = System.getProperty("os.arch")
   val osName = System.getProperty("os.name")
   val onlyLinuxMessage = "Supports only Linux"
-  val notSupportedMessage = "This Operating System is not supported"
+  val notSupportedMessage = "Not supported"
   def osType: OSType = {
     if (osName.toLowerCase.contains("linux")) {
       Linux
