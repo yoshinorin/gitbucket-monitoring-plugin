@@ -51,11 +51,44 @@ class MachineResources {
   def memory: Either[String, Memory] = OperatingSystem.osType match {
     case OperatingSystem.Linux | OperatingSystem.Mac => {
       try {
-        val resouces = topCommandToArray(Process("free -mt") #| Process("grep Mem") !! ,"\\s+")
-        Right(Memory(
-          resouces(0),
-          resouces(1),
-          resouces(2)
+        var n = (Process("free") #| Process("grep available") #| Process("wc -l") !!)
+        //Estimated available memory
+        //https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773
+        if (n.toString().trim() != "0") {
+          val mem = topCommandToArray(Process("free -mt") #| Process("grep Mem") !! ,"\\s+")
+          Right(Memory(
+            mem(0),
+            mem(1),
+            mem(2),
+            mem(3),
+            mem(4),
+            mem(5)
+          ))
+        } else {
+          val mem = topCommandToArray(Process("free -mt") #| Process("grep Mem") !! ,"\\s+")
+          Right(Memory(
+            mem(0),
+            mem(1),
+            mem(2),
+            mem(3),
+            (mem(4).toInt + mem(5).toInt).toString,
+            (mem(2).toInt + mem(4).toInt + mem(5).toInt).toString
+          ))
+        }
+      } catch {
+        //TODO: create logfile.
+        case e: Exception => Left("ERROR")
+      }
+    }
+    case OperatingSystem.Windows => {
+      //TODO: create command for Windows
+      Left(OperatingSystem.onlyLinuxMessage)
+    }
+    case _ => {
+      Left(OperatingSystem.notSupportedMessage)
+    }
+  }
+
   def swap: Either[String, Swap] = OperatingSystem.osType match {
     case OperatingSystem.Linux | OperatingSystem.Mac => {
       try {
@@ -94,7 +127,10 @@ class MachineResources {
   case class Memory (
     total: String,
     used: String,
-    free: String
+    free: String,
+    shared: String,
+    buff_cache: String,
+    available: String
   )
 
   case class Swap (

@@ -57,6 +57,39 @@
                   </div>
               </div>
             </div>
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Shared</div>
+                  <div class="panel-body text-right">
+                    @resources.memory match {
+                      case Left(message) => { @message }
+                      case Right(m) => { @m.shared / @m.total MB }
+                    }
+                  </div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Buff/Cache</div>
+                  <div class="panel-body text-right">
+                    @resources.memory match {
+                      case Left(message) => { @message }
+                      case Right(m) => { @m.buff_cache / @m.total MB }
+                    }
+                  </div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Available</div>
+                  <div class="panel-body text-right">
+                    @resources.memory match {
+                      case Left(message) => { @message }
+                      case Right(m) => { @m.available / @m.total MB }
+                    }
+                  </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="panel-body">
