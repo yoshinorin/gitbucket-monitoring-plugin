@@ -33,6 +33,7 @@
     <div class="panel panel-default">
       <div class="panel-heading strong">Memory</div>
         <div class="panel-body">
+          <label><span class="strong"></span>Physical</label>
           <div class="row">
             <div class="col-sm-2">
               <div class="panel panel-default">
@@ -52,6 +53,33 @@
                     @resources.memory match {
                       case Left(message) => { @message }
                       case Right(m) => { @m.free / @m.total MB }
+                    }
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <label><span class="strong">Swap</span></label>
+          <div class="row">
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Used</div>
+                  <div class="panel-body text-right">
+                    @resources.swap match {
+                      case Left(message) => { @message }
+                      case Right(s) => { @s.used / @s.total MB }
+                    }
+                  </div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="panel panel-default">
+                <div class="panel-heading strong">Free</div>
+                  <div class="panel-body text-right">
+                    @resources.swap match {
+                      case Left(message) => { @message }
+                      case Right(s) => { @s.free / @s.total MB }
                     }
                   </div>
               </div>

@@ -56,6 +56,14 @@ class MachineResources {
           resouces(0),
           resouces(1),
           resouces(2)
+  def swap: Either[String, Swap] = OperatingSystem.osType match {
+    case OperatingSystem.Linux | OperatingSystem.Mac => {
+      try {
+        val swap =  topCommandToArray(Process("free -mt") #| Process("grep Swap") !! ,"\\s+")
+        Right(Swap(
+          swap(0),
+          swap(1),
+          swap(2)
         ))
       } catch {
         //TODO: create logfile.
@@ -87,5 +95,11 @@ class MachineResources {
     total: String,
     used: String,
     free: String
+  )
+
+  case class Swap (
+   total: String,
+   used: String,
+   free: String
   )
 }
