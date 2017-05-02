@@ -2,7 +2,7 @@ package gitbucket.monitoring.models
 
 import java.nio.file._
 import scala.sys.process._
-import gitbucket.monitoring.utils.{ByteConverter}
+import gitbucket.monitoring.utils._
 
 class MachineResources {
   def fileStore = Files.getFileStore(Paths.get("."))
@@ -11,14 +11,10 @@ class MachineResources {
   def freeSpace = ByteConverter.ByteToGB(fileStore.getUnallocatedSpace())
   def usedSpace = totalSpace - freeSpace
 
-  private def topCommandToArray(commandResult: String, splitPattern:String): Array[String] = {
-    commandResult.drop(commandResult.indexOf(":") + 1).trim().split(splitPattern)
-  }
-
   def cpu: Either[String, Cpu] = OperatingSystem.osType match {
     case OperatingSystem.Linux => {
       try {
-        val resouces = topCommandToArray(Process("top -b -n 1") #| Process("grep Cpu(s)") !! ,",")
+        val resouces = StringUtil.DropAndToArray(Process("top -b -n 1") #| Process("grep Cpu(s)") !! ,":" , ",")
         Right(Cpu(
           resouces.filter(c => c.contains("us")).headOption.getOrElse("-").replace("us",""),
           resouces.filter(c => c.contains("sy")).headOption.getOrElse("-").replace("sy",""),
@@ -55,7 +51,7 @@ class MachineResources {
         //Estimated available memory
         //https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773
         if (n.toString().trim() != "0") {
-          val mem = topCommandToArray(Process("free -mt") #| Process("grep Mem") !! ,"\\s+")
+          val mem = StringUtil.DropAndToArray(Process("free -mt") #| Process("grep Mem") !! ,":" , "\\s+")
           Right(Memory(
             mem(0),
             mem(1),
@@ -65,7 +61,7 @@ class MachineResources {
             mem(5)
           ))
         } else {
-          val mem = topCommandToArray(Process("free -mt") #| Process("grep Mem") !! ,"\\s+")
+          val mem = StringUtil.DropAndToArray(Process("free -mt") #| Process("grep Mem") !! ,":", "\\s+")
           Right(Memory(
             mem(0),
             mem(1),
@@ -92,7 +88,7 @@ class MachineResources {
   def swap: Either[String, Swap] = OperatingSystem.osType match {
     case OperatingSystem.Linux | OperatingSystem.Mac => {
       try {
-        val swap =  topCommandToArray(Process("free -mt") #| Process("grep Swap") !! ,"\\s+")
+        val swap =  StringUtil.DropAndToArray(Process("free -mt") #| Process("grep Swap") !! ,":" , "\\s+")
         Right(Swap(
           swap(0),
           swap(1),

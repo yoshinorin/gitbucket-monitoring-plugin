@@ -2,16 +2,13 @@ package gitbucket.monitoring.models
 
 import java.nio.file._
 import scala.sys.process._
+import gitbucket.monitoring.utils._
 
 class Process {
-  private def topCommandToArray(commandResult: String, splitPattern:String): Array[String] = {
-    commandResult.drop(commandResult.indexOf(":") + 1).trim().split(splitPattern)
-  }
-
   def tasks: Either[String, Tasks] = OperatingSystem.osType match {
     case OperatingSystem.Linux => {
       try {
-        val resouces = topCommandToArray(Process("top -b -n 1") #| Process("grep Tasks") !!, ",")
+        val resouces = StringUtil.DropAndToArray(Process("top -b -n 1") #| Process("grep Tasks") !!,":" , ",")
         Right(Tasks(
           resouces.filter(c => c.contains("total")).headOption.getOrElse("-").replace("total",""),
           resouces.filter(c => c.contains("running")).headOption.getOrElse("-").replace("running",""),
