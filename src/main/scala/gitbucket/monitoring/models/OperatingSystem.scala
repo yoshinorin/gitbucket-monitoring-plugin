@@ -9,8 +9,8 @@ object OperatingSystem {
   case object Mac extends OSType
   case object Other extends OSType
 
-  def osVersion = System.getProperty("os.version")
-  def osArch = System.getProperty("os.arch")
+  val osVersion = System.getProperty("os.version")
+  val osArch = System.getProperty("os.arch")
   val osName = System.getProperty("os.name")
   val onlyLinuxMessage = "Supports only Linux"
   val notSupportedMessage = "Not supported"

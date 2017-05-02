@@ -4,8 +4,12 @@ import java.nio.file._
 import scala.sys.process._
 import gitbucket.monitoring.utils._
 
-class MachineResources {
+object MachineResources {
   def fileStore = Files.getFileStore(Paths.get("."))
+}
+
+class MachineResources {
+  val fileStore = MachineResources.fileStore
   def core = Runtime.getRuntime().availableProcessors()
   def totalSpace = ByteConverter.ByteToGB(fileStore.getTotalSpace())
   def freeSpace = ByteConverter.ByteToGB(fileStore.getUnallocatedSpace())

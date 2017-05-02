@@ -5,13 +5,8 @@ import java.time._
 import java.nio.file.{Paths, Files}
 import scala.sys.process._
 
-class SystemInformation {
-  def operatingSystem = OperatingSystem
-  def nowTime = LocalDateTime.now()
+object SystemInformation {
   def timeZone = ZoneId.systemDefault()
-  def zoneOffset = timeZone.getRules().getOffset(nowTime)
-  def dayOfWeek = nowTime.getDayOfWeek()
-
   def onDocker: Boolean = {
     try {
       Files.exists(Paths.get("/.dockerenv"))
@@ -19,6 +14,15 @@ class SystemInformation {
       case e: Exception => false
     }
   }
+}
+
+class SystemInformation {
+  val onDocker = SystemInformation.onDocker
+  val timeZone = SystemInformation.timeZone
+  def operatingSystem = OperatingSystem
+  def nowTime = LocalDateTime.now()
+  def zoneOffset = timeZone.getRules().getOffset(nowTime)
+  def dayOfWeek = nowTime.getDayOfWeek()
 
   def upTime: Either[String, UpTime] = OperatingSystem.osType match {
     case OperatingSystem.Linux | OperatingSystem.Mac => {
