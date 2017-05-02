@@ -16,7 +16,8 @@ class Plugin extends gitbucket.core.plugin.Plugin {
     (context: Context) => Some(Link("monitoring", "Monitoring", "admin/monitoring"))
   )
 
+
   override val controllers = Seq(
-    "/admin/monitoring" -> new MonitoringController
+    "/*" -> new MonitoringController
   )
 }
