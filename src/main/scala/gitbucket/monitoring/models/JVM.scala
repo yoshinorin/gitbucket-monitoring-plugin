@@ -1,6 +1,6 @@
 package gitbucket.monitoring.models
 
-import gitbucket.monitoring.utils.{ByteConverter}
+import gitbucket.monitoring.utils._
 
 object JVM {
   def vmName = System.getProperty("java.vm.name")
@@ -10,8 +10,8 @@ object JVM {
 class JVM () {
   val vmName = JVM.vmName
   val javaVersion = JVM.javaVersion
-  val memTotal = (ByteConverter.ByteToMB(Runtime.getRuntime().totalMemory()))
-  val memFree = (ByteConverter.ByteToMB(Runtime.getRuntime().freeMemory()))
+  val memTotal = (Converter.byteToMB(Runtime.getRuntime().totalMemory()))
+  val memFree = (Converter.byteToMB(Runtime.getRuntime().freeMemory()))
   val memUsed = memTotal - memFree
-  val memMax = (ByteConverter.ByteToMB(Runtime.getRuntime().maxMemory()))
+  val memMax = (Converter.byteToMB(Runtime.getRuntime().maxMemory()))
 }
