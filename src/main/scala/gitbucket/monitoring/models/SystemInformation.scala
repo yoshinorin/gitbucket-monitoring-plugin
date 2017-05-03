@@ -38,8 +38,15 @@ class SystemInformation {
       }
     }
     case OperatingSystem.Windows => {
-      //TODO: create command for Windows
-      Left(OperatingSystem.onlyLinuxMessage)
+      try {
+        Right(UpTime(
+          //TODO : Calculate uptime
+          OperatingSystem.notSupportedMessage,
+          (Process("powershell -Command [Management.ManagementDateTimeConverter]::ToDateTime((Get-WmiObject Win32_OperatingSystem).LastBootUpTime)") !!)
+        ))
+      } catch {
+        case e: Exception => Left("ERROR")
+      }
     }
     case _ => {
       Left(OperatingSystem.notSupportedMessage)
