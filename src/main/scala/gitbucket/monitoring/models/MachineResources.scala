@@ -11,8 +11,8 @@ object MachineResources {
 class MachineResources {
   val fileStore = MachineResources.fileStore
   def core = Runtime.getRuntime().availableProcessors()
-  def totalSpace = Converter.byteToGB(fileStore.getTotalSpace())
-  def freeSpace = Converter.byteToGB(fileStore.getUnallocatedSpace())
+  def totalSpace = UnitConverter.byteToGB(fileStore.getTotalSpace())
+  def freeSpace = UnitConverter.byteToGB(fileStore.getUnallocatedSpace())
   def usedSpace = totalSpace - freeSpace
 
   def cpu: Either[String, Cpu] = OperatingSystem.osType match {
@@ -29,7 +29,7 @@ class MachineResources {
           resouces.filter(c => c.contains("si")).headOption.getOrElse("-").replace("si",""),
           resouces.filter(c => c.contains("st")).headOption.getOrElse("-").replace("st",""),
           try {
-            Converter.ceil(100 - resouces.filter(c => c.contains("id")).headOption.getOrElse("-").replace("id","").toDouble).toString
+            Rounding.ceil(100 - resouces.filter(c => c.contains("id")).headOption.getOrElse("-").replace("id","").toDouble).toString
           } catch {
             case e: Exception => "ERROR"
           }

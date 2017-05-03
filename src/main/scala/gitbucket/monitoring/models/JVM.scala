@@ -10,8 +10,8 @@ object JVM {
 class JVM () {
   val vmName = JVM.vmName
   val javaVersion = JVM.javaVersion
-  val memTotal = (Converter.byteToMB(Runtime.getRuntime().totalMemory()))
-  val memFree = (Converter.byteToMB(Runtime.getRuntime().freeMemory()))
+  val memTotal = (UnitConverter.byteToMB(Runtime.getRuntime().totalMemory()))
+  val memFree = (UnitConverter.byteToMB(Runtime.getRuntime().freeMemory()))
   val memUsed = memTotal - memFree
-  val memMax = (Converter.byteToMB(Runtime.getRuntime().maxMemory()))
+  val memMax = (UnitConverter.byteToMB(Runtime.getRuntime().maxMemory()))
 }
