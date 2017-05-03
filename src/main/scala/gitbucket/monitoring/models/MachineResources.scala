@@ -51,11 +51,10 @@ class MachineResources {
   def memory: Either[String, Memory] = OperatingSystem.osType match {
     case OperatingSystem.Linux | OperatingSystem.Mac => {
       try {
-        var n = (Process("free") #| Process("grep available") #| Process("wc -l") !!)
         //Estimated available memory
         //https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773
-        if (n.toString().trim() != "0") {
-          val mem = StringUtil.DropAndToArray(Process("free -mt") #| Process("grep Mem") !! ,":" , "\\s+")
+        val mem = StringUtil.DropAndToArray(Process("free -mt") #| Process("grep Mem") !! ,":" , "\\s+")
+        if ((Process("free") #| Process("grep available") #| Process("wc -l") !!).trim != "0") {
           Right(Memory(
             mem(0),
             mem(1),
@@ -65,7 +64,6 @@ class MachineResources {
             mem(5)
           ))
         } else {
-          val mem = StringUtil.DropAndToArray(Process("free -mt") #| Process("grep Mem") !! ,":", "\\s+")
           Right(Memory(
             mem(0),
             mem(1),
