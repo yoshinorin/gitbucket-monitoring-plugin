@@ -45,8 +45,15 @@ class Process {
       }
     }
     case OperatingSystem.Windows => {
-      //TODO: create command for Windows
-      Left(OperatingSystem.onlyLinuxMessage)
+      try {
+        Right(LoadAve(
+          (Process("powershell -Command Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average | %{ $_.Average }") !!).toString,
+          OperatingSystem.notSupportedMessage,
+          OperatingSystem.notSupportedMessage
+        ))
+      } catch {
+        case e: Exception => Left("ERROR")
+      }
     }
     case _ => {
       Left(OperatingSystem.notSupportedMessage)
