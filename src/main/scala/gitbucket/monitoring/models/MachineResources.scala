@@ -40,8 +40,21 @@ class MachineResources {
       }
     }
     case OperatingSystem.Windows => {
-      //TODO: create command for Windows
-      Left(OperatingSystem.onlyLinuxMessage)
+      try {
+        Right(Cpu(
+          "-",
+          "-",
+          "-",
+          "-",
+          "-",
+          "-",
+          "-",
+          "-",
+          (Process("powershell -Command Get-WmiObject Win32_PerfFormattedData_PerfOS_Processor | Where-Object {$_.Name -eq '_Total'} | %{ $_.PercentProcessorTime }") !!).toString
+        ))
+      } catch {
+        case e: Exception => Left("ERROR")
+      }
     }
     case _ => {
       Left(OperatingSystem.notSupportedMessage)
