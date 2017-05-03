@@ -4,6 +4,7 @@
 @import gitbucket.core.admin.html.menu
 @import gitbucket.core.view.helpers._
 @gitbucket.core.html.main("Monitoring") {
+  <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)
     <div class="panel panel-default">
@@ -15,7 +16,7 @@
                 <div class="panel-heading strong">Recent 1min</div>
                   <div class="panel-body text-right">
                     @resources.loadAve match {
-                      case Left(message) => { @message }
+                    case Left(message) => { <div class="error"> @message </div> }
                       case Right(l) => { @l.oneMin }
                     }
                   </div>
@@ -26,7 +27,7 @@
                 <div class="panel-heading strong">Recent 5min</div>
                   <div class="panel-body text-right">
                     @resources.loadAve match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(l) => { @l.fiveMin }
                     }
                   </div>
@@ -37,7 +38,7 @@
                 <div class="panel-heading strong">Recent 15min</div>
                   <div class="panel-body text-right">
                     @resources.loadAve match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(l) => { @l.fifteenMin }
                     }
                   </div>
@@ -55,7 +56,7 @@
                 <div class="panel-heading strong">Running</div>
                   <div class="panel-body text-right">
                     @resources.tasks match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(t) => { @t.running / @t.total }
                     }
                   </div>
@@ -66,7 +67,7 @@
                 <div class="panel-heading strong">Sleeping</div>
                   <div class="panel-body text-right">
                     @resources.tasks match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(t) => { @t.sleeping / @t.total }
                     }
                   </div>
@@ -77,7 +78,7 @@
                 <div class="panel-heading strong">Stopped</div>
                   <div class="panel-body text-right">
                     @resources.tasks match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(t) => { @t.stopped / @t.total }
                     }
                   </div>
@@ -88,7 +89,7 @@
                 <div class="panel-heading strong">Zombie</div>
                   <div class="panel-body text-right">
                     @resources.tasks match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(t) => { @t.zombie / @t.total }
                     }
                   </div>

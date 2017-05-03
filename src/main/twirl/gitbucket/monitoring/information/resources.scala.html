@@ -4,6 +4,7 @@
 @import gitbucket.core.admin.html.menu
 @import gitbucket.core.view.helpers._
 @gitbucket.core.html.main("Monitoring") {
+  <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)
     <div class="panel panel-default">
@@ -21,7 +22,7 @@
                 <div class="panel-heading strong">Used</div>
                   <div class="panel-body text-right">
                     @resources.cpu match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(c) => { @c.usaga %}
                     }
                   </div>
@@ -40,7 +41,7 @@
                 <div class="panel-heading strong">Used</div>
                   <div class="panel-body text-right">
                     @resources.memory match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(m) => { @m.used / @m.total MB }
                     }
                   </div>
@@ -51,7 +52,7 @@
                 <div class="panel-heading strong">Free</div>
                   <div class="panel-body text-right">
                     @resources.memory match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(m) => { @m.free / @m.total MB }
                     }
                   </div>
@@ -62,7 +63,7 @@
                 <div class="panel-heading strong">Shared</div>
                   <div class="panel-body text-right">
                     @resources.memory match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(m) => { @m.shared / @m.total MB }
                     }
                   </div>
@@ -73,7 +74,7 @@
                 <div class="panel-heading strong">Buff/Cache</div>
                   <div class="panel-body text-right">
                     @resources.memory match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(m) => { @m.buff_cache / @m.total MB }
                     }
                   </div>
@@ -84,7 +85,7 @@
                 <div class="panel-heading strong">Available</div>
                   <div class="panel-body text-right">
                     @resources.memory match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(m) => { @m.available / @m.total MB }
                     }
                   </div>
@@ -100,7 +101,7 @@
                 <div class="panel-heading strong">Used</div>
                   <div class="panel-body text-right">
                     @resources.swap match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(s) => { @s.used / @s.total MB }
                     }
                   </div>
@@ -111,7 +112,7 @@
                 <div class="panel-heading strong">Free</div>
                   <div class="panel-body text-right">
                     @resources.swap match {
-                      case Left(message) => { @message }
+                      case Left(message) => { <div class="error"> @message </div> }
                       case Right(s) => { @s.free / @s.total MB }
                     }
                   </div>
