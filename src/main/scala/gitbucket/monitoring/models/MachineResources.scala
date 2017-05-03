@@ -92,8 +92,20 @@ class MachineResources {
       }
     }
     case OperatingSystem.Windows => {
-      //TODO: create command for Windows
-      Left(OperatingSystem.onlyLinuxMessage)
+      try {
+          val totalMem = (Process("powershell -Command Get-WmiObject -Class Win32_PhysicalMemory | %{ $_.Capacity} | Measure-Object -Sum | %{ ($_.sum /1024/1024) }") !!).toDouble
+          val availableMem = (Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.AvailableMBytes}") !!).toDouble
+          Right(Memory(
+            totalMem.toString,
+            (totalMem - availableMem).toString,
+            "-",
+            "-",
+            "-",
+            availableMem.toString
+          ))
+      } catch {
+        case e: Exception => Left("ERROR")
+      }
     }
     case _ => {
       Left(OperatingSystem.notSupportedMessage)
