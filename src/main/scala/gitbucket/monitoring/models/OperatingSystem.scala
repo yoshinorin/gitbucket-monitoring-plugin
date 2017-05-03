@@ -9,7 +9,6 @@ object OperatingSystem {
   case object Mac extends OSType
   case object Other extends OSType
 
-  val osVersion = System.getProperty("os.version")
   val osArch = System.getProperty("os.arch")
   val osName = System.getProperty("os.name")
   val onlyLinuxMessage = "Supports only Linux"
@@ -23,6 +22,15 @@ object OperatingSystem {
       Mac
     } else {
       Other
+    }
+  }
+
+  def osVersion:String = osType match {
+    case Windows => {
+      (Process("powershell -Command Get-WmiObject Win32_OperatingSystem | %{ $_.Version }") !!).toString
+    }
+    case _ => {
+      System.getProperty("os.version")
     }
   }
 
