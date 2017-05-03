@@ -38,7 +38,7 @@ object OperatingSystem {
       }
     }
     case _ => {
-      onlyLinuxMessage
+      "-"
     }
   }
 }
