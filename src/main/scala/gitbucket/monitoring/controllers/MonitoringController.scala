@@ -22,6 +22,13 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
     case _ => new machineResources.Action with machineResources.Other
   }
 
+  val processInfo = OperatingSystem.osType match {
+    case OperatingSystem.Linux => new processInformation.Info with processInformation.Linux
+    case OperatingSystem.Mac => new processInformation.Info with processInformation.Mac
+    case OperatingSystem.Windows => new processInformation.Action with processInformation.Windows
+    case _ => new processInformation.Action with processInformation.Other
+  }
+
   get("/admin/monitoring")(adminOnly {
     redirect(s"/admin/monitoring/systeminformation");
   })
@@ -39,6 +46,6 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   })
 
   get("/admin/monitoring/process")(adminOnly {
-    gitbucket.monitoring.information.html.process(new Process());
+    gitbucket.monitoring.information.html.process(processInfo);
   })
 }
