@@ -128,7 +128,9 @@ trait Linux extends Resources {
 }
 
 trait Mac extends Resources {
-
+  override def cpu: Either[String, Cpu] = {
+    Left(OperatingSystem.notSupportedMessage)
+  }
 }
 
 trait Windows extends Resources {
