@@ -65,7 +65,9 @@ trait Linux extends Info {
 }
 
 trait Mac extends Info {
-
+  override def tasks: Either[String, Tasks] = {
+    Left(OperatingSystem.notSupportedMessage)
+  }
 }
 
 trait Windows extends Info {
