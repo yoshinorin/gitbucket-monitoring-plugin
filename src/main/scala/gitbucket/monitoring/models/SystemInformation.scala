@@ -62,8 +62,7 @@ trait Windows extends Info {
   override def upTime: Either[String, UpTime] = {
     try {
       Right(UpTime(
-        //TODO : Calculate uptime
-        OperatingSystem.notSupportedMessage,
+        (Process("powershell -Command \"&{$os=Get-WmiObject win32_operatingsystem;$time=((Get-Date) - $os.ConvertToDateTime($os.lastbootuptime)); $time.Days.ToString() + \\\" days \\\" +  $time.Hours.ToString() + \\\" hours \\\" + $time.Minutes.ToString() + \\\" minutes \\\"}\"") !!),
         (Process("powershell -Command [Management.ManagementDateTimeConverter]::ToDateTime((Get-WmiObject Win32_OperatingSystem).LastBootUpTime)") !!)
       ))
     } catch {
