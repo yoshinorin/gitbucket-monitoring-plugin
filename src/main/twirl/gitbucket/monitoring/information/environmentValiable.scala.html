@@ -22,7 +22,7 @@
                   <td> <div class="error"> @message </div> </td>
                 }
                 case Right(v) => {
-                  @for((key, value) <- v) {
+                  @for((key, value) <- v.toSeq.sortBy(_._1)) {
                     <tr>
                       <td> @key </td>
                       <td> @value </td>
