@@ -37,6 +37,10 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
     gitbucket.monitoring.information.html.system(sysInfo);
   })
 
+  get("/admin/monitoring/environmentvaliable")(adminOnly {
+    gitbucket.monitoring.information.html.environmentValiable(EnvironmentVariable.valiables);
+  })
+
   get("/admin/monitoring/jvm")(adminOnly {
     gitbucket.monitoring.information.html.jvm(new JVM());
   })

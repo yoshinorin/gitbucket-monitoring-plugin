@@ -1,0 +1,38 @@
+@(env: Either[String, Map[String, String]])(implicit context: gitbucket.core.controller.Context)
+@import context._
+@import gitbucket.core.html.main
+@import gitbucket.core.admin.html.menu
+@import gitbucket.core.view.helpers._
+@gitbucket.core.html.main("Monitoring") {
+  @gitbucket.core.admin.html.menu("monitoring") {
+    <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
+    @gitbucket.monitoring.html.navigation(context)
+    <div class="panel panel-default">
+      <div class="panel-heading strong">Valiables</div>
+        <div class="panel-body">
+          <table class="table table-bordered">
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+            <tr>
+              @env match {
+                case Left(message) => {
+                  <td> <div class="error"> @message </div> </td>
+                  <td> <div class="error"> @message </div> </td>
+                }
+                case Right(v) => {
+                  @for((key, value) <- v) {
+                    <tr>
+                      <td> @key </td>
+                      <td> @value </td>
+                    </tr>
+                  }
+                }
+              }
+             </tr>
+           </table>
+        </div>
+    </div>
+  }
+}

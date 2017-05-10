@@ -7,6 +7,11 @@
       } else {
         <li class="page-item"><a class="page-link" href="@context.path/admin/monitoring/systeminformation">System</a></li>
       }
+      @if(context.request.getRequestURI.endsWith("environmentvaliable")) {
+        <li class="page-item active"><a class="page-link" href="@context.path/admin/monitoring/environmentvaliable">Environment Valiable</a></li>
+      } else {
+        <li class="page-item"><a class="page-link" href="@context.path/admin/monitoring/environmentvaliable">Environment Valiable</a></li>
+      }
       @if(context.request.getRequestURI.endsWith("machineresources")) {
         <li class="page-item active"><a class="page-link" href="@context.path/admin/monitoring/machineresources">Machine Resources</a></li>
       } else {
