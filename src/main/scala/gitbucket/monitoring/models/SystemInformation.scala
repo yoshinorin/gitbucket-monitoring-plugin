@@ -5,6 +5,7 @@ import java.time._
 import java.nio.file.{Paths, Files}
 import scala.sys.process._
 import gitbucket.monitoring.models.OperatingSystem
+import gitbucket.monitoring.utils._
 
 object Info {
   def timeZone = ZoneId.systemDefault()
@@ -51,7 +52,21 @@ trait Action {
 }
 
 trait Linux extends Info {
-
+  override def upTime: Either [String, UpTime] = {
+    try {
+      val ut = (Process("cat /proc/uptime") !!).split(" ")
+      val dt = Time.secondsToDateTime(Rounding.ceil(BigDecimal(ut(0)),0).toInt)
+      Right(UpTime(
+        dt match {
+          case Left(message) => (message)
+          case Right(l) => (l.days.toString + " days " + l.hours.toString + " hours " + l.minutes.toString + " minutes ")
+        },
+        Process("uptime -s") !!
+      ))
+    } catch {
+      case e: Exception => Left("ERROR")
+    }
+  }
 }
 
 trait Mac extends Info {
