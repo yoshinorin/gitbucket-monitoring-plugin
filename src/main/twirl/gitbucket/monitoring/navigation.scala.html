@@ -22,10 +22,15 @@
       } else {
         <li class="page-item"><a class="page-link" href="@context.path/admin/monitoring/process">Process</a></li>
       }
-      @if(context.request.getRequestURI.endsWith("jvm")) {
-        <li class="page-item active"><a class="page-link" href="@context.path/admin/monitoring/jvm">JVM</a></li>
+      @if(context.request.getRequestURI.endsWith("java")) {
+        <li class="page-item active"><a class="page-link" href="@context.path/admin/monitoring/java">Java</a></li>
       } else {
-        <li class="page-item"><a class="page-link" href="@context.path/admin/monitoring/jvm">JVM</a></li>
+        <li class="page-item"><a class="page-link" href="@context.path/admin/monitoring/java">Java</a></li>
+      }
+      @if(context.request.getRequestURI.endsWith("logs")) {
+        <li class="page-item active"><a class="page-link" href="@context.path/admin/monitoring/logs">Logs</a></li>
+      } else {
+        <li class="page-item"><a class="page-link" href="@context.path/admin/monitoring/logs">Logs</a></li>
       }
     </ul>
   </nav>

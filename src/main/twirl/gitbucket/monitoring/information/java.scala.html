@@ -1,4 +1,4 @@
-@(jvm: gitbucket.monitoring.models.JVM)(implicit context: gitbucket.core.controller.Context)
+@(java: gitbucket.monitoring.models.Java)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
@@ -24,7 +24,7 @@
                   <th>Value</th>
                 </tr>
                 <tr>
-                  @for((key, value) <- jvm.all.toSeq.sortBy(_._1)) {
+                  @for((key, value) <- java.all.toSeq.sortBy(_._1)) {
                     <tr>
                       <td> @key </td>
                       <td> @value </td>
@@ -39,25 +39,25 @@
                   <div class="col-md-2">
                     <div class="panel panel-default">
                       <div class="panel-heading strong">Free</div>
-                        <div class="panel-body text-right">@jvm.memFree MB</div>
+                        <div class="panel-body text-right">@java.memFree MB</div>
                     </div>
                   </div>
                   <div class="col-md-2">
                     <div class="panel panel-default">
                       <div class="panel-heading strong">Used</div>
-                        <div class="panel-body text-right">@jvm.memUsed MB</div>
+                        <div class="panel-body text-right">@java.memUsed MB</div>
                     </div>
                   </div>
                   <div class="col-md-2">
                     <div class="panel panel-default">
                       <div class="panel-heading strong">Total</div>
-                      <div class="panel-body text-right">@jvm.memTotal MB</div>
+                      <div class="panel-body text-right">@java.memTotal MB</div>
                     </div>
                   </div>
                   <div class="col-md-2">
                     <div class="panel panel-default">
                       <div class="panel-heading strong">Max</div>
-                      <div class="panel-body text-right">@jvm.memMax MB</div>
+                      <div class="panel-body text-right">@java.memMax MB</div>
                     </div>
                   </div>
                 </div>
