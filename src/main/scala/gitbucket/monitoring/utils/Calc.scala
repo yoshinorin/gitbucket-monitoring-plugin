@@ -1,7 +1,5 @@
 package gitbucket.monitoring.utils
 
-import java.util.concurrent.TimeUnit
-
 object UnitConverter {
   def byteToKB(byte: BigDecimal, digit: Int = 2): BigDecimal = Rounding.ceil(byte / 1024)
   def byteToMB(byte: BigDecimal, digit: Int = 2): BigDecimal = Rounding.ceil(byte / (1024 * 1024))
