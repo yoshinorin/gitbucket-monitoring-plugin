@@ -6,49 +6,65 @@
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)
-    <div class="panel panel-default">
-      <div class="panel-heading strong">JVM</div>
-        <div class="panel-body">
-          <div class="row">
-            <label class="col-md-2">Name</label>
-            <span class="col-md-10">@jvm.vmName</span>
-          </div>
-          <div class="row">
-            <label class="col-md-2">Version</label>
-            <span class="col-md-10">@jvm.javaVersion</span>
+      <div id="tabbed-contents" display="none">
+        <div>
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+              <a href="#env-prop" aria-controls="env-prop" role="tab" data-toggle="tab">Enviroment Properties</a>
+            </li>
+            <li role="presentation">
+              <a href="#memory" aria-controls="memory" role="tab" data-toggle="tab">Memory</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade in active" id="env-prop">
+              <table class="table table-bordered">
+                <tr>
+                  <th>Property</th>
+                  <th>Value</th>
+                </tr>
+                <tr>
+                  @for((key, value) <- jvm.all.toSeq.sortBy(_._1)) {
+                    <tr>
+                      <td> @key </td>
+                      <td> @value </td>
+                    </tr>
+                  }
+                </tr>
+              </table>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="memory">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <div class="panel panel-default">
+                      <div class="panel-heading strong">Free</div>
+                        <div class="panel-body text-right">@jvm.memFree MB</div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="panel panel-default">
+                      <div class="panel-heading strong">Used</div>
+                        <div class="panel-body text-right">@jvm.memUsed MB</div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="panel panel-default">
+                      <div class="panel-heading strong">Total</div>
+                      <div class="panel-body text-right">@jvm.memTotal MB</div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="panel panel-default">
+                      <div class="panel-heading strong">Max</div>
+                      <div class="panel-body text-right">@jvm.memMax MB</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading strong">Memory</div>
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-md-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Free</div>
-                <div class="panel-body text-right">@jvm.memFree MB</div>
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Used</div>
-                <div class="panel-body text-right">@jvm.memUsed MB</div>
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Total</div>
-                <div class="panel-body text-right">@jvm.memTotal MB</div>
-              </div>
-            </div>
-            <div class="col-md-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Max</div>
-                <div class="panel-body text-right">@jvm.memMax MB</div>
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
+      </div>
   }
 }

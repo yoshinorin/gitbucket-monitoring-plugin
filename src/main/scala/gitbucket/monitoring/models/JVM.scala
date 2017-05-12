@@ -1,15 +1,14 @@
 package gitbucket.monitoring.models
 
+import scala.collection.JavaConversions._
 import gitbucket.monitoring.utils._
 
 object JVM {
-  def vmName = System.getProperty("java.vm.name")
-  def javaVersion = System.getProperty("java.version")
+  def all: Map[String, String] = System.getProperties().toMap
 }
 
 class JVM () {
-  val vmName = JVM.vmName
-  val javaVersion = JVM.javaVersion
+  val all = JVM.all
   val memTotal = (UnitConverter.byteToMB(Runtime.getRuntime().totalMemory()))
   val memFree = (UnitConverter.byteToMB(Runtime.getRuntime().freeMemory()))
   val memUsed = memTotal - memFree
