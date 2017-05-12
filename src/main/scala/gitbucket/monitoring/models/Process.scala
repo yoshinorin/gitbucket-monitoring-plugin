@@ -8,7 +8,7 @@ import gitbucket.monitoring.models.OperatingSystem
 trait Info {
   def tasks: Either[String, Tasks] = {
     try {
-      val resouces = StringUtil.DropAndToArray(Process("top -b -n 1") #| Process("grep Tasks") !!,":" , ",")
+      val resouces = StringUtil.dropAndToArray(Process("top -b -n 1") #| Process("grep Tasks") !!,":" , ",")
       Right(Tasks(
         resouces.filter(c => c.contains("total")).headOption.getOrElse("-").replace("total",""),
         resouces.filter(c => c.contains("running")).headOption.getOrElse("-").replace("running",""),

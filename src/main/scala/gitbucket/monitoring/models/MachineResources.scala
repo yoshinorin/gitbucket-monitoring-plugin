@@ -18,7 +18,7 @@ trait Resources {
   def usedSpace = totalSpace - freeSpace
   def cpu: Either[String, Cpu] = {
     try {
-      val resouces = StringUtil.DropAndToArray(Process("top -b -n 1") #| Process("grep Cpu(s)") !! ,":" , ",")
+      val resouces = StringUtil.dropAndToArray(Process("top -b -n 1") #| Process("grep Cpu(s)") !! ,":" , ",")
       Right(Cpu(
         resouces.filter(c => c.contains("us")).headOption.getOrElse("-").replace("us",""),
         resouces.filter(c => c.contains("sy")).headOption.getOrElse("-").replace("sy",""),
@@ -43,7 +43,7 @@ trait Resources {
     try {
       //Estimated available memory
       //https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773
-      val mem = StringUtil.DropAndToArray(Process("free -mt") #| Process("grep Mem") !! ,":" , "\\s+")
+      val mem = StringUtil.dropAndToArray(Process("free -mt") #| Process("grep Mem") !! ,":" , "\\s+")
       if ((Process("free") #| Process("grep available") #| Process("wc -l") !!).trim != "0") {
         Right(Memory(
           mem(0),
@@ -70,7 +70,7 @@ trait Resources {
   }
   def swap: Either[String, Swap] = {
     try {
-      val swap =  StringUtil.DropAndToArray(Process("free -mt") #| Process("grep Swap") !! ,":" , "\\s+")
+      val swap =  StringUtil.dropAndToArray(Process("free -mt") #| Process("grep Swap") !! ,":" , "\\s+")
       Right(Swap(
         swap(0),
         swap(1),
