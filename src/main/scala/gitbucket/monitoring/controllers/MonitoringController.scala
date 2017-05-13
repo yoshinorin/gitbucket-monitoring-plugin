@@ -8,6 +8,7 @@ import gitbucket.monitoring.information.html._
 import gitbucket.monitoring.models._
 
 class MonitoringController extends ControllerBase with AdminAuthenticator {
+
   val sysInfo = OperatingSystem.osType match {
     case OperatingSystem.Linux => new systemInformation.Info with systemInformation.Linux
     case OperatingSystem.Mac => new systemInformation.Info with systemInformation.Mac
@@ -51,5 +52,9 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
 
   get("/admin/monitoring/process")(adminOnly {
     gitbucket.monitoring.information.html.process(processInfo);
+  })
+
+  get("/admin/monitoring/logs")(adminOnly {
+     gitbucket.monitoring.information.html.logs(new Logs);
   })
 }

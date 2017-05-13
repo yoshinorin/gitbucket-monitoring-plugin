@@ -1,0 +1,46 @@
+@(logs: gitbucket.monitoring.models.Logs)(implicit context: gitbucket.core.controller.Context)
+@import context._
+@import gitbucket.core.html.main
+@import gitbucket.core.admin.html.menu
+@import gitbucket.core.view.helpers._
+@gitbucket.core.html.main("Monitoring") {
+  @gitbucket.core.admin.html.menu("monitoring") {
+    @gitbucket.monitoring.html.navigation(context)
+      <div id="tabbed-contents" display="none">
+        <div>
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+              <a href="#logback-conf" aria-controls="logback-conf" role="tab" data-toggle="tab">LogBack</a>
+            </li>
+            <li role="presentation">
+              <a href="#log" aria-controls="log" role="tab" data-toggle="tab">GitBucket Log</a>
+            </li>
+          </ul>
+        </div>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade in active" id="logback-conf">
+            <div class="panel panel-default">
+              <div class="panel-body">
+              @if(logs.logBack.enableLogging) {
+                <h6><span class="label label-primary">Enable</span></h6><hr>
+                <div class="row">
+                  <label class="col-md-2">Config file's path</label>
+                  <span class="col-md-10">@logs.logBack.confPath</span>
+                </div>
+              } else {
+                <h6><span class="label label-danger">Disable</span></h6>
+                <div class="row">
+                  <label class="col-md-2">Config file's path</label>
+                  <span class="col-md-10">@logs.logBack.confPath</span>
+                </div>
+              }
+              </div>
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane fade" id="log">
+            
+          </div>
+        </div>
+      </div>
+  }
+}
