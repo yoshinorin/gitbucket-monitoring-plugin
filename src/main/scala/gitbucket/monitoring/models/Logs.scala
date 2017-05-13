@@ -28,12 +28,16 @@ object LogBack {
         val xml = xmlContent match {
           case Left(message) => message
           case Right(s) => {
-            XML.loadString(s) \ "appender" \ "file" toString
+            (XML.loadString(s) \\ "appender" \ "file" toString).replace("<file>","").replace("</file>","")
           }
         }
-        (Right(
-          xml.replace("<file>","").replace("</file>","")
-        ))
+        if (xml.trim.length == 0) {
+          Left("ERROR : Not found")
+        } else {
+          (Right(
+            xml
+          ))
+        }
       } catch {
         case e: Exception => Left("ERROR")
       }
