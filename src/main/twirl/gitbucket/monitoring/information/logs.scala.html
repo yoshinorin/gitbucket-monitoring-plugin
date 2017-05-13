@@ -7,6 +7,7 @@
   @gitbucket.core.admin.html.menu("monitoring") {
     <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
     @gitbucket.monitoring.html.navigation(context)
+    @gitbucket.monitoring.html.loading(context)
       <div id="tabbed-contents" display="none">
         <div>
           <ul class="nav nav-tabs" role="tablist">
