@@ -39,7 +39,7 @@
               </div>
               @logs.logBack.xmlContent match {
                 case Left(message) => { <div class="error"> @message </div>}
-                case Right(s) => { <div><pre class="prettyprint" style="padding-left: 25px;">@s</pre></div> }
+                case Right(s) => { <div><pre class="prettyprint linenums" style="padding-left: 25px;">@s</pre></div> }
               }
             } else {
               <div class="panel panel-default">
@@ -60,7 +60,7 @@
                 case Right(p) => {
                   @logs.log(p) match {
                     case Left(message) => { <div class="error"> @message </div>}
-                    case Right(s) => { <div><pre class="prettyprint" style="padding-left: 25px;">@s</pre></div> }
+                    case Right(s) => { <div><pre class="prettyprint linenums" style="padding-left: 25px;">@s</pre></div> }
                   }
                 }
               }
