@@ -49,4 +49,14 @@ object LogBack {
 
 class Logs () {
   val logBack = LogBack
+  def log(path: String): Either[String, String] = {
+    try {
+      val bytes = Files.readAllBytes(Paths.get(path))
+      (Right(
+        StringUtil.convertFromByteArray(bytes)
+      ))
+    } catch {
+      case e: Exception => Left("ERROR")
+    }
+  }
 }

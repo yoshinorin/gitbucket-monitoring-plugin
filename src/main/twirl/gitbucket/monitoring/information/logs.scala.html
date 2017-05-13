@@ -54,7 +54,19 @@
             }
           </div>
           <div role="tabpanel" class="tab-pane fade" id="log">
-            
+            @if(logs.logBack.enableLogging) {
+              @logs.logBack.logfilePath match {
+                case Left(message) => { <div class="error"> @message </div>}
+                case Right(p) => {
+                  @logs.log(p) match {
+                    case Left(message) => { <div class="error"> @message </div>}
+                    case Right(s) => { <div><pre class="prettyprint" style="padding-left: 25px;">@s</pre></div> }
+                  }
+                }
+              }
+            } else {
+              <div class="error"> Disable log setting </div>
+            }
           </div>
         </div>
       </div>
