@@ -5,6 +5,7 @@
 @import gitbucket.core.view.helpers._
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
+    <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
     @gitbucket.monitoring.html.navigation(context)
       <div id="tabbed-contents" display="none">
         <div>
@@ -19,23 +20,31 @@
         </div>
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane fade in active" id="logback-conf">
-            <div class="panel panel-default">
-              <div class="panel-body">
-              @if(logs.logBack.enableLogging) {
-                <h6><span class="label label-primary">Enable</span></h6><hr>
-                <div class="row">
-                  <label class="col-md-2">Config file's path</label>
-                  <span class="col-md-10">@logs.logBack.confPath</span>
+            @if(logs.logBack.enableLogging) {
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <h6><span class="label label-primary">Enable</span></h6><hr>
+                  <div class="row">
+                    <label class="col-md-2">Config file's path</label>
+                    <span class="col-md-10">@logs.logBack.confPath</span>
+                  </div>
                 </div>
-              } else {
-                <h6><span class="label label-danger">Disable</span></h6>
-                <div class="row">
-                  <label class="col-md-2">Config file's path</label>
-                  <span class="col-md-10">@logs.logBack.confPath</span>
-                </div>
-              }
               </div>
-            </div>
+              @logs.logBack.xmlContent match {
+                case Left(message) => { <div class="error"> @message </div>}
+                case Right(s) => { <div><pre class="prettyprint" style="padding-left: 25px;">@s</pre></div> }
+              }
+            } else {
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <h6><span class="label label-danger">Disable</span></h6>
+                  <div class="row">
+                    <label class="col-md-2">Config file's path</label>
+                    <span class="col-md-10">@logs.logBack.confPath</span>
+                  </div>
+                </div>
+              </div>
+            }
           </div>
           <div role="tabpanel" class="tab-pane fade" id="log">
             
