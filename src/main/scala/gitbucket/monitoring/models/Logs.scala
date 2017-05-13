@@ -7,7 +7,7 @@ import gitbucket.monitoring.utils._
 object LogBack {
 
   val enableLogging = Java.all.contains("logback.configurationFile")
-  val confPath = Java.all.getOrElse("logback.configurationFile", "Can not find logback-settings.xml")
+  val confPath = Java.all.getOrElse("logback.configurationFile", "Can not find logback settings.xml")
   val xmlContent: Either[String, String] = {
     if (enableLogging) {
       try {
