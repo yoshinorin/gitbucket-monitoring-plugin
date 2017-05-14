@@ -1,4 +1,4 @@
-@(java: gitbucket.monitoring.models.Java)(implicit context: gitbucket.core.controller.Context)
+@(mem: gitbucket.monitoring.models.Java.Memory)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
@@ -11,25 +11,25 @@
         <div class="col-md-2">
           <div class="panel panel-default">
             <div class="panel-heading strong">Free</div>
-              <div class="panel-body text-right">@java.memFree MB</div>
+              <div class="panel-body text-right">@mem.free MB</div>
           </div>
         </div>
         <div class="col-md-2">
           <div class="panel panel-default">
             <div class="panel-heading strong">Used</div>
-            <div class="panel-body text-right">@java.memUsed MB</div>
+            <div class="panel-body text-right">@mem.used MB</div>
           </div>
         </div>
         <div class="col-md-2">
           <div class="panel panel-default">
             <div class="panel-heading strong">Total</div>
-            <div class="panel-body text-right">@java.memTotal MB</div>
+            <div class="panel-body text-right">@mem.total MB</div>
           </div>
         </div>
         <div class="col-md-2">
           <div class="panel panel-default">
             <div class="panel-heading strong">Max</div>
-            <div class="panel-body text-right">@java.memMax MB</div>
+            <div class="panel-body text-right">@mem.max MB</div>
           </div>
         </div>
       </div>

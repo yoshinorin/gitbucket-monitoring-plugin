@@ -1,4 +1,4 @@
-@(java: gitbucket.monitoring.models.Java)(implicit context: gitbucket.core.controller.Context)
+@(systemProperties: Map[String, String])(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
@@ -13,7 +13,7 @@
         <th>Value</th>
       </tr>
       <tr>
-        @for((key, value) <- java.all.toSeq.sortBy(_._1)) {
+        @for((key, value) <- systemProperties.toSeq.sortBy(_._1)) {
           <tr>
             <td> @key </td>
             <td> @value </td>
