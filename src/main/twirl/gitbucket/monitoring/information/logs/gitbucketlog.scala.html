@@ -1,4 +1,4 @@
-@(logs: gitbucket.monitoring.models.Logs)(implicit context: gitbucket.core.controller.Context)
+@(log: gitbucket.monitoring.models.GitBucketLog)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
@@ -9,11 +9,11 @@
     @gitbucket.monitoring.html.navigation(context)
     @gitbucket.monitoring.information.logs.html.tab(context)
     @gitbucket.monitoring.html.loading(context)
-    @if(logs.logBack.enableLogging) {
-      @logs.logBack.logfilePath match {
+    @if(log.logBackInfo.enableLogging) {
+      @log.logBackInfo.logfilePath match {
         case Left(message) => { <div class="error"> @message </div> }
         case Right(p) => {
-          @logs.log(p) match {
+          @log.getLog(p) match {
             case Left(message) => { <div class="error"> @message </div> }
             case Right(s) => { <div><pre class="prettyprint" style="padding-left: 25px;">@s</pre></div> }
           }

@@ -1,4 +1,4 @@
-@(logs: gitbucket.monitoring.models.Logs)(implicit context: gitbucket.core.controller.Context)
+@(logbackInfo: gitbucket.monitoring.models.LogBack.LogBackInfo)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
@@ -9,24 +9,24 @@
     @gitbucket.monitoring.html.navigation(context)
     @gitbucket.monitoring.information.logs.html.tab(context)
     @gitbucket.monitoring.html.loading(context)
-    @if(logs.logBack.enableLogging) {
+    @if(logbackInfo.enableLogging) {
       <div class="panel panel-default">
         <div class="panel-body">
           <h6><span class="label label-primary">Enable</span></h6><hr>
           <div class="row">
             <label class="col-md-2">Config file's path</label>
-            <span class="col-md-10">@logs.logBack.confPath</span>
+            <span class="col-md-10">@logbackInfo.confPath</span>
           </div>
           <div class="row">
             <label class="col-md-2">Log file's path</label>
-            @logs.logBack.logfilePath match {
+            @logbackInfo.logfilePath match {
               case Left(message) => { <div class="error"> @message </div>}
               case Right(p) => { <div> @p </div> }
             }
           </div>
         </div>
       </div>
-      @logs.logBack.xmlContent match {
+      @logbackInfo.settings match {
         case Left(message) => { <div class="error"> @message </div>}
         case Right(s) => { <div><pre class="prettyprint linenums" style="padding-left: 25px;">@s</pre></div> }
       }
@@ -36,7 +36,7 @@
           <h6><span class="label label-danger">Disable</span></h6>
           <div class="row">
             <label class="col-md-2">Config file's path</label>
-            <span class="col-md-10">@logs.logBack.confPath</span>
+            <span class="col-md-10">@logbackInfo.confPath</span>
           </div>
         </div>
       </div>
