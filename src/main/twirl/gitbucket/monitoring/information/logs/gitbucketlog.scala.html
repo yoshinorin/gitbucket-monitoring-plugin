@@ -1,0 +1,26 @@
+@(logs: gitbucket.monitoring.models.Logs)(implicit context: gitbucket.core.controller.Context)
+@import context._
+@import gitbucket.core.html.main
+@import gitbucket.core.admin.html.menu
+@import gitbucket.core.view.helpers._
+@gitbucket.core.html.main("Monitoring") {
+  @gitbucket.core.admin.html.menu("monitoring") {
+    <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
+    @gitbucket.monitoring.html.navigation(context)
+    @gitbucket.monitoring.information.logs.html.tab(context)
+    @gitbucket.monitoring.html.loading(context)
+    @if(logs.logBack.enableLogging) {
+      @logs.logBack.logfilePath match {
+        case Left(message) => { <div class="error"> @message </div> }
+        case Right(p) => {
+          @logs.log(p) match {
+            case Left(message) => { <div class="error"> @message </div> }
+            case Right(s) => { <div><pre class="prettyprint" style="padding-left: 25px;">@s</pre></div> }
+          }
+        }
+      }
+    } else {
+      <div class="error"> Disable log setting </div>
+    }
+  }
+}
