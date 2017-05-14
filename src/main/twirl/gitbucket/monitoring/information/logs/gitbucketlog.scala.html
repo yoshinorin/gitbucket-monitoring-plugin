@@ -15,7 +15,7 @@
         case Right(p) => {
           @log.getLog(p) match {
             case Left(message) => { <div class="error"> @message </div> }
-            case Right(s) => { <div><pre class="prettyprint" style="padding-left: 25px;">@s</pre></div> }
+            case Right(s) => { <div><pre class="prettyprint linenums" style="padding-left: 25px;">@s</pre></div> }
           }
         }
       }
