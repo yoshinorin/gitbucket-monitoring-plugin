@@ -10,11 +10,12 @@
     <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
     @gitbucket.monitoring.html.navigation(context)
     @gitbucket.monitoring.information.logs.html.tab(context)
-    <div class="alert alert-warning" role="alert">Display number of log default line is @defaultNum . You can specify a value less than @desplayLimit with the below TextBox, if you want.</div>
+    <div class="alert alert-warning" role="alert">Display number of logs default line is <strong> @defaultNum </strong> from tail.
+      You can specify the number of displayed lines value less than <strong> @desplayLimit </strong> from tail with the below TextBox.</div>
     <form id="get-log-from-tail" action="@context.path/admin/monitoring/logs/gitbucketlog" method="get" class="form-inline">
       <div class="form-group">
         <button type="submit button" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i></button>
-        <input type="text" name="line-num" class="form-control" placeholder=""/>
+        <input type="text" name="line-num" class="form-control" placeholder="Lines from the tail"/>
       </div>
     </form><br>
     @gitbucket.monitoring.html.loading(context)
