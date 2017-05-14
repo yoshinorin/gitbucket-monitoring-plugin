@@ -30,6 +30,8 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
     case _ => new processInformation.Action with processInformation.Other
   }
 
+  val gitbucketLog = new GitBucketLog
+
   get("/admin/monitoring")(adminOnly {
     redirect(s"/admin/monitoring/systeminformation");
   })
@@ -71,6 +73,36 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   })
 
   get("/admin/monitoring/logs/gitbucketlog")(adminOnly {
-    gitbucket.monitoring.information.logs.html.gitbucketlog(new GitBucketLog);
+    val lineNum = request.getParameter("line-num")
+    if (lineNum != null){
+      try {
+        val n = lineNum.toInt
+        if (n > GitBucketLog.desplayLimit) {
+          gitbucket.monitoring.information.logs.html.gitbucketlog(
+            gitbucketLog.getLog(GitBucketLog.desplayLimit),
+            gitbucketLog.defaultNum,
+            gitbucketLog.desplayLimit
+          );
+        } else {
+          gitbucket.monitoring.information.logs.html.gitbucketlog(
+            gitbucketLog.getLog(n),
+            gitbucketLog.defaultNum,
+            gitbucketLog.desplayLimit
+          );
+        }
+      } catch {
+        case e: Exception => gitbucket.monitoring.information.logs.html.gitbucketlog(
+          gitbucketLog.getLog(),
+          gitbucketLog.defaultNum,
+          gitbucketLog.desplayLimit
+        );
+      }
+    } else {
+      gitbucket.monitoring.information.logs.html.gitbucketlog(
+        gitbucketLog.getLog(),
+        gitbucketLog.defaultNum,
+        gitbucketLog.desplayLimit
+      );
+    }
   })
 }

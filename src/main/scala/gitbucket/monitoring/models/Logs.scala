@@ -67,15 +67,32 @@ object LogBack {
   )
 }
 
+object GitBucketLog {
+  val desplayLimit = 30000
+  val defaultNum = 1000
+}
+
 class GitBucketLog {
   val logBackInfo = LogBack.getLogBackInfo
-  def getLog(path: String, lines: Int = 1000): Either[String, String] = {
-    try {
-      (Right(
-        (Process(s"tail -n $lines $path") !!)
-      ))
-    } catch {
-      case e: Exception => Left("ERROR")
+  val logPath = logBackInfo.logfilePath
+  val desplayLimit = GitBucketLog.desplayLimit.toString
+  val defaultNum = GitBucketLog.defaultNum.toString
+  def getLog(lines: Int = GitBucketLog.defaultNum): Either[String, String] = {
+    if (logBackInfo.enableLogging) {
+      logBackInfo.logfilePath match {
+        case Left(message) => Left("ERROR : Not found")
+        case Right(p) => {
+          try {
+            Right(
+              (Process(s"tail -n $lines $p") !!)
+            )
+          } catch {
+            case e: Exception => Left("ERROR")
+          }
+        }
+      }
+    } else {
+      Left("Disable log setting")
     }
   }
 }

@@ -1,4 +1,6 @@
-@(log: gitbucket.monitoring.models.GitBucketLog)(implicit context: gitbucket.core.controller.Context)
+@(log: Either[String, String],
+  defaultNum: String,
+  desplayLimit: String)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
@@ -8,19 +10,17 @@
     <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
     @gitbucket.monitoring.html.navigation(context)
     @gitbucket.monitoring.information.logs.html.tab(context)
+    <div class="alert alert-warning" role="alert">Display number of log default line is @defaultNum . You can specify a value less than @desplayLimit with the below TextBox, if you want.</div>
+    <form id="get-log-from-tail" action="@context.path/admin/monitoring/logs/gitbucketlog" method="get" class="form-inline">
+      <div class="form-group">
+        <button type="submit button" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i></button>
+        <input type="text" name="line-num" class="form-control" placeholder=""/>
+      </div>
+    </form><br>
     @gitbucket.monitoring.html.loading(context)
-    @if(log.logBackInfo.enableLogging) {
-      @log.logBackInfo.logfilePath match {
-        case Left(message) => { <div class="error"> @message </div> }
-        case Right(p) => {
-          @log.getLog(p) match {
-            case Left(message) => { <div class="error"> @message </div> }
-            case Right(s) => { <div><pre class="prettyprint linenums" style="padding-left: 25px;">@s</pre></div> }
-          }
-        }
-      }
-    } else {
-      <div class="error"> Disable log setting </div>
+    @log match {
+      case Left(message) => { <div class="error"> @message </div> }
+      case Right(s) => { <div><pre class="prettyprint linenums" style="padding-left: 25px;">@s</pre></div> }
     }
   }
 }
