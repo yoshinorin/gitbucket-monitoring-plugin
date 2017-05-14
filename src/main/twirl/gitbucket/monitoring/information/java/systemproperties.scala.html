@@ -1,0 +1,25 @@
+@(java: gitbucket.monitoring.models.Java)(implicit context: gitbucket.core.controller.Context)
+@import context._
+@import gitbucket.core.html.main
+@import gitbucket.core.admin.html.menu
+@import gitbucket.core.view.helpers._
+@gitbucket.core.html.main("Monitoring") {
+  @gitbucket.core.admin.html.menu("monitoring") {
+    @gitbucket.monitoring.html.navigation(context)
+    @gitbucket.monitoring.information.java.html.tab(context)
+    <table class="table table-bordered">
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        @for((key, value) <- java.all.toSeq.sortBy(_._1)) {
+          <tr>
+            <td> @key </td>
+            <td> @value </td>
+          </tr>
+        }
+      </tr>
+    </table>
+  }
+}

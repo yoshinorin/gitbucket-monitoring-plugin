@@ -43,7 +43,15 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   })
 
   get("/admin/monitoring/java")(adminOnly {
-    gitbucket.monitoring.information.html.java(new Java());
+    redirect(s"/admin/monitoring/java/systemproperties");
+  })
+
+  get("/admin/monitoring/java/systemproperties")(adminOnly {
+    gitbucket.monitoring.information.java.html.systemproperties(new Java());
+  })
+
+  get("/admin/monitoring/java/memory")(adminOnly {
+    gitbucket.monitoring.information.java.html.memory(new Java());
   })
 
   get("/admin/monitoring/machineresources")(adminOnly {

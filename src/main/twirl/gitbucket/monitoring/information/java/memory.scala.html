@@ -1,0 +1,37 @@
+@(java: gitbucket.monitoring.models.Java)(implicit context: gitbucket.core.controller.Context)
+@import context._
+@import gitbucket.core.html.main
+@import gitbucket.core.admin.html.menu
+@import gitbucket.core.view.helpers._
+@gitbucket.core.html.main("Monitoring") {
+  @gitbucket.core.admin.html.menu("monitoring") {
+    @gitbucket.monitoring.html.navigation(context)
+    @gitbucket.monitoring.information.java.html.tab(context)
+      <div class="row">
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading strong">Free</div>
+              <div class="panel-body text-right">@java.memFree MB</div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading strong">Used</div>
+            <div class="panel-body text-right">@java.memUsed MB</div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading strong">Total</div>
+            <div class="panel-body text-right">@java.memTotal MB</div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading strong">Max</div>
+            <div class="panel-body text-right">@java.memMax MB</div>
+          </div>
+        </div>
+      </div>
+  }
+}
