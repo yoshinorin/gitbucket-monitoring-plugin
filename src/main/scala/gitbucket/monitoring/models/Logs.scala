@@ -1,6 +1,7 @@
 package gitbucket.monitoring.models
 
 import java.nio.file.{Files, Paths}
+import scala.sys.process._
 import scala.xml.XML
 import gitbucket.core.util.StringUtil
 import gitbucket.monitoring.utils._
@@ -68,11 +69,10 @@ object LogBack {
 
 class GitBucketLog {
   val logBackInfo = LogBack.getLogBackInfo
-  def getLog(path: String): Either[String, String] = {
+  def getLog(path: String, lines: Int = 1000): Either[String, String] = {
     try {
-      val bytes = Files.readAllBytes(Paths.get(path))
       (Right(
-        StringUtil.convertFromByteArray(bytes)
+        (Process(s"tail -n $lines $path") !!)
       ))
     } catch {
       case e: Exception => Left("ERROR")
