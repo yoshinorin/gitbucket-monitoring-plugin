@@ -1,6 +1,4 @@
-@(log: Either[String, String],
-  defaultNum: String,
-  desplayLimit: String)(implicit context: gitbucket.core.controller.Context)
+@(log: Either[String, gitbucket.monitoring.models.gitbucketLog.Info])(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
@@ -16,11 +14,11 @@
       <form id="get-log-from-tail" action="@context.path/admin/monitoring/logs/gitbucketlog" method="get" class="form-inline">
         <div class="form-group">
           <button type="submit button" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i></button>
-          <input type="text" name="line-num" class="form-control" placeholder=""/>
-          lines displayed. You can specify the number of displayed lines value less than @desplayLimit. Default is @defaultNum.
+          <input type="text" value="@s.inputtedNum" name="line-num" class="form-control" placeholder="@s.inputtedNum"/>
+          lines displayed. You can specify the number of displayed lines value less than @s.desplayLimit. Default is @s.defaultNum.
         </div>
       </form><br>
-      <div><pre class="prettyprint linenums" style="padding-left: 25px;">@s</pre></div>
+      <div><pre class="prettyprint linenums" style="padding-left: 25px;">@s.log</pre></div>
       }
     }
   }

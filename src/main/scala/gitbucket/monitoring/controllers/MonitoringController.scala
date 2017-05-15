@@ -30,7 +30,12 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
     case _ => new processInformation.Action with processInformation.Other
   }
 
-  val gitbucketLog = new GitBucketLog
+  val gBucketLog = OperatingSystem.osType match {
+    case OperatingSystem.Linux => new gitbucketLog.GitBucketLog with gitbucketLog.Linux
+    case OperatingSystem.Mac => new gitbucketLog.GitBucketLog with gitbucketLog.Mac
+    case OperatingSystem.Windows => new gitbucketLog.Action with gitbucketLog.Windows
+    case _ => new gitbucketLog.Action with gitbucketLog.Other
+  }
 
   get("/admin/monitoring")(adminOnly {
     redirect(s"/admin/monitoring/systeminformation");
@@ -77,32 +82,16 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
     if (lineNum != null){
       try {
         val n = lineNum.toInt
-        if (n > GitBucketLog.desplayLimit) {
-          gitbucket.monitoring.information.logs.html.gitbucketlog(
-            gitbucketLog.getLog(GitBucketLog.desplayLimit),
-            gitbucketLog.defaultNum,
-            gitbucketLog.desplayLimit
-          );
+        if (n > gitbucketLog.GitBucketLog.desplayLimit) {
+          gitbucket.monitoring.information.logs.html.gitbucketlog(gBucketLog.getLog(gitbucketLog.GitBucketLog.desplayLimit));
         } else {
-          gitbucket.monitoring.information.logs.html.gitbucketlog(
-            gitbucketLog.getLog(n),
-            gitbucketLog.defaultNum,
-            gitbucketLog.desplayLimit
-          );
+          gitbucket.monitoring.information.logs.html.gitbucketlog(gBucketLog.getLog(n));
         }
       } catch {
-        case e: Exception => gitbucket.monitoring.information.logs.html.gitbucketlog(
-          gitbucketLog.getLog(),
-          gitbucketLog.defaultNum,
-          gitbucketLog.desplayLimit
-        );
+        case e: Exception => gitbucket.monitoring.information.logs.html.gitbucketlog(gBucketLog.getLog());
       }
     } else {
-      gitbucket.monitoring.information.logs.html.gitbucketlog(
-        gitbucketLog.getLog(),
-        gitbucketLog.defaultNum,
-        gitbucketLog.desplayLimit
-      );
+      gitbucket.monitoring.information.logs.html.gitbucketlog(gBucketLog.getLog());
     }
   })
 }
