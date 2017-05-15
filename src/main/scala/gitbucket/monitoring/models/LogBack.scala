@@ -8,28 +8,25 @@ import gitbucket.monitoring.utils._
 object LogBack {
   val enableLogging = Java.getSystemProperties.contains("logback.configurationFile")
   val confPath = Java.getSystemProperties.getOrElse("logback.configurationFile", "Can not find logback settings.xml")
-
-  def getLogBackInfo: LogBackInfo = {
-    val enableLogging = Java.getSystemProperties.contains("logback.configurationFile")
-    val confPath = Java.getSystemProperties.getOrElse("logback.configurationFile", "Can not find logback settings.xml")
-    val xmlFileContent: Either[String, String] = {
-      if (enableLogging) {
-        try {
-          val bytes = Files.readAllBytes(Paths.get(confPath))
-          (Right(
-            StringUtil.convertFromByteArray(bytes)
-          ))
-        } catch {
-          case e: Exception => Left("ERROR")
-        }
-      } else {
-        Left("Dosen't configure Logback")
+  def getLogBackSettings: Either[String, String] = {
+    if (enableLogging) {
+      try {
+        val bytes = Files.readAllBytes(Paths.get(confPath))
+        (Right(
+          StringUtil.convertFromByteArray(bytes)
+        ))
+      } catch {
+        case e: Exception => Left("ERROR")
       }
+    } else {
+      Left("Dosen't configure Logback")
     }
+  }
+  def getLogBackInfo: LogBackInfo = {
     val logFilePath: Either[String, String] = {
       if (enableLogging) {
         try {
-          val xml = xmlFileContent match {
+          val xml = getLogBackSettings match {
             case Left(message) => message
             case Right(s) => {
               (XML.loadString(s) \\ "appender" \ "file" toString).replace("<file>","").replace("</file>","")
@@ -53,7 +50,6 @@ object LogBack {
     LogBackInfo(
       Java.getSystemProperties.contains("logback.configurationFile"),
       Java.getSystemProperties.getOrElse("logback.configurationFile", "Can not find logback settings.xml"),
-      xmlFileContent,
       logFilePath
     )
   }
@@ -61,7 +57,6 @@ object LogBack {
   case class LogBackInfo (
     enableLogging: Boolean,
     confPath: String,
-    settings: Either[String, String],
     logfilePath: Either[String, String]
   )
 }

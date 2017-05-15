@@ -1,4 +1,5 @@
-@(logbackInfo: gitbucket.monitoring.models.LogBack.LogBackInfo)(implicit context: gitbucket.core.controller.Context)
+@(logbackInfo: gitbucket.monitoring.models.LogBack.LogBackInfo,
+  logbackSettings: Either[String, String])(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
@@ -25,7 +26,7 @@
           </div>
         </div>
       </div>
-      @logbackInfo.settings match {
+      @logbackSettings match {
         case Left(message) => { <div class="error"> @message </div> }
         case Right(s) => { <div><pre class="prettyprint linenums" style="padding-left: 25px;">@s</pre></div> }
       }

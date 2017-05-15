@@ -74,7 +74,10 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   })
 
   get("/admin/monitoring/logs/logback")(adminOnly {
-    gitbucket.monitoring.information.logs.html.logback(LogBack.getLogBackInfo);
+    gitbucket.monitoring.information.logs.html.logback(
+      LogBack.getLogBackInfo,
+      LogBack.getLogBackSettings
+    );
   })
 
   get("/admin/monitoring/logs/gitbucketlog")(adminOnly {
