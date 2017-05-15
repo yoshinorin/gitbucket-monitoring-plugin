@@ -28,7 +28,9 @@
       </div>
       @logbackSettings match {
         case Left(message) => { <div class="error"> @message </div> }
-        case Right(s) => { <div><pre class="prettyprint linenums" style="padding-left: 25px;">@s</pre></div> }
+        case Right(s) => { <div class="box-header"><span class="glyphicon glyphicon-file"><span class="label label-default ">@logbackInfo.confPath</span></span></div>
+                           <div class="box-content-bottom"><pre class="prettyprint linenums blob">@s</pre></div>
+        }
       }
     } else {
       <div class="panel panel-default">
