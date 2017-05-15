@@ -19,24 +19,21 @@
           <div class="row">
             <label class="col-md-2">Log file's path</label>
             @logbackInfo.logfilePath match {
-              case Left(message) => { <div class="error"> @message </div>}
+              case Left(message) => { <div class="error"> @message </div> }
               case Right(p) => { <div> @p </div> }
             }
           </div>
         </div>
       </div>
       @logbackInfo.settings match {
-        case Left(message) => { <div class="error"> @message </div>}
+        case Left(message) => { <div class="error"> @message </div> }
         case Right(s) => { <div><pre class="prettyprint linenums" style="padding-left: 25px;">@s</pre></div> }
       }
     } else {
       <div class="panel panel-default">
         <div class="panel-body">
           <h6><span class="label label-danger">Disable</span></h6>
-          <div class="row">
-            <label class="col-md-2">Config file's path</label>
-            <span class="col-md-10">@logbackInfo.confPath</span>
-          </div>
+          <div class="alert alert-danger" role="alert">LogBack setting is disable. Please see <a href="//github.com/gitbucket/gitbucket/wiki/Tracing-%26-logging" class="alert-link">Tracing & logging</a>, if you need. </div>
         </div>
       </div>
     }

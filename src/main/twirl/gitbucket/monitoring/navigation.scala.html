@@ -5,5 +5,5 @@
   <li @if(context.request.getRequestURI.endsWith("machineresources")) {class="active"}><a href="@context.path/admin/monitoring/machineresources">Machine Resources</a></li>
   <li @if(context.request.getRequestURI.endsWith("process")) {class="active"}><a href="@context.path/admin/monitoring/process">Process</a></li>
   <li @if(context.request.getRequestURI.endsWith("java/systemproperties") || context.request.getRequestURI.endsWith("java/memory")) {class="active"}><a href="@context.path/admin/monitoring/java">Java</a></li>
-  <li @if(context.request.getRequestURI.endsWith("logs")) {class="active"}><a href="@context.path/admin/monitoring/logs">Logs</a></li>
+  <li @if(context.request.getRequestURI.endsWith("logs/logback")|| context.request.getRequestURI.endsWith("logs/gitbucketlog"))  {class="active"}><a href="@context.path/admin/monitoring/logs">Logs</a></li>
 </ul>

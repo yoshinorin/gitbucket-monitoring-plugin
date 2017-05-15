@@ -13,12 +13,11 @@
     @log match {
       case Left(message) => { <div class="error"> @message </div> }
       case Right(s) => {
-      <div class="alert alert-warning" role="alert">Display number of logs default line is <strong> @defaultNum </strong> from tail.
-        You can specify the number of displayed lines value less than <strong> @desplayLimit </strong> from tail with the below TextBox.</div>
       <form id="get-log-from-tail" action="@context.path/admin/monitoring/logs/gitbucketlog" method="get" class="form-inline">
         <div class="form-group">
           <button type="submit button" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i></button>
-          <input type="text" name="line-num" class="form-control" placeholder="Lines from the tail"/>
+          <input type="text" name="line-num" class="form-control" placeholder=""/>
+          lines displayed. You can specify the number of displayed lines value less than @desplayLimit. Default is @defaultNum.
         </div>
       </form><br>
       <div><pre class="prettyprint linenums" style="padding-left: 25px;">@s</pre></div>
