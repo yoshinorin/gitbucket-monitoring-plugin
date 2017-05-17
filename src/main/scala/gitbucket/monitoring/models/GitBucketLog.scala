@@ -1,23 +1,20 @@
-package gitbucket.monitoring.models.gitbucketLog
+package gitbucket.monitoring.models
 
 import java.nio.file.{Files, Paths}
 
 import scala.sys.process._
-import gitbucket.monitoring.models.{OperatingSystem, LogBack}
 import gitbucket.monitoring.utils._
 
-case class DefaultSettings (
-  logBackInfo: LogBack.LogBackInfo,
-  defaultDisplayLines: Int,
-  displayLimitLines: Int
-)
+class GitBucketLog extends GitBucketLogBase {
+  val instance = OperatingSystem.osType match {
+    case OperatingSystem.Linux => new GitBucketLogBase with LinuxGitBucketLog
+    case OperatingSystem.Mac => new GitBucketLogBase with MacGitBucketLog
+    case OperatingSystem.Windows => new GitBucketLogBase with WindowsGitBucketLog
+    case _ => new GitBucketLogBase with OtherGitBucketLog
+  }
+}
 
-case class Log (
-  log: String,
-  displayedLines: Int
-)
-
-trait GitBucketLog {
+trait GitBucketLogBase {
   def getDefaultSettings: DefaultSettings = {
     DefaultSettings(
       LogBack.getLogBackInfo,
@@ -46,29 +43,33 @@ trait GitBucketLog {
   }
 }
 
-trait Action {
-  self: GitBucketLog =>
-    def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
-      getLog()
-    }
-}
-
-trait Linux extends GitBucketLog {
+trait LinuxGitBucketLog extends GitBucketLogBase {
 
 }
 
-trait Mac extends GitBucketLog {
+trait MacGitBucketLog extends GitBucketLogBase {
 
 }
 
-trait Windows extends GitBucketLog {
+trait WindowsGitBucketLog extends GitBucketLogBase {
   override def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
     Left(OperatingSystem.notSupportedMessage)
   }
 }
 
-trait Other extends GitBucketLog {
+trait OtherGitBucketLog extends GitBucketLogBase {
   override def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
     Left(OperatingSystem.notSupportedMessage)
   }
 }
+
+case class DefaultSettings (
+  logBackInfo: LogBack.LogBackInfo,
+  defaultDisplayLines: Int,
+  displayLimitLines: Int
+)
+
+case class Log (
+  log: String,
+  displayedLines: Int
+)

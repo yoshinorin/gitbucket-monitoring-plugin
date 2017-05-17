@@ -5,17 +5,9 @@ import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
 import gitbucket.core.view.helpers._
 import gitbucket.monitoring.information.html._
-import gitbucket.monitoring.models.{MachineResources, OperatingSystem, Process, _}
-import gitbucket.monitoring.models.gitbucketLog.DefaultSettings
+import gitbucket.monitoring.models.{GitBucketLog, MachineResources, OperatingSystem, Process, _}
 
 class MonitoringController extends ControllerBase with AdminAuthenticator {
-
-  val gBucketLog = OperatingSystem.osType match {
-    case OperatingSystem.Linux => new gitbucketLog.GitBucketLog with gitbucketLog.Linux
-    case OperatingSystem.Mac => new gitbucketLog.GitBucketLog with gitbucketLog.Mac
-    case OperatingSystem.Windows => new gitbucketLog.Action with gitbucketLog.Windows
-    case _ => new gitbucketLog.Action with gitbucketLog.Other
-  }
 
   get("/admin/monitoring")(adminOnly {
     redirect(s"/admin/monitoring/systeminformation");
@@ -82,23 +74,25 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
     );
   })
 
+  val gitbucketLog = new GitBucketLog
+
   get("/admin/monitoring/logs/gitbucketlog")(adminOnly {
-    val defaultSettings: DefaultSettings = gBucketLog.getDefaultSettings
+    val defaultSettings: DefaultSettings = gitbucketLog.getDefaultSettings
     val lineNum = request.getParameter("line-num")
 
     if (lineNum != null){
       try {
         val n = lineNum.toInt
         if (n > defaultSettings.displayLimitLines) {
-          gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gBucketLog.getLog(defaultSettings.displayLimitLines));
+          gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gitbucketLog.getLog(defaultSettings.displayLimitLines));
         } else {
-          gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gBucketLog.getLog(n));
+          gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gitbucketLog.getLog(n));
         }
       } catch {
-        case e: Exception => gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gBucketLog.getLog());
+        case e: Exception => gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gitbucketLog.getLog());
       }
     } else {
-      gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gBucketLog.getLog());
+      gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gitbucketLog.getLog());
     }
   })
 }
