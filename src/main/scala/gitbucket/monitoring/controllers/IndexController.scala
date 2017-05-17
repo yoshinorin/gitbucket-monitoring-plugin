@@ -1,13 +1,9 @@
 package gitbucket.monitoring.controllers
 
-import io.github.gitbucket.scalatra.forms._
-import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
-import gitbucket.core.view.helpers._
-import gitbucket.monitoring.information.html._
-import gitbucket.monitoring.models.{GitBucketLog, MachineResources, OperatingSystem, Process, _}
+import gitbucket.monitoring.models.{SystemInformation, EnvironmentVariable ,MachineResources, Process, Java}
 
-class MonitoringController extends ControllerBase with AdminAuthenticator {
+class IndexController extends MonitoringControllerBase with LogController {
 
   get("/admin/monitoring")(adminOnly {
     redirect(s"/admin/monitoring/systeminformation");
@@ -65,34 +61,5 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
 
   get("/admin/monitoring/logs")(adminOnly {
     redirect(s"/admin/monitoring/logs/logback");
-  })
-
-  get("/admin/monitoring/logs/logback")(adminOnly {
-    gitbucket.monitoring.information.logs.html.logback(
-      LogBack.getLogBackInfo,
-      LogBack.getLogBackSettings
-    );
-  })
-
-  val gitbucketLog = new GitBucketLog
-
-  get("/admin/monitoring/logs/gitbucketlog")(adminOnly {
-    val defaultSettings: DefaultSettings = gitbucketLog.getDefaultSettings
-    val lineNum = request.getParameter("line-num")
-
-    if (lineNum != null){
-      try {
-        val n = lineNum.toInt
-        if (n > defaultSettings.displayLimitLines) {
-          gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gitbucketLog.getLog(defaultSettings.displayLimitLines));
-        } else {
-          gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gitbucketLog.getLog(n));
-        }
-      } catch {
-        case e: Exception => gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gitbucketLog.getLog());
-      }
-    } else {
-      gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gitbucketLog.getLog());
-    }
   })
 }
