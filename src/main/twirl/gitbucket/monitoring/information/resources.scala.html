@@ -1,4 +1,8 @@
-@(resources: gitbucket.monitoring.models.machineResources.Resources)(implicit context: gitbucket.core.controller.Context)
+@(core: Int,
+  cpu: Either[String, gitbucket.monitoring.models.Cpu],
+  memory: Either[String, gitbucket.monitoring.models.Memory],
+  swap: Either[String, gitbucket.monitoring.models.Swap],
+  diskSpace: gitbucket.monitoring.models.DiskSpace)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
@@ -14,14 +18,14 @@
             <div class="col-sm-2">
               <div class="panel panel-default">
                 <div class="panel-heading strong">Core</div>
-                <div class="panel-body text-right">@resources.core</div>
+                <div class="panel-body text-right">@core</div>
               </div>
             </div>
             <div class="col-sm-2">
               <div class="panel panel-default">
                 <div class="panel-heading strong">Used</div>
                   <div class="panel-body text-right">
-                    @resources.cpu match {
+                    @cpu match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(c) => { @c.usaga %}
                     }
@@ -40,7 +44,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Used</div>
                   <div class="panel-body text-right">
-                    @resources.memory match {
+                    @memory match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(m) => { @m.used / @m.total MB }
                     }
@@ -51,7 +55,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Free</div>
                   <div class="panel-body text-right">
-                    @resources.memory match {
+                    @memory match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(m) => { @m.free / @m.total MB }
                     }
@@ -62,7 +66,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Shared</div>
                   <div class="panel-body text-right">
-                    @resources.memory match {
+                    @memory match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(m) => { @m.shared / @m.total MB }
                     }
@@ -73,7 +77,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Buff/Cache</div>
                   <div class="panel-body text-right">
-                    @resources.memory match {
+                    @memory match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(m) => { @m.buff_cache / @m.total MB }
                     }
@@ -84,7 +88,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Available</div>
                   <div class="panel-body text-right">
-                    @resources.memory match {
+                    @memory match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(m) => { @m.available / @m.total MB }
                     }
@@ -100,7 +104,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Used</div>
                   <div class="panel-body text-right">
-                    @resources.swap match {
+                    @swap match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(s) => { @s.used / @s.total MB }
                     }
@@ -111,7 +115,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Free</div>
                   <div class="panel-body text-right">
-                    @resources.swap match {
+                    @swap match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(s) => { @s.free / @s.total MB }
                     }
@@ -128,13 +132,13 @@
             <div class="col-sm-2">
               <div class="panel panel-default">
                 <div class="panel-heading strong">Used</div>
-                <div class="panel-body text-right">@resources.usedSpace / @resources.totalSpace GB</div>
+                <div class="panel-body text-right">@diskSpace.usedSpace / @diskSpace.totalSpace GB</div>
               </div>
             </div>
             <div class="col-sm-2">
               <div class="panel panel-default">
                 <div class="panel-heading strong">Free</div>
-                <div class="panel-body text-right">@resources.freeSpace / @resources.totalSpace GB</div>
+                <div class="panel-body text-right">@diskSpace.freeSpace / @diskSpace.totalSpace GB</div>
               </div>
             </div>
           </div>

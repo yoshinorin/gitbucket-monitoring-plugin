@@ -1,22 +1,22 @@
-package gitbucket.monitoring.models.machineResources
+package gitbucket.monitoring.models
 
 import java.nio.file._
 import scala.sys.process._
 import gitbucket.monitoring.utils._
-import gitbucket.monitoring.models.OperatingSystem
 
-object Resources {
-  def fileStore = Files.getFileStore(Paths.get("."))
+class MachineResources extends MachineResourcesBase with LinuxMachineResources with MacMachineResources with WindowsMachineResources with OtherMachineResources {
+  val instance = OperatingSystem.osType match {
+    case OperatingSystem.Linux => new MachineResourcesBase with LinuxMachineResources
+    case OperatingSystem.Mac => new MachineResourcesBase with MacMachineResources
+    case OperatingSystem.Windows => new MachineResourcesBase with WindowsMachineResources
+    case _ => new MachineResourcesBase with OtherMachineResources
+  }
 }
 
-trait Resources {
-  val fileStore = Resources.fileStore
-  def operatingSystem = OperatingSystem
-  def core = Runtime.getRuntime().availableProcessors()
-  def totalSpace = UnitConverter.byteToGB(fileStore.getTotalSpace())
-  def freeSpace = UnitConverter.byteToGB(fileStore.getUnallocatedSpace())
-  def usedSpace = totalSpace - freeSpace
-  def cpu: Either[String, Cpu] = {
+trait MachineResourcesBase {
+  private val fileStore = Files.getFileStore(Paths.get("."))
+  def cpuCore = Runtime.getRuntime().availableProcessors()
+  def getCpu: Either[String, Cpu] = {
     try {
       val resouces = StringUtil.dropAndToArray(Process("top -b -n 1") #| Process("grep Cpu(s)") !! ,":" , ",")
       Right(Cpu(
@@ -35,11 +35,10 @@ trait Resources {
         }
       ))
     } catch {
-      //TODO: create logfile.
       case e: Exception => Left("ERROR")
     }
   }
-  def memory: Either[String, Memory] = {
+  def getMemory: Either[String, Memory] = {
     try {
       //Estimated available memory
       //https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773
@@ -64,11 +63,10 @@ trait Resources {
         ))
       }
     } catch {
-      //TODO: create logfile.
       case e: Exception => Left("ERROR")
     }
   }
-  def swap: Either[String, Swap] = {
+  def getSwap: Either[String, Swap] = {
     try {
       val swap =  StringUtil.dropAndToArray(Process("free -mt") #| Process("grep Swap") !! ,":" , "\\s+")
       Right(Swap(
@@ -77,64 +75,33 @@ trait Resources {
         swap(2)
       ))
     } catch {
-      //TODO: create logfile.
       case e: Exception => Left("ERROR")
     }
   }
-
-  case class Cpu (
-    us: String,
-    sy: String,
-    ni: String,
-    id: String,
-    wa: String,
-    hi: String,
-    si: String,
-    st: String,
-    usaga: String
-  )
-
-  case class Memory (
-    total: String,
-    used: String,
-    free: String,
-    shared: String,
-    buff_cache: String,
-    available: String
-  )
-
-  case class Swap (
-    total: String,
-    used: String,
-    free: String
-  )
+  def getDiskSpace: DiskSpace = {
+    val totalSpace = UnitConverter.byteToGB(fileStore.getTotalSpace())
+    val freeSpace = UnitConverter.byteToGB(fileStore.getUnallocatedSpace())
+    val usedSpace = totalSpace - freeSpace
+    DiskSpace(
+      totalSpace.toString,
+      freeSpace.toString,
+      usedSpace.toString
+    )
+  }
 }
 
-trait Action {
-  self: Resources =>
-    def cpu: Either[String, Cpu] = {
-      cpu
-    }
-    def memory: Either[String, Memory] = {
-      memory
-    }
-    def swap: Either[String, Swap] = {
-      swap
-    }
-}
-
-trait Linux extends Resources {
+trait LinuxMachineResources extends MachineResourcesBase {
 
 }
 
-trait Mac extends Resources {
-  override def cpu: Either[String, Cpu] = {
+trait MacMachineResources extends MachineResourcesBase {
+  override def getCpu: Either[String, Cpu] = {
     Left(OperatingSystem.notSupportedMessage)
   }
 }
 
-trait Windows extends Resources {
-  override def cpu: Either[String, Cpu] = {
+trait WindowsMachineResources extends MachineResourcesBase {
+  override def getCpu: Either[String, Cpu] = {
     try {
       Right(Cpu(
         "-",
@@ -151,7 +118,7 @@ trait Windows extends Resources {
       case e: Exception => Left("ERROR")
     }
   }
-  override def memory: Either[String, Memory] = {
+  override def getMemory: Either[String, Memory] = {
     try {
       val totalMem = (Process("powershell -Command Get-WmiObject -Class Win32_PhysicalMemory | %{ $_.Capacity} | Measure-Object -Sum | %{ ($_.sum /1024/1024) }") !!).toDouble
       val availableMem = (Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.AvailableMBytes}") !!).toDouble
@@ -168,19 +135,52 @@ trait Windows extends Resources {
       case e: Exception => Left("ERROR")
     }
   }
-  override def swap: Either[String, Swap] = {
+  override def getSwap: Either[String, Swap] = {
     Left(OperatingSystem.notSupportedMessage)
   }
 }
 
-trait Other extends Resources {
-  override def cpu: Either[String, Cpu] = {
+trait OtherMachineResources extends MachineResourcesBase {
+  override def getCpu: Either[String, Cpu] = {
     Left(OperatingSystem.notSupportedMessage)
   }
-  override def memory: Either[String, Memory] = {
+  override def getMemory: Either[String, Memory] = {
     Left(OperatingSystem.notSupportedMessage)
   }
-  override def swap: Either[String, Swap] = {
+  override def getSwap: Either[String, Swap] = {
     Left(OperatingSystem.notSupportedMessage)
   }
 }
+
+case class Cpu (
+  us: String,
+  sy: String,
+  ni: String,
+  id: String,
+  wa: String,
+  hi: String,
+  si: String,
+  st: String,
+  usaga: String
+)
+
+case class Memory (
+  total: String,
+  used: String,
+  free: String,
+  shared: String,
+  buff_cache: String,
+  available: String
+)
+
+case class Swap (
+  total: String,
+  used: String,
+  free: String
+)
+
+case class DiskSpace (
+  totalSpace: String,
+  freeSpace: String,
+  usedSpace: String
+)

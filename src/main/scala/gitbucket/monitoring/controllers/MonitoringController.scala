@@ -5,17 +5,10 @@ import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
 import gitbucket.core.view.helpers._
 import gitbucket.monitoring.information.html._
-import gitbucket.monitoring.models.{Process,OperatingSystem,_}
+import gitbucket.monitoring.models.{MachineResources, OperatingSystem, Process, _}
 import gitbucket.monitoring.models.gitbucketLog.DefaultSettings
 
 class MonitoringController extends ControllerBase with AdminAuthenticator {
-
-  val machineRes = OperatingSystem.osType match {
-    case OperatingSystem.Linux => new machineResources.Resources with machineResources.Linux
-    case OperatingSystem.Mac => new machineResources.Resources with machineResources.Mac
-    case OperatingSystem.Windows => new machineResources.Action with machineResources.Windows
-    case _ => new machineResources.Action with machineResources.Other
-  }
 
   val gBucketLog = OperatingSystem.osType match {
     case OperatingSystem.Linux => new gitbucketLog.GitBucketLog with gitbucketLog.Linux
@@ -57,8 +50,16 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
     gitbucket.monitoring.information.java.html.memory(Java.getMemoryInfo);
   })
 
+  val machineResources = new MachineResources
+
   get("/admin/monitoring/machineresources")(adminOnly {
-    gitbucket.monitoring.information.html.resources(machineRes);
+    gitbucket.monitoring.information.html.resources(
+      machineResources.instance.cpuCore,
+      machineResources.instance.getCpu,
+      machineResources.instance.getMemory,
+      machineResources.instance.getSwap,
+      machineResources.instance.getDiskSpace
+    );
   })
 
   val process = new Process
