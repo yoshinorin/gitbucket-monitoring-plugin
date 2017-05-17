@@ -1,4 +1,5 @@
-@(resources: gitbucket.monitoring.models.processInformation.Info)(implicit context: gitbucket.core.controller.Context)
+@(tasks: Either[String, gitbucket.monitoring.models.Tasks],
+  loadAve: Either[String, gitbucket.monitoring.models.LoadAverage])(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
@@ -15,7 +16,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Recent 1min</div>
                   <div class="panel-body text-right">
-                    @resources.loadAve match {
+                    @loadAve match {
                     case Left(message) => { <div class="error"> @message </div> }
                       case Right(l) => { @l.oneMin }
                     }
@@ -26,7 +27,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Recent 5min</div>
                   <div class="panel-body text-right">
-                    @resources.loadAve match {
+                    @loadAve match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(l) => { @l.fiveMin }
                     }
@@ -37,7 +38,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Recent 15min</div>
                   <div class="panel-body text-right">
-                    @resources.loadAve match {
+                    @loadAve match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(l) => { @l.fifteenMin }
                     }
@@ -55,7 +56,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Running</div>
                   <div class="panel-body text-right">
-                    @resources.tasks match {
+                    @tasks match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(t) => { @t.running / @t.total }
                     }
@@ -66,7 +67,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Sleeping</div>
                   <div class="panel-body text-right">
-                    @resources.tasks match {
+                    @tasks match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(t) => { @t.sleeping / @t.total }
                     }
@@ -77,7 +78,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Stopped</div>
                   <div class="panel-body text-right">
-                    @resources.tasks match {
+                    @tasks match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(t) => { @t.stopped / @t.total }
                     }
@@ -88,7 +89,7 @@
               <div class="panel panel-default">
                 <div class="panel-heading strong">Zombie</div>
                   <div class="panel-body text-right">
-                    @resources.tasks match {
+                    @tasks match {
                       case Left(message) => { <div class="error"> @message </div> }
                       case Right(t) => { @t.zombie / @t.total }
                     }

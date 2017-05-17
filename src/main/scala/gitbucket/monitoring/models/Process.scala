@@ -1,12 +1,20 @@
-package gitbucket.monitoring.models.processInformation
+package gitbucket.monitoring.models
 
 import java.nio.file._
 import scala.sys.process._
 import gitbucket.monitoring.utils._
-import gitbucket.monitoring.models.OperatingSystem
 
-trait Info {
-  def tasks: Either[String, Tasks] = {
+class Process extends ProcessBase with LinuxProcess with MacProcess with WindowsProcess with OtherProcess {
+  val instance = OperatingSystem.osType match {
+    case OperatingSystem.Linux => new ProcessBase with LinuxProcess
+    case OperatingSystem.Mac => new ProcessBase with MacProcess
+    case OperatingSystem.Windows => new ProcessBase with WindowsProcess
+    case _ => new ProcessBase with OtherProcess
+  }
+}
+
+trait ProcessBase {
+  def getTasks: Either[String, Tasks] = {
     try {
       val resouces = StringUtil.dropAndToArray(Process("top -b -n 1") #| Process("grep Tasks") !!,":" , ",")
       Right(Tasks(
@@ -17,15 +25,14 @@ trait Info {
         resouces.filter(c => c.contains("zombie")).headOption.getOrElse("-").replace("zombie","")
       ))
     } catch {
-      //TODO: create logfile.
       case e: Exception => Left("ERROR")
     }
   }
-  def loadAve: Either[String, LoadAve] = {
+  def getLoadAverage: Either[String, LoadAverage] = {
     try {
       val result = Process("uptime") !!
       val list = result.drop(result.indexOf("average:") + 8).split(",")
-      Right(LoadAve(
+      Right(LoadAverage(
         list(0),
         list(1),
         list(2)
@@ -34,49 +41,25 @@ trait Info {
       case e: Exception => Left("ERROR")
     }
   }
-
-  case class Tasks (
-    total: String,
-    running: String,
-    sleeping: String,
-    stopped: String,
-    zombie: String
-  )
-
-  case class LoadAve (
-    oneMin: String,
-    fiveMin: String,
-    fifteenMin: String
-  )
 }
 
-trait Action {
-  self: Info =>
-    def tasks: Either[String, Tasks] = {
-      tasks
-    }
-    def loadAve: Either[String, LoadAve] = {
-      loadAve
-    }
-}
-
-trait Linux extends Info {
+trait LinuxProcess extends ProcessBase {
 
 }
 
-trait Mac extends Info {
-  override def tasks: Either[String, Tasks] = {
+trait MacProcess extends ProcessBase {
+  override def getTasks: Either[String, Tasks] = {
     Left(OperatingSystem.notSupportedMessage)
   }
 }
 
-trait Windows extends Info {
-  override def tasks: Either[String, Tasks] = {
+trait WindowsProcess extends ProcessBase {
+  override def getTasks: Either[String, Tasks] = {
     Left(OperatingSystem.onlyLinuxMessage)
   }
-  override def  loadAve: Either[String, LoadAve] = {
+  override def getLoadAverage: Either[String, LoadAverage] = {
     try {
-      Right(LoadAve(
+      Right(LoadAverage(
         (Process("powershell -Command Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average | %{ $_.Average }") !!).toString,
         OperatingSystem.notSupportedMessage,
         OperatingSystem.notSupportedMessage
@@ -87,11 +70,25 @@ trait Windows extends Info {
   }
 }
 
-trait Other extends Info {
-  override def tasks: Either[String, Tasks] = {
+trait OtherProcess extends ProcessBase {
+  override def getTasks: Either[String, Tasks] = {
     Left(OperatingSystem.notSupportedMessage)
   }
-  override def  loadAve: Either[String, LoadAve] = {
+  override def getLoadAverage: Either[String, LoadAverage] = {
     Left(OperatingSystem.notSupportedMessage)
   }
 }
+
+case class Tasks (
+  total: String,
+  running: String,
+  sleeping: String,
+  stopped: String,
+  zombie: String
+)
+
+case class LoadAverage (
+  oneMin: String,
+  fiveMin: String,
+  fifteenMin: String
+)

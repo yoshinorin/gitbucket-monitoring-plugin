@@ -1,5 +1,11 @@
-@(system: gitbucket.monitoring.models.systemInformation.Info)(implicit context: gitbucket.core.controller.Context)
+@(timeZone: String,
+  nowTime: String,
+  zoneOffset: String,
+  dayOfWeek: String,
+  onDocker: Boolean,
+  upTime: Either[String, gitbucket.monitoring.models.UpTime])(implicit context: gitbucket.core.controller.Context)
 @import context._
+@import gitbucket.monitoring.models.OperatingSystem
 @import gitbucket.core.html.main
 @import gitbucket.core.admin.html.menu
 @gitbucket.core.html.main("Monitoring") {
@@ -7,7 +13,7 @@
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)
     @gitbucket.monitoring.html.loading(context)
-    @if(system.onDocker) {
+    @if(onDocker) {
       <h6><span class="label label-primary">On Docker</span></h6>
       <hr>
     }
@@ -16,19 +22,19 @@
         <div class="panel-body">
           <div class="row">
             <label class="col-md-2">OS</label>
-            <span class="col-md-10">@system.operatingSystem.osName</span>
+            <span class="col-md-10">@OperatingSystem.osName</span>
           </div>
           <div class="row">
             <label class="col-md-2">Distribution</label>
-            <span class="col-md-10">@system.operatingSystem.distribution</span>
+            <span class="col-md-10">@OperatingSystem.distribution</span>
           </div>
           <div class="row">
             <label class="col-md-2">Version</label>
-            <span class="col-md-10">@system.operatingSystem.osVersion</span>
+            <span class="col-md-10">@OperatingSystem.osVersion</span>
           </div>
           <div class="row">
             <label class="col-md-2">Architecture</label>
-            <span class="col-md-10">@system.operatingSystem.osArch</span>
+            <span class="col-md-10">@OperatingSystem.osArch</span>
           </div>
         </div>
     </div>
@@ -37,7 +43,7 @@
         <div class="panel-body">
           <div class="row">
             <label class="col-md-2">StartTime</label>
-            <span class="col-md-10">@system.upTime match {
+            <span class="col-md-10">@upTime match {
                 case Left(message) => { <div class="error"> @message </div> }
                 case Right(u) => { @u.startTime }
               }
@@ -45,7 +51,7 @@
           </div>
           <div class="row">
             <label class="col-md-2">UpTime</label>
-            <span class="col-md-10">@system.upTime match {
+            <span class="col-md-10">@upTime match {
                 case Left(message) => { <div class="error"> @message </div> }
                 case Right(u) => { @u.uptime }
               }
@@ -58,19 +64,19 @@
         <div class="panel-body">
           <div class="row">
             <label class="col-md-2">Now</label>
-            <span class="col-md-10">@system.nowTime</span>
+            <span class="col-md-10">@nowTime</span>
           </div>
           <div class="row">
             <label class="col-md-2">Time Zone</label>
-            <span class="col-md-10">@system.timeZone</span>
+            <span class="col-md-10">@timeZone</span>
           </div>
           <div class="row">
             <label class="col-md-2">Zone Offset</label>
-            <span class="col-md-10">@system.zoneOffset</span>
+            <span class="col-md-10">@zoneOffset</span>
           </div>
           <div class="row">
             <label class="col-md-2">Day Of Week</label>
-            <span class="col-md-10">@system.dayOfWeek</span>
+            <span class="col-md-10">@dayOfWeek</span>
           </div>
         </div>
     </div>

@@ -1,14 +1,25 @@
-package gitbucket.monitoring.models.systemInformation
+package gitbucket.monitoring.models
 
 import java.util._
 import java.time._
 import java.nio.file.{Paths, Files}
 import scala.sys.process._
-import gitbucket.monitoring.models.OperatingSystem
 import gitbucket.monitoring.utils._
 
-object Info {
+class SystemInformation extends SystemInformationBase with LinuxSystemInformation with MacSystemInformation with WindowsSystemInformation with OtherSystemInformation {
+  val instance = OperatingSystem.osType match {
+    case OperatingSystem.Linux => new SystemInformationBase with LinuxSystemInformation
+    case OperatingSystem.Mac => new SystemInformationBase with MacSystemInformation
+    case OperatingSystem.Windows => new SystemInformationBase with  WindowsSystemInformation
+    case _ => new SystemInformationBase with OtherSystemInformation
+  }
+}
+
+trait SystemInformationBase {
   def timeZone = ZoneId.systemDefault()
+  def nowTime = LocalDateTime.now()
+  def zoneOffset = timeZone.getRules().getOffset(nowTime)
+  def dayOfWeek = nowTime.getDayOfWeek()
   def onDocker: Boolean = {
     try {
       Files.exists(Paths.get("/.dockerenv"))
@@ -16,16 +27,7 @@ object Info {
       case e: Exception => false
     }
   }
-}
-
-trait Info {
-  def operatingSystem = OperatingSystem
-  val onDocker = Info.onDocker
-  val timeZone = Info.timeZone
-  def nowTime = LocalDateTime.now()
-  def zoneOffset = timeZone.getRules().getOffset(nowTime)
-  def dayOfWeek = nowTime.getDayOfWeek()
-  def upTime: Either[String, UpTime] = {
+  def getUpTime: Either[String, UpTime] = {
     try {
       val result = Process("uptime") !!
       val list = result.drop(result.indexOf("up") + 2).split(",")
@@ -37,22 +39,10 @@ trait Info {
       case e: Exception => Left("ERROR")
     }
   }
-
-  case class UpTime (
-    uptime: String,
-    startTime: String
-  )
 }
 
-trait Action {
-  self: Info =>
-    def upTime: Either[String, UpTime] = {
-      upTime
-    }
-}
-
-trait Linux extends Info {
-  override def upTime: Either [String, UpTime] = {
+trait LinuxSystemInformation extends SystemInformationBase {
+  override def getUpTime: Either [String, UpTime] = {
     try {
       val ut = (Process("cat /proc/uptime") !!).split(" ")
       val dt = Time.secondsToDateTime(Rounding.ceil(BigDecimal(ut(0)),0).toInt)
@@ -69,12 +59,12 @@ trait Linux extends Info {
   }
 }
 
-trait Mac extends Info {
+trait MacSystemInformation extends SystemInformationBase {
 
 }
 
-trait Windows extends Info {
-  override def upTime: Either[String, UpTime] = {
+trait WindowsSystemInformation extends SystemInformationBase {
+  override def getUpTime: Either[String, UpTime] = {
     try {
       Right(UpTime(
         (Process("powershell -Command \"&{$os=Get-WmiObject win32_operatingsystem;$time=((Get-Date) - $os.ConvertToDateTime($os.lastbootuptime)); $time.Days.ToString() + \\\" days \\\" +  $time.Hours.ToString() + \\\" hours \\\" + $time.Minutes.ToString() + \\\" minutes \\\"}\"") !!),
@@ -86,8 +76,13 @@ trait Windows extends Info {
   }
 }
 
-trait Other extends Info {
-  override def upTime: Either[String, UpTime] = {
+trait OtherSystemInformation extends SystemInformationBase {
+  override def getUpTime: Either[String, UpTime] = {
     Left(OperatingSystem.notSupportedMessage)
   }
 }
+
+case class UpTime (
+  uptime: String,
+  startTime: String
+)
