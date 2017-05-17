@@ -6,36 +6,35 @@ import scala.sys.process._
 import gitbucket.monitoring.models.{OperatingSystem, LogBack}
 import gitbucket.monitoring.utils._
 
-case class Info(
+case class DefaultSettings (
   logBackInfo: LogBack.LogBackInfo,
-  defaultNum: Int,
-  desplayLimit: Int,
-  inputtedNum: Int,
-  log: String
+  defaultDisplayLines: Int,
+  displayLimitLines: Int
 )
 
-object GitBucketLog {
-  val defaultNum = 1000
-  val desplayLimit = 30000
-}
+case class Log (
+  log: String,
+  displayedLines: Int
+)
 
 trait GitBucketLog {
-  val logBackInfo = LogBack.getLogBackInfo
-  def getLog(lines: Int = GitBucketLog.defaultNum): Either[String, Info] = {
-    if (logBackInfo.enableLogging) {
-      logBackInfo.logfilePath match {
+  def getDefaultSettings: DefaultSettings = {
+    DefaultSettings(
+      LogBack.getLogBackInfo,
+      1000,
+      30000
+    )
+  }
+  def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
+    if (getDefaultSettings.logBackInfo.enableLogging) {
+      getDefaultSettings.logBackInfo.logFilePath match {
         case Left(message) => Left("ERROR : Not found")
         case Right(p) => {
           try {
-            Right(
-              Info(
-                logBackInfo,
-                GitBucketLog.defaultNum,
-                GitBucketLog.desplayLimit,
-                lines,
-                (Process(s"tail -n $lines $p") !!)
-              )
-            )
+            Right(Log(
+                Process(s"tail -n $lines $p") !!,
+                lines
+              ))
           } catch {
             case e: Exception => Left("ERROR")
           }
@@ -49,7 +48,7 @@ trait GitBucketLog {
 
 trait Action {
   self: GitBucketLog =>
-    def getLog(lines: Int = GitBucketLog.defaultNum): Either[String, Info] = {
+    def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
       getLog()
     }
 }
@@ -63,13 +62,13 @@ trait Mac extends GitBucketLog {
 }
 
 trait Windows extends GitBucketLog {
-  override def getLog(lines: Int = GitBucketLog.defaultNum): Either[String, Info] = {
+  override def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
     Left(OperatingSystem.notSupportedMessage)
   }
 }
 
 trait Other extends GitBucketLog {
-  override def getLog(lines: Int = GitBucketLog.defaultNum): Either[String, Info] = {
+  override def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
     Left(OperatingSystem.notSupportedMessage)
   }
 }

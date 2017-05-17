@@ -6,6 +6,7 @@ import gitbucket.core.util.AdminAuthenticator
 import gitbucket.core.view.helpers._
 import gitbucket.monitoring.information.html._
 import gitbucket.monitoring.models._
+import gitbucket.monitoring.models.gitbucketLog.DefaultSettings
 
 class MonitoringController extends ControllerBase with AdminAuthenticator {
 
@@ -81,20 +82,22 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   })
 
   get("/admin/monitoring/logs/gitbucketlog")(adminOnly {
+    val defaultSettings: DefaultSettings = gBucketLog.getDefaultSettings
     val lineNum = request.getParameter("line-num")
+
     if (lineNum != null){
       try {
         val n = lineNum.toInt
-        if (n > gitbucketLog.GitBucketLog.desplayLimit) {
-          gitbucket.monitoring.information.logs.html.gitbucketlog(gBucketLog.getLog(gitbucketLog.GitBucketLog.desplayLimit));
+        if (n > defaultSettings.displayLimitLines) {
+          gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gBucketLog.getLog(defaultSettings.displayLimitLines));
         } else {
-          gitbucket.monitoring.information.logs.html.gitbucketlog(gBucketLog.getLog(n));
+          gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gBucketLog.getLog(n));
         }
       } catch {
-        case e: Exception => gitbucket.monitoring.information.logs.html.gitbucketlog(gBucketLog.getLog());
+        case e: Exception => gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gBucketLog.getLog());
       }
     } else {
-      gitbucket.monitoring.information.logs.html.gitbucketlog(gBucketLog.getLog());
+      gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gBucketLog.getLog());
     }
   })
 }

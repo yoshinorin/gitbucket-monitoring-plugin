@@ -57,6 +57,6 @@ object LogBack {
   case class LogBackInfo (
     enableLogging: Boolean,
     confPath: String,
-    logfilePath: Either[String, String]
+    logFilePath: Either[String, String]
   )
 }

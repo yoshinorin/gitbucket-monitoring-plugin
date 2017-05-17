@@ -19,7 +19,7 @@
           </div>
           <div class="row">
             <label class="col-md-2">Log file's path</label>
-            @logbackInfo.logfilePath match {
+            @logbackInfo.logFilePath match {
               case Left(message) => { <div class="error"> @message </div> }
               case Right(p) => { <div> @p </div> }
             }
