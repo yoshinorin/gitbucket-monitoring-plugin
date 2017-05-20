@@ -1,9 +1,10 @@
 package gitbucket.monitoring.controllers
 
 import gitbucket.core.util.AdminAuthenticator
-import gitbucket.monitoring.models.{SystemInformation, EnvironmentVariable ,MachineResources, Process, Java}
+import gitbucket.monitoring.models.{SystemInformation, EnvironmentVariable ,MachineResources, Process}
+import gitbucket.monitoring.information._
 
-class IndexController extends MonitoringControllerBase with LogController {
+class IndexController extends MonitoringControllerBase with JavaController with LogController {
 
   get("/admin/monitoring")(adminOnly {
     redirect(s"/admin/monitoring/systeminformation");
@@ -12,7 +13,7 @@ class IndexController extends MonitoringControllerBase with LogController {
   val sysInfo = new SystemInformation
 
   get("/admin/monitoring/systeminformation")(adminOnly {
-    gitbucket.monitoring.information.html.system(
+    html.system(
       sysInfo.instance.timeZone.toString,
       sysInfo.instance.nowTime.toString,
       sysInfo.instance.zoneOffset.toString,
@@ -23,25 +24,13 @@ class IndexController extends MonitoringControllerBase with LogController {
   })
 
   get("/admin/monitoring/environmentvaliable")(adminOnly {
-    gitbucket.monitoring.information.html.environmentValiable(EnvironmentVariable.valiables);
-  })
-
-  get("/admin/monitoring/java")(adminOnly {
-    redirect(s"/admin/monitoring/java/systemproperties");
-  })
-
-  get("/admin/monitoring/java/systemproperties")(adminOnly {
-    gitbucket.monitoring.information.java.html.systemproperties(Java.getSystemProperties);
-  })
-
-  get("/admin/monitoring/java/memory")(adminOnly {
-    gitbucket.monitoring.information.java.html.memory(Java.getMemoryInfo);
+    html.environmentValiable(EnvironmentVariable.valiables);
   })
 
   val machineResources = new MachineResources
 
   get("/admin/monitoring/machineresources")(adminOnly {
-    gitbucket.monitoring.information.html.resources(
+    html.resources(
       machineResources.instance.cpuCore,
       machineResources.instance.getCpu,
       machineResources.instance.getMemory,
@@ -53,7 +42,7 @@ class IndexController extends MonitoringControllerBase with LogController {
   val process = new Process
 
   get("/admin/monitoring/process")(adminOnly {
-    gitbucket.monitoring.information.html.process(
+    html.process(
       process.instance.getTasks,
       process.instance.getLoadAverage
     );

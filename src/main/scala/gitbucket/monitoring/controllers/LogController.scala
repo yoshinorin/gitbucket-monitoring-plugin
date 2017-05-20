@@ -1,6 +1,7 @@
 package gitbucket.monitoring.controllers
 
 import gitbucket.monitoring.models.{LogBack, GitBucketLog}
+import gitbucket.monitoring.information.logs._
 
 trait LogController extends MonitoringControllerBase {
 
@@ -21,15 +22,15 @@ trait LogController extends MonitoringControllerBase {
       try {
         val n = lineNum.toInt
         if (n > defaultSettings.displayLimitLines) {
-          gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gitbucketLog.getLog(defaultSettings.displayLimitLines));
+          html.gitbucketlog(defaultSettings, gitbucketLog.getLog(defaultSettings.displayLimitLines));
         } else {
-          gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gitbucketLog.getLog(n));
+          html.gitbucketlog(defaultSettings, gitbucketLog.getLog(n));
         }
       } catch {
-        case e: Exception => gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gitbucketLog.getLog());
+        case e: Exception => html.gitbucketlog(defaultSettings, gitbucketLog.getLog());
       }
     } else {
-      gitbucket.monitoring.information.logs.html.gitbucketlog(defaultSettings, gitbucketLog.getLog());
+      html.gitbucketlog(defaultSettings, gitbucketLog.getLog());
     }
   })
 }
