@@ -39,90 +39,79 @@
       <div class="panel-heading strong">Memory</div>
         <div class="panel-body">
           <label><span class="strong"></span>Physical</label>
-          <div class="row">
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Used</div>
-                  <div class="panel-body text-right">
-                    @memory match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(m) => { @m.used / @m.total MB }
-                    }
+          @memory match {
+            case Left(message) => { <div class="error"> @message </div> }
+            case Right(m) => {
+              <div class="row">
+                <div class="col-sm-2">
+                  <div class="panel panel-default">
+                    <div class="panel-heading strong">Used</div>
+                    <div class="panel-body text-right">
+                      @m.used / @m.total MB
+                    </div>
                   </div>
+               </div>
+                <div class="col-sm-2">
+                  <div class="panel panel-default">
+                    <div class="panel-heading strong">Free</div>
+                    <div class="panel-body text-right">
+                      @m.free / @m.total MB
+                    </div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="panel panel-default">
+                  <div class="panel-heading strong">Shared</div>
+                  <div class="panel-body text-right">
+                      @m.shared / @m.total MB
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="panel panel-default">
+                  <div class="panel-heading strong">Buff/Cache</div>
+                  <div class="panel-body text-right">
+                    @m.buff_cache / @m.total MB
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="panel panel-default">
+                  <div class="panel-heading strong">Available</div>
+                  <div class="panel-body text-right">
+                    @m.available / @m.total MB
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Free</div>
-                  <div class="panel-body text-right">
-                    @memory match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(m) => { @m.free / @m.total MB }
-                    }
-                  </div>
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Shared</div>
-                  <div class="panel-body text-right">
-                    @memory match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(m) => { @m.shared / @m.total MB }
-                    }
-                  </div>
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Buff/Cache</div>
-                  <div class="panel-body text-right">
-                    @memory match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(m) => { @m.buff_cache / @m.total MB }
-                    }
-                  </div>
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Available</div>
-                  <div class="panel-body text-right">
-                    @memory match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(m) => { @m.available / @m.total MB }
-                    }
-                  </div>
-              </div>
-            </div>
-          </div>
+            }
+          }
         </div>
         <div class="panel-body">
           <label><span class="strong">Swap</span></label>
-          <div class="row">
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Used</div>
-                  <div class="panel-body text-right">
-                    @swap match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(s) => { @s.used / @s.total MB }
-                    }
+          @swap match {
+            case Left(message) => { <div class="error"> @message </div> }
+            case Right(s) => {
+              <div class="row">
+                <div class="col-sm-2">
+                  <div class="panel panel-default">
+                    <div class="panel-heading strong">Used</div>
+                    <div class="panel-body text-right">
+                      @s.used / @s.total MB
+                    </div>
                   </div>
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Free</div>
-                  <div class="panel-body text-right">
-                    @swap match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(s) => { @s.free / @s.total MB }
-                    }
+                </div>
+                <div class="col-sm-2">
+                  <div class="panel panel-default">
+                    <div class="panel-heading strong">Free</div>
+                    <div class="panel-body text-right">
+                      @s.free / @s.total MB
+                    </div>
                   </div>
+                </div>
               </div>
-            </div>
-          </div>
+            }
+          }
         </div>
     </div>
     <div class="panel panel-default">
