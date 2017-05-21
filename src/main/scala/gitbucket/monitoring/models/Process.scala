@@ -4,15 +4,6 @@ import java.nio.file._
 import scala.sys.process._
 import gitbucket.monitoring.utils._
 
-class Process extends ProcessBase with LinuxProcess with MacProcess with WindowsProcess with OtherProcess {
-  val instance = OperatingSystem.osType match {
-    case OperatingSystem.Linux => new ProcessBase with LinuxProcess
-    case OperatingSystem.Mac => new ProcessBase with MacProcess
-    case OperatingSystem.Windows => new ProcessBase with WindowsProcess
-    case _ => new ProcessBase with OtherProcess
-  }
-}
-
 trait ProcessBase {
   def getTasks: Either[String, Tasks] = {
     try {
@@ -43,39 +34,48 @@ trait ProcessBase {
   }
 }
 
-trait LinuxProcess extends ProcessBase {
-
-}
-
-trait MacProcess extends ProcessBase {
-  override def getTasks: Either[String, Tasks] = {
-    Left(OperatingSystem.notSupportedMessage)
+class Process extends ProcessBase {
+  val instance = OperatingSystem.osType match {
+    case OperatingSystem.Linux => new ProcessBase with Linux
+    case OperatingSystem.Mac => new ProcessBase with Mac
+    case OperatingSystem.Windows => new ProcessBase with Windows
+    case _ => new ProcessBase with Other
   }
-}
 
-trait WindowsProcess extends ProcessBase {
-  override def getTasks: Either[String, Tasks] = {
-    Left(OperatingSystem.onlyLinuxMessage)
+  trait Linux extends ProcessBase {
+
   }
-  override def getLoadAverage: Either[String, LoadAverage] = {
-    try {
-      Right(LoadAverage(
-        (Process("powershell -Command Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average | %{ $_.Average }") !!).toString,
-        OperatingSystem.notSupportedMessage,
-        OperatingSystem.notSupportedMessage
-      ))
-    } catch {
-      case e: Exception => Left("ERROR")
+
+  trait Mac extends ProcessBase {
+    override def getTasks: Either[String, Tasks] = {
+      Left(OperatingSystem.notSupportedMessage)
     }
   }
-}
 
-trait OtherProcess extends ProcessBase {
-  override def getTasks: Either[String, Tasks] = {
-    Left(OperatingSystem.notSupportedMessage)
+  trait Windows extends ProcessBase {
+    override def getTasks: Either[String, Tasks] = {
+      Left(OperatingSystem.onlyLinuxMessage)
+    }
+    override def getLoadAverage: Either[String, LoadAverage] = {
+      try {
+        Right(LoadAverage(
+          (Process("powershell -Command Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average | %{ $_.Average }") !!).toString,
+          OperatingSystem.notSupportedMessage,
+          OperatingSystem.notSupportedMessage
+        ))
+      } catch {
+        case e: Exception => Left("ERROR")
+      }
+    }
   }
-  override def getLoadAverage: Either[String, LoadAverage] = {
-    Left(OperatingSystem.notSupportedMessage)
+
+  trait Other extends ProcessBase {
+    override def getTasks: Either[String, Tasks] = {
+      Left(OperatingSystem.notSupportedMessage)
+    }
+    override def getLoadAverage: Either[String, LoadAverage] = {
+      Left(OperatingSystem.notSupportedMessage)
+    }
   }
 }
 

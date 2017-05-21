@@ -3,16 +3,8 @@ package gitbucket.monitoring.models
 import java.nio.file.{Files, Paths}
 
 import scala.sys.process._
+import gitbucket.monitoring.models.{OperatingSystem, LogBack}
 import gitbucket.monitoring.utils._
-
-class GitBucketLog extends GitBucketLogBase {
-  val instance = OperatingSystem.osType match {
-    case OperatingSystem.Linux => new GitBucketLogBase with LinuxGitBucketLog
-    case OperatingSystem.Mac => new GitBucketLogBase with MacGitBucketLog
-    case OperatingSystem.Windows => new GitBucketLogBase with WindowsGitBucketLog
-    case _ => new GitBucketLogBase with OtherGitBucketLog
-  }
-}
 
 trait GitBucketLogBase {
   def getDefaultSettings: DefaultSettings = {
@@ -29,9 +21,9 @@ trait GitBucketLogBase {
         case Right(p) => {
           try {
             Right(Log(
-                Process(s"tail -n $lines $p") !!,
-                lines
-              ))
+              Process(s"tail -n $lines $p") !!,
+              lines
+            ))
           } catch {
             case e: Exception => Left("ERROR")
           }
@@ -43,23 +35,32 @@ trait GitBucketLogBase {
   }
 }
 
-trait LinuxGitBucketLog extends GitBucketLogBase {
-
-}
-
-trait MacGitBucketLog extends GitBucketLogBase {
-
-}
-
-trait WindowsGitBucketLog extends GitBucketLogBase {
-  override def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
-    Left(OperatingSystem.notSupportedMessage)
+class GitBucketLog extends GitBucketLogBase {
+  val instance = OperatingSystem.osType match {
+    case OperatingSystem.Linux => new GitBucketLogBase with Linux
+    case OperatingSystem.Mac => new GitBucketLogBase with Mac
+    case OperatingSystem.Windows => new GitBucketLogBase with Windows
+    case _ => new GitBucketLogBase with Other
   }
-}
 
-trait OtherGitBucketLog extends GitBucketLogBase {
-  override def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
-    Left(OperatingSystem.notSupportedMessage)
+  trait Linux extends GitBucketLogBase {
+
+  }
+
+  trait Mac extends GitBucketLogBase {
+
+  }
+
+  trait Windows extends GitBucketLogBase {
+    override def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
+      Left(OperatingSystem.notSupportedMessage)
+    }
+  }
+
+  trait Other extends GitBucketLogBase {
+    override def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
+      Left(OperatingSystem.notSupportedMessage)
+    }
   }
 }
 

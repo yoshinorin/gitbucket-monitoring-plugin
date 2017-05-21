@@ -4,15 +4,6 @@ import java.nio.file._
 import scala.sys.process._
 import gitbucket.monitoring.utils._
 
-class MachineResources extends MachineResourcesBase with LinuxMachineResources with MacMachineResources with WindowsMachineResources with OtherMachineResources {
-  val instance = OperatingSystem.osType match {
-    case OperatingSystem.Linux => new MachineResourcesBase with LinuxMachineResources
-    case OperatingSystem.Mac => new MachineResourcesBase with MacMachineResources
-    case OperatingSystem.Windows => new MachineResourcesBase with WindowsMachineResources
-    case _ => new MachineResourcesBase with OtherMachineResources
-  }
-}
-
 trait MachineResourcesBase {
   private val fileStore = Files.getFileStore(Paths.get("."))
   def cpuCore = Runtime.getRuntime().availableProcessors()
@@ -90,65 +81,74 @@ trait MachineResourcesBase {
   }
 }
 
-trait LinuxMachineResources extends MachineResourcesBase {
-
-}
-
-trait MacMachineResources extends MachineResourcesBase {
-  override def getCpu: Either[String, Cpu] = {
-    Left(OperatingSystem.notSupportedMessage)
+class MachineResources extends MachineResourcesBase {
+  val instance = OperatingSystem.osType match {
+    case OperatingSystem.Linux => new MachineResourcesBase with Linux
+    case OperatingSystem.Mac => new MachineResourcesBase with Mac
+    case OperatingSystem.Windows => new MachineResourcesBase with Windows
+    case _ => new MachineResourcesBase with Other
   }
-}
 
-trait WindowsMachineResources extends MachineResourcesBase {
-  override def getCpu: Either[String, Cpu] = {
-    try {
-      Right(Cpu(
-        "-",
-        "-",
-        "-",
-        "-",
-        "-",
-        "-",
-        "-",
-        "-",
-        (Process("powershell -Command Get-WmiObject Win32_PerfFormattedData_PerfOS_Processor | Where-Object {$_.Name -eq '_Total'} | %{ $_.PercentProcessorTime }") !!).toString
-      ))
-    } catch {
-      case e: Exception => Left("ERROR")
+  trait Linux extends MachineResourcesBase {
+
+  }
+
+  trait Mac extends MachineResourcesBase {
+    override def getCpu: Either[String, Cpu] = {
+      Left(OperatingSystem.notSupportedMessage)
     }
   }
-  override def getMemory: Either[String, Memory] = {
-    try {
-      val totalMem = (Process("powershell -Command Get-WmiObject -Class Win32_PhysicalMemory | %{ $_.Capacity} | Measure-Object -Sum | %{ ($_.sum /1024/1024) }") !!).toDouble
-      val availableMem = (Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.AvailableMBytes}") !!).toDouble
-      Right(Memory(
-        totalMem.toString,
-        (totalMem - availableMem).toString,
-        "-",
-        "-",
-        //(Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.CacheBytes /1024/1024 }") !!),
-        "-",
-        availableMem.toString
-      ))
-    } catch {
-      case e: Exception => Left("ERROR")
+
+  trait Windows extends MachineResourcesBase {
+    override def getCpu: Either[String, Cpu] = {
+      try {
+        Right(Cpu(
+          "-",
+          "-",
+          "-",
+          "-",
+          "-",
+          "-",
+          "-",
+          "-",
+          (Process("powershell -Command Get-WmiObject Win32_PerfFormattedData_PerfOS_Processor | Where-Object {$_.Name -eq '_Total'} | %{ $_.PercentProcessorTime }") !!).toString
+        ))
+      } catch {
+        case e: Exception => Left("ERROR")
+      }
+    }
+    override def getMemory: Either[String, Memory] = {
+      try {
+        val totalMem = (Process("powershell -Command Get-WmiObject -Class Win32_PhysicalMemory | %{ $_.Capacity} | Measure-Object -Sum | %{ ($_.sum /1024/1024) }") !!).toDouble
+        val availableMem = (Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.AvailableMBytes}") !!).toDouble
+        Right(Memory(
+          totalMem.toString,
+          (totalMem - availableMem).toString,
+          "-",
+          "-",
+          //(Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.CacheBytes /1024/1024 }") !!),
+          "-",
+          availableMem.toString
+        ))
+      } catch {
+        case e: Exception => Left("ERROR")
+      }
+    }
+    override def getSwap: Either[String, Swap] = {
+      Left(OperatingSystem.notSupportedMessage)
     }
   }
-  override def getSwap: Either[String, Swap] = {
-    Left(OperatingSystem.notSupportedMessage)
-  }
-}
 
-trait OtherMachineResources extends MachineResourcesBase {
-  override def getCpu: Either[String, Cpu] = {
-    Left(OperatingSystem.notSupportedMessage)
-  }
-  override def getMemory: Either[String, Memory] = {
-    Left(OperatingSystem.notSupportedMessage)
-  }
-  override def getSwap: Either[String, Swap] = {
-    Left(OperatingSystem.notSupportedMessage)
+  trait Other extends MachineResourcesBase {
+    override def getCpu: Either[String, Cpu] = {
+      Left(OperatingSystem.notSupportedMessage)
+    }
+    override def getMemory: Either[String, Memory] = {
+      Left(OperatingSystem.notSupportedMessage)
+    }
+    override def getSwap: Either[String, Swap] = {
+      Left(OperatingSystem.notSupportedMessage)
+    }
   }
 }
 
