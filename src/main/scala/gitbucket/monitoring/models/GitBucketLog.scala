@@ -53,7 +53,23 @@ class GitBucketLog extends GitBucketLogBase {
 
   trait Windows extends GitBucketLogBase {
     override def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
-      Left(OperatingSystem.notSupportedMessage)
+      if (getDefaultSettings.logBackInfo.enableLogging) {
+        getDefaultSettings.logBackInfo.logFilePath match {
+          case Left(message) => Left("ERROR : Not found")
+          case Right(p) => {
+            try {
+              Right(Log(
+                Process(s"powershell -Command Get-Content -Path $p -Tail $lines") !!,
+                lines
+              ))
+            } catch {
+              case e: Exception => Left("ERROR")
+            }
+          }
+        }
+      } else {
+        Left("Disable log setting")
+      }
     }
   }
 
