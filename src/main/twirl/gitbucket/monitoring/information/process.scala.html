@@ -11,92 +11,81 @@
     <div class="panel panel-default">
       <div class="panel-heading strong">Load Average</div>
         <div class="panel-body">
-          <div class="row">
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Recent 1min</div>
-                  <div class="panel-body text-right">
-                    @loadAve match {
-                    case Left(message) => { <div class="error"> @message </div> }
-                      case Right(l) => { @l.oneMin }
-                    }
+          @loadAve match {
+            case Left(message) => { <div class="error"> @message </div> }
+            case Right(l) => {
+              <div class="row">
+                <div class="col-sm-2">
+                  <div class="panel panel-default">
+                    <div class="panel-heading strong">Recent 1min</div>
+                    <div class="panel-body text-right">
+                      @l.oneMin
+                    </div>
                   </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Recent 5min</div>
+              <div class="col-sm-2">
+                <div class="panel panel-default">
+                  <div class="panel-heading strong">Recent 5min</div>
                   <div class="panel-body text-right">
-                    @loadAve match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(l) => { @l.fiveMin }
-                    }
+                      @l.fiveMin
                   </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Recent 15min</div>
-                  <div class="panel-body text-right">
-                    @loadAve match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(l) => { @l.fifteenMin }
-                    }
-                  </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="panel panel-default">
+                  <div class="panel-heading strong">Recent 15min</div>
+                    <div class="panel-body text-right">
+                      @l.fifteenMin
+                    </div>
                 </div>
+              </div>
             </div>
-          </div>
+            }
+          }
         </div>
     </div>
     <div class="panel panel-default">
       <div class="panel-heading strong">Process</div>
         <div class="panel-body">
-          <div class="row">
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Running</div>
-                  <div class="panel-body text-right">
-                    @tasks match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(t) => { @t.running / @t.total }
-                    }
+          @tasks match {
+            case Left(message) => { <div class="error"> @message </div> }
+            case Right(t) => {
+              <div class="row">
+                <div class="col-sm-2">
+                  <div class="panel panel-default">
+                    <div class="panel-heading strong">Running</div>
+                    <div class="panel-body text-right">
+                      @t.running / @t.total
+                    </div>
                   </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Sleeping</div>
-                  <div class="panel-body text-right">
-                    @tasks match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(t) => { @t.sleeping / @t.total }
-                    }
+                <div class="col-sm-2">
+                  <div class="panel panel-default">
+                    <div class="panel-heading strong">Sleeping</div>
+                    <div class="panel-body text-right">
+                        @t.sleeping / @t.total
+                    </div>
                   </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Stopped</div>
-                  <div class="panel-body text-right">
-                    @tasks match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(t) => { @t.stopped / @t.total }
-                    }
+                <div class="col-sm-2">
+                  <div class="panel panel-default">
+                    <div class="panel-heading strong">Stopped</div>
+                    <div class="panel-body text-right">
+                      @t.stopped / @t.total
+                    </div>
                   </div>
                 </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Zombie</div>
-                  <div class="panel-body text-right">
-                    @tasks match {
-                      case Left(message) => { <div class="error"> @message </div> }
-                      case Right(t) => { @t.zombie / @t.total }
-                    }
+                <div class="col-sm-2">
+                  <div class="panel panel-default">
+                    <div class="panel-heading strong">Zombie</div>
+                    <div class="panel-body text-right">
+                      @t.zombie / @t.total
+                    </div>
                   </div>
                 </div>
-            </div>
-          </div>
+              </div>
+            }
+          }
         </div>
     </div>
   }
