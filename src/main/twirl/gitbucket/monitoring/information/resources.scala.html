@@ -4,13 +4,10 @@
   swap: Either[String, gitbucket.monitoring.models.Swap],
   diskSpace: gitbucket.monitoring.models.DiskSpace)(implicit context: gitbucket.core.controller.Context)
 @import context._
-@import gitbucket.core.html.main
-@import gitbucket.core.admin.html.menu
 @gitbucket.core.html.main("Monitoring") {
   <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)
-    @gitbucket.monitoring.html.loading(context)
     <div class="panel panel-default">
       <div class="panel-heading strong">CPU</div>
         <div class="panel-body">

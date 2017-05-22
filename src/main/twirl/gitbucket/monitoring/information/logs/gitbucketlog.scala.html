@@ -1,8 +1,6 @@
 @(defaultSettings: gitbucket.monitoring.models.DefaultSettings,
   log: Either[String, gitbucket.monitoring.models.Log])(implicit context: gitbucket.core.controller.Context)
 @import context._
-@import gitbucket.core.html.main
-@import gitbucket.core.admin.html.menu
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
