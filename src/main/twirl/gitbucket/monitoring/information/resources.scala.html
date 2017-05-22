@@ -4,6 +4,7 @@
   swap: Either[String, gitbucket.monitoring.models.Swap],
   diskSpace: gitbucket.monitoring.models.DiskSpace)(implicit context: gitbucket.core.controller.Context)
 @import context._
+@import gitbucket.monitoring.utils.Message
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)
@@ -43,15 +44,23 @@
                   <div class="panel panel-default">
                     <div class="panel-heading strong">Used</div>
                     <div class="panel-body text-right">
-                      @m.used / @m.total MB
+                      <!--HACK: For Windows. Not so good code...-->
+                      @m.used match {
+                        case Message.notSupported => { @gitbucket.monitoring.helper.html.coloring(m.used) }
+                        case _ => { @gitbucket.monitoring.helper.html.coloring(m.used) / @m.total MB }
+                      }
                     </div>
                   </div>
-               </div>
+                </div>
                 <div class="col-sm-2">
                   <div class="panel panel-default">
                     <div class="panel-heading strong">Free</div>
                     <div class="panel-body text-right">
-                      @m.free / @m.total MB
+                      <!--HACK: For Windows. Not so good code...-->
+                      @m.free match {
+                        case Message.notSupported => { @gitbucket.monitoring.helper.html.coloring(m.free) }
+                        case _ => { @gitbucket.monitoring.helper.html.coloring(m.free) / @m.total MB }
+                      }
                     </div>
                 </div>
               </div>
@@ -59,7 +68,11 @@
                 <div class="panel panel-default">
                   <div class="panel-heading strong">Shared</div>
                   <div class="panel-body text-right">
-                      @m.shared / @m.total MB
+                    <!--HACK: For Windows. Not so good code...-->
+                    @m.shared match {
+                      case Message.notSupported => { @gitbucket.monitoring.helper.html.coloring(m.shared) }
+                      case _ => { @gitbucket.monitoring.helper.html.coloring(m.shared) / @m.total MB }
+                    }
                   </div>
                 </div>
               </div>
@@ -67,7 +80,11 @@
                 <div class="panel panel-default">
                   <div class="panel-heading strong">Buff/Cache</div>
                   <div class="panel-body text-right">
-                    @m.buff_cache / @m.total MB
+                    <!--HACK: For Windows. Not so good code...-->
+                    @m.buff_cache match {
+                      case Message.notSupported => { @gitbucket.monitoring.helper.html.coloring(m.buff_cache) }
+                      case _ => { @gitbucket.monitoring.helper.html.coloring(m.buff_cache) / @m.total MB }
+                    }
                   </div>
                 </div>
               </div>
@@ -75,7 +92,7 @@
                 <div class="panel panel-default">
                   <div class="panel-heading strong">Available</div>
                   <div class="panel-body text-right">
-                    @m.available / @m.total MB
+                    @gitbucket.monitoring.helper.html.coloring(m.available) / @m.total MB
                   </div>
                 </div>
               </div>

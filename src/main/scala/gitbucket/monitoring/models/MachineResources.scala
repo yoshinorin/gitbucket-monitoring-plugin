@@ -124,10 +124,10 @@ class MachineResources extends MachineResourcesBase {
         Right(Memory(
           totalMem.toString,
           (totalMem - availableMem).toString,
-          "-",
-          "-",
+          Message.notSupported,
+          Message.notSupported,
           //(Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.CacheBytes /1024/1024 }") !!),
-          "-",
+          Message.notSupported,
           availableMem.toString
         ))
       } catch {
