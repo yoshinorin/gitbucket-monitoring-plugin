@@ -27,7 +27,7 @@ trait SystemInformationBase {
         Process("uptime -s") !!
       ))
     } catch {
-      case e: Exception => Left("ERROR")
+      case e: Exception => Left(Message.error)
     }
   }
 }
@@ -53,7 +53,7 @@ class SystemInformation extends SystemInformationBase {
           Process("uptime -s") !!
         ))
       } catch {
-        case e: Exception => Left("ERROR")
+        case e: Exception => Left(Message.error)
       }
     }
   }
@@ -70,14 +70,14 @@ class SystemInformation extends SystemInformationBase {
           (Process("powershell -Command [Management.ManagementDateTimeConverter]::ToDateTime((Get-WmiObject Win32_OperatingSystem).LastBootUpTime)") !!)
         ))
       } catch {
-        case e: Exception => Left("ERROR")
+        case e: Exception => Left(Message.error)
       }
     }
   }
 
   trait Other extends SystemInformationBase {
     override def getUpTime: Either[String, UpTime] = {
-      Left(OperatingSystem.notSupportedMessage)
+      Left(Message.notSupported)
     }
   }
 }

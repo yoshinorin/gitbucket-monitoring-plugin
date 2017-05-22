@@ -9,7 +9,7 @@ object EnvironmentVariable {
     try {
       Right(System.getenv().toMap)
     } catch {
-      case e: Exception => Left("ERROR")
+      case e: Exception => Left(Message.error)
     }
   }
 }

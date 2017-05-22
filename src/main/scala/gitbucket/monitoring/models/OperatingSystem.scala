@@ -1,6 +1,7 @@
 package gitbucket.monitoring.models
 
 import scala.sys.process._
+import gitbucket.monitoring.utils.Message
 
 object OperatingSystem {
   sealed abstract class OSType
@@ -11,7 +12,6 @@ object OperatingSystem {
 
   val osArch = System.getProperty("os.arch")
   val osName = System.getProperty("os.name")
-  val notSupportedMessage = "Not supported"
   
   def osType: OSType = {
     if (osName.toLowerCase.contains("linux")) {
@@ -41,8 +41,7 @@ object OperatingSystem {
         val d = result.replace("\\n","").replace("\\l","").replace(" ","")
         d
       } catch {
-        //TODO: create logfile.
-        case e: Exception => "ERROR"
+        case e: Exception => Message.error
       }
     }
     case _ => {

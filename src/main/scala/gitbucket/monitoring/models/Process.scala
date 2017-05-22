@@ -16,7 +16,7 @@ trait ProcessBase {
         resouces.filter(c => c.contains("zombie")).headOption.getOrElse("-").replace("zombie","")
       ))
     } catch {
-      case e: Exception => Left("ERROR")
+      case e: Exception => Left(Message.error)
     }
   }
   def getLoadAverage: Either[String, LoadAverage] = {
@@ -29,7 +29,7 @@ trait ProcessBase {
         list(2)
       ))
     } catch {
-      case e: Exception => Left("ERROR")
+      case e: Exception => Left(Message.error)
     }
   }
 }
@@ -48,33 +48,33 @@ class Process extends ProcessBase {
 
   trait Mac extends ProcessBase {
     override def getTasks: Either[String, Tasks] = {
-      Left(OperatingSystem.notSupportedMessage)
+      Left(Message.notSupported)
     }
   }
 
   trait Windows extends ProcessBase {
     override def getTasks: Either[String, Tasks] = {
-      Left(OperatingSystem.notSupportedMessage)
+      Left(Message.notSupported)
     }
     override def getLoadAverage: Either[String, LoadAverage] = {
       try {
         Right(LoadAverage(
           (Process("powershell -Command Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average | %{ $_.Average }") !!).toString,
-          OperatingSystem.notSupportedMessage,
-          OperatingSystem.notSupportedMessage
+          Message.notSupported,
+          Message.notSupported
         ))
       } catch {
-        case e: Exception => Left("ERROR")
+        case e: Exception => Left(Message.error)
       }
     }
   }
 
   trait Other extends ProcessBase {
     override def getTasks: Either[String, Tasks] = {
-      Left(OperatingSystem.notSupportedMessage)
+      Left(Message.notSupported)
     }
     override def getLoadAverage: Either[String, LoadAverage] = {
-      Left(OperatingSystem.notSupportedMessage)
+      Left(Message.notSupported)
     }
   }
 }

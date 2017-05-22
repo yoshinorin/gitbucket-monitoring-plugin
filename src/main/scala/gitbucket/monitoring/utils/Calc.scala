@@ -27,7 +27,7 @@ object Time {
         (seconds / 60) % 60
       ))
     } catch {
-      case e: Exception => Left("ERROR")
+      case e: Exception => Left(Message.error)
     }
   }
 }

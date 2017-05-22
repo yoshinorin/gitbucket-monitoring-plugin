@@ -16,7 +16,7 @@ object LogBack {
           StringUtil.convertFromByteArray(bytes)
         ))
       } catch {
-        case e: Exception => Left("ERROR")
+        case e: Exception => Left(Message.error)
       }
     } else {
       Left("Dosen't configure Logback")
@@ -33,14 +33,14 @@ object LogBack {
             }
           }
           if (xml.trim.length == 0) {
-            Left("ERROR : Not found")
+            Left(Message.notFound)
           } else {
             (Right(
               xml
             ))
           }
         } catch {
-          case e: Exception => Left("ERROR")
+          case e: Exception => Left(Message.error)
         }
       } else {
         Left("Dosen't configure Logback")

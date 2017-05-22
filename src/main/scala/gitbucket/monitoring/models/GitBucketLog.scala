@@ -17,7 +17,7 @@ trait GitBucketLogBase {
   def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
     if (getDefaultSettings.logBackInfo.enableLogging) {
       getDefaultSettings.logBackInfo.logFilePath match {
-        case Left(message) => Left("ERROR : Not found")
+        case Left(message) => Left(Message.notFound)
         case Right(p) => {
           try {
             Right(Log(
@@ -25,7 +25,7 @@ trait GitBucketLogBase {
               lines
             ))
           } catch {
-            case e: Exception => Left("ERROR")
+            case e: Exception => Left(Message.error)
           }
         }
       }
@@ -55,7 +55,7 @@ class GitBucketLog extends GitBucketLogBase {
     override def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
       if (getDefaultSettings.logBackInfo.enableLogging) {
         getDefaultSettings.logBackInfo.logFilePath match {
-          case Left(message) => Left("ERROR : Not found")
+          case Left(message) => Left(Message.notFound)
           case Right(p) => {
             try {
               Right(Log(
@@ -63,7 +63,7 @@ class GitBucketLog extends GitBucketLogBase {
                 lines
               ))
             } catch {
-              case e: Exception => Left("ERROR")
+              case e: Exception => Left(Message.error)
             }
           }
         }
@@ -75,7 +75,7 @@ class GitBucketLog extends GitBucketLogBase {
 
   trait Other extends GitBucketLogBase {
     override def getLog(lines: Int = getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
-      Left(OperatingSystem.notSupportedMessage)
+      Left(Message.notSupported)
     }
   }
 }

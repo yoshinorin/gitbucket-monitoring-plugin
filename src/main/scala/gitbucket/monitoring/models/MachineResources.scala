@@ -22,11 +22,11 @@ trait MachineResourcesBase {
         try {
           Rounding.ceil(100 - resouces.filter(c => c.contains("id")).headOption.getOrElse("-").replace("id","").toDouble).toString
         } catch {
-          case e: Exception => "ERROR"
+          case e: Exception => Message.error
         }
       ))
     } catch {
-      case e: Exception => Left("ERROR")
+      case e: Exception => Left(Message.error)
     }
   }
   def getMemory: Either[String, Memory] = {
@@ -54,7 +54,7 @@ trait MachineResourcesBase {
         ))
       }
     } catch {
-      case e: Exception => Left("ERROR")
+      case e: Exception => Left(Message.error)
     }
   }
   def getSwap: Either[String, Swap] = {
@@ -66,7 +66,7 @@ trait MachineResourcesBase {
         swap(2)
       ))
     } catch {
-      case e: Exception => Left("ERROR")
+      case e: Exception => Left(Message.error)
     }
   }
   def getDiskSpace: DiskSpace = {
@@ -95,7 +95,7 @@ class MachineResources extends MachineResourcesBase {
 
   trait Mac extends MachineResourcesBase {
     override def getCpu: Either[String, Cpu] = {
-      Left(OperatingSystem.notSupportedMessage)
+      Left(Message.notSupported)
     }
   }
 
@@ -114,7 +114,7 @@ class MachineResources extends MachineResourcesBase {
           (Process("powershell -Command Get-WmiObject Win32_PerfFormattedData_PerfOS_Processor | Where-Object {$_.Name -eq '_Total'} | %{ $_.PercentProcessorTime }") !!).toString
         ))
       } catch {
-        case e: Exception => Left("ERROR")
+        case e: Exception => Left(Message.error)
       }
     }
     override def getMemory: Either[String, Memory] = {
@@ -131,23 +131,23 @@ class MachineResources extends MachineResourcesBase {
           availableMem.toString
         ))
       } catch {
-        case e: Exception => Left("ERROR")
+        case e: Exception => Left(Message.error)
       }
     }
     override def getSwap: Either[String, Swap] = {
-      Left(OperatingSystem.notSupportedMessage)
+      Left(Message.notSupported)
     }
   }
 
   trait Other extends MachineResourcesBase {
     override def getCpu: Either[String, Cpu] = {
-      Left(OperatingSystem.notSupportedMessage)
+      Left(Message.notSupported)
     }
     override def getMemory: Either[String, Memory] = {
-      Left(OperatingSystem.notSupportedMessage)
+      Left(Message.notSupported)
     }
     override def getSwap: Either[String, Swap] = {
-      Left(OperatingSystem.notSupportedMessage)
+      Left(Message.notSupported)
     }
   }
 }
