@@ -6,6 +6,10 @@ import scala.sys.process._
 import gitbucket.monitoring.models.{OperatingSystem, LogBack}
 import gitbucket.monitoring.utils._
 
+object GitBucketLog {
+  val disableMessage = "Log setting is disable."
+}
+
 trait GitBucketLogBase {
   def getDefaultSettings: DefaultSettings = {
     DefaultSettings(
@@ -30,7 +34,7 @@ trait GitBucketLogBase {
         }
       }
     } else {
-      Left("Disable log setting")
+      Left(GitBucketLog.disableMessage)
     }
   }
 }
@@ -68,7 +72,7 @@ class GitBucketLog extends GitBucketLogBase {
           }
         }
       } else {
-        Left("Disable log setting")
+        Left(GitBucketLog.disableMessage)
       }
     }
   }
