@@ -3,12 +3,11 @@
 @import context._
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
-    <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
     @gitbucket.monitoring.html.navigation(context)
     @gitbucket.monitoring.information.logs.html.tab(context)
     @gitbucket.monitoring.html.loading(context)
     @log match {
-      case Left(message) => { <div class="error"> @message </div> }
+      case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
       case Right(s) => {
       <form id="get-log-from-tail" action="@context.path/admin/monitoring/logs/gitbucketlog" method="get" class="form-inline">
         <div class="form-group">
@@ -18,12 +17,12 @@
         </div>
       </form><br>
           @defaultSettings.logBackInfo.logFilePath match {
-            case Left(message) => { <div class="error"> @message </div> }
+            case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
             case Right(l) => {
               <div class="box-header"><span class="glyphicon glyphicon-file"><span class="label label-default ">@l</span></span></div>
           }
         }
-      <div class="box-content-bottom"><pre class="prettyprint linenums blob">@s.log</pre></div>
+      <div class="box-content-bottom"><pre class="prettyprint linenums blob"> @gitbucket.monitoring.helper.html.coloring(s.log) </pre></div>
       }
     }
   }

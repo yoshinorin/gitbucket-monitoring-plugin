@@ -7,7 +7,6 @@
 @import context._
 @import gitbucket.monitoring.models.OperatingSystem
 @gitbucket.core.html.main("Monitoring") {
-  <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)
     @if(onDocker) {
@@ -41,7 +40,7 @@
           <div class="row">
             <label class="col-md-2">StartTime</label>
             <span class="col-md-10">@upTime match {
-                case Left(message) => { <div class="error"> @message </div> }
+                case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
                 case Right(u) => { @u.startTime }
               }
             </span>
@@ -49,7 +48,7 @@
           <div class="row">
             <label class="col-md-2">UpTime</label>
             <span class="col-md-10">@upTime match {
-                case Left(message) => { <div class="error"> @message </div> }
+                case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
                 case Right(u) => { @u.uptime }
               }
             </span>

@@ -2,7 +2,6 @@
 @import context._
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
-    <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
     @gitbucket.monitoring.html.navigation(context)
     <div class="panel panel-default">
       <div class="panel-heading strong">Valiables</div>
@@ -15,8 +14,8 @@
             <tr>
               @env match {
                 case Left(message) => {
-                  <td> <div class="error"> @message </div> </td>
-                  <td> <div class="error"> @message </div> </td>
+                  <td> @gitbucket.monitoring.helper.html.coloring(message) </td>
+                  <td> @gitbucket.monitoring.helper.html.coloring(message) </td>
                 }
                 case Right(v) => {
                   @for((key, value) <- v.toSeq.sortBy(_._1)) {

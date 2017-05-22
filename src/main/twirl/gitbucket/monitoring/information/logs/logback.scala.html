@@ -3,7 +3,6 @@
 @import context._
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
-    <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
     @gitbucket.monitoring.html.navigation(context)
     @gitbucket.monitoring.information.logs.html.tab(context)
     @gitbucket.monitoring.html.loading(context)
@@ -18,14 +17,14 @@
           <div class="row">
             <label class="col-md-2">Log file's path</label>
             @logbackInfo.logFilePath match {
-              case Left(message) => { <div class="error"> @message </div> }
+              case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
               case Right(p) => { <div> @p </div> }
             }
           </div>
         </div>
       </div>
       @logbackSettings match {
-        case Left(message) => { <div class="error"> @message </div> }
+        case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
         case Right(s) => { <div class="box-header"><span class="glyphicon glyphicon-file"><span class="label label-default ">@logbackInfo.confPath</span></span></div>
                            <div class="box-content-bottom"><pre class="prettyprint linenums blob">@s</pre></div>
         }

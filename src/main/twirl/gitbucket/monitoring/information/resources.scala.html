@@ -5,7 +5,6 @@
   diskSpace: gitbucket.monitoring.models.DiskSpace)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @gitbucket.core.html.main("Monitoring") {
-  <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)
     <div class="panel panel-default">
@@ -23,7 +22,7 @@
                 <div class="panel-heading strong">Used</div>
                   <div class="panel-body text-right">
                     @cpu match {
-                      case Left(message) => { <div class="error"> @message </div> }
+                      case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
                       case Right(c) => { @c.usaga %}
                     }
                   </div>
@@ -37,7 +36,7 @@
         <div class="panel-body">
           <label><span class="strong"></span>Physical</label>
           @memory match {
-            case Left(message) => { <div class="error"> @message </div> }
+            case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
             case Right(m) => {
               <div class="row">
                 <div class="col-sm-2">
@@ -87,7 +86,7 @@
         <div class="panel-body">
           <label><span class="strong">Swap</span></label>
           @swap match {
-            case Left(message) => { <div class="error"> @message </div> }
+            case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
             case Right(s) => {
               <div class="row">
                 <div class="col-sm-2">
