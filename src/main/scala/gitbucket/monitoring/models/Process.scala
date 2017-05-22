@@ -54,7 +54,7 @@ class Process extends ProcessBase {
 
   trait Windows extends ProcessBase {
     override def getTasks: Either[String, Tasks] = {
-      Left(OperatingSystem.onlyLinuxMessage)
+      Left(OperatingSystem.notSupportedMessage)
     }
     override def getLoadAverage: Either[String, LoadAverage] = {
       try {
