@@ -3,9 +3,9 @@
   zoneOffset: String,
   dayOfWeek: String,
   onDocker: Boolean,
-  upTime: Either[String, gitbucket.monitoring.models.UpTime])(implicit context: gitbucket.core.controller.Context)
+  upTime: Either[String, gitbucket.monitoring.services.UpTime])(implicit context: gitbucket.core.controller.Context)
 @import context._
-@import gitbucket.monitoring.models.operatingsystem.OperatingSystem
+@import gitbucket.monitoring.services.operatingsystem.OperatingSystem
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)

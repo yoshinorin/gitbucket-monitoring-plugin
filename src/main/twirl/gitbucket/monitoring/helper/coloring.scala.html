@@ -1,7 +1,7 @@
 @(message: String)(implicit context: gitbucket.core.controller.Context)
 @import gitbucket.monitoring.utils.Message
-@import gitbucket.monitoring.models.GitBucketLog
-@import gitbucket.monitoring.models.LogBack
+@import gitbucket.monitoring.services.GitBucketLog
+@import gitbucket.monitoring.services.LogBack
 <link href="@context.path/plugin-assets/monitoring/style.css" rel="stylesheet">
 @message match {
   case Message.notSupported => { <div class="error"> @message </div> }

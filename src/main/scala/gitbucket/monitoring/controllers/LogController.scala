@@ -1,6 +1,6 @@
 package gitbucket.monitoring.controllers
 
-import gitbucket.monitoring.models.{LogBack, GitBucketLog}
+import gitbucket.monitoring.services.{LogBack, GitBucketLog}
 import gitbucket.monitoring.information.logs._
 
 trait LogController extends MonitoringControllerBase {

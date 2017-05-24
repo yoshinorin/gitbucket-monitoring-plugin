@@ -1,7 +1,7 @@
 package gitbucket.monitoring.controllers
 
 import gitbucket.core.util.AdminAuthenticator
-import gitbucket.monitoring.models._
+import gitbucket.monitoring.services._
 import gitbucket.monitoring.information._
 
 class IndexController extends MonitoringControllerBase with JavaController with LogController {

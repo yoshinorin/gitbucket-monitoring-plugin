@@ -1,4 +1,4 @@
-package gitbucket.monitoring.models
+package gitbucket.monitoring.services
 
 import scala.collection.JavaConversions._
 import gitbucket.monitoring.utils.Message

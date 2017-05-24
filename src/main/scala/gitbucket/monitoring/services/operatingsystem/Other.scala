@@ -1,10 +1,11 @@
-package gitbucket.monitoring.models.operatingsystem
+package gitbucket.monitoring.services.operatingsystem
 
 import java.util._
 import java.time._
 import java.nio.file.{Paths, Files}
 import scala.sys.process._
 import gitbucket.monitoring.models._
+import gitbucket.monitoring.services._
 import gitbucket.monitoring.utils._
 
 class Other extends SystemInformation with MachineResources with ProcessInfo with GitBucketLog {

@@ -1,7 +1,7 @@
 @(tasks: Either[String, gitbucket.monitoring.models.Tasks],
   loadAve: Either[String, gitbucket.monitoring.models.LoadAverage])(implicit context: gitbucket.core.controller.Context)
 @import context._
-@import gitbucket.monitoring.models.operatingsystem.OperatingSystem
+@import gitbucket.monitoring.services.operatingsystem.OperatingSystem
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)

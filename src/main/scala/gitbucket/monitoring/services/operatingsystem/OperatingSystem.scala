@@ -1,4 +1,4 @@
-package gitbucket.monitoring.models.operatingsystem
+package gitbucket.monitoring.services.operatingsystem
 
 import scala.sys.process._
 import gitbucket.monitoring.utils.Message

@@ -1,6 +1,6 @@
 package gitbucket.monitoring.controllers
 
-import gitbucket.monitoring.models.Java
+import gitbucket.monitoring.services.Java
 import gitbucket.monitoring.information.java._
 
 trait JavaController extends MonitoringControllerBase {

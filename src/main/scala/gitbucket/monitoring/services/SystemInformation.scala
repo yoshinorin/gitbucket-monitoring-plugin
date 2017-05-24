@@ -1,4 +1,4 @@
-package gitbucket.monitoring.models
+package gitbucket.monitoring.services
 
 import java.util._
 import java.time._
