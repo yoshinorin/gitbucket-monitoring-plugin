@@ -1,6 +1,6 @@
 val Name = "gitbucket-monitorting-plugin"
 val Organization = "com.github.YoshinoriN"
-val Version = "0.0.1"
+val Version = "1.0.0-alpha1"
 
 lazy val root = (project in file(".")).enablePlugins(SbtTwirl)
 
