@@ -12,25 +12,23 @@ trait LogController extends MonitoringControllerBase {
     );
   })
 
-  val gitbucketLog = new GitBucketLog
-
   get("/admin/monitoring/logs/gitbucketlog")(adminOnly {
-    val defaultSettings = gitbucketLog.getDefaultSettings
+    val defaultSettings = GitBucketLog.getDefaultSettings
     val lineNum = request.getParameter("line-num")
 
     if (lineNum != null){
       try {
         val n = lineNum.toInt
         if (n > defaultSettings.displayLimitLines) {
-          html.gitbucketlog(defaultSettings, gitbucketLog.getLog(defaultSettings.displayLimitLines));
+          html.gitbucketlog(defaultSettings, os.getLog(defaultSettings.displayLimitLines));
         } else {
-          html.gitbucketlog(defaultSettings, gitbucketLog.getLog(n));
+          html.gitbucketlog(defaultSettings, os.getLog(n));
         }
       } catch {
-        case e: Exception => html.gitbucketlog(defaultSettings, gitbucketLog.getLog());
+        case e: Exception => html.gitbucketlog(defaultSettings, os.getLog());
       }
     } else {
-      html.gitbucketlog(defaultSettings, gitbucketLog.getLog());
+      html.gitbucketlog(defaultSettings, os.getLog());
     }
   })
 }

@@ -5,7 +5,7 @@
   onDocker: Boolean,
   upTime: Either[String, gitbucket.monitoring.models.UpTime])(implicit context: gitbucket.core.controller.Context)
 @import context._
-@import gitbucket.monitoring.models.OperatingSystem
+@import gitbucket.monitoring.models.operatingsystem.OperatingSystem
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)

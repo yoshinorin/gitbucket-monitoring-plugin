@@ -6,10 +6,11 @@ import gitbucket.core.util.StringUtil
 import gitbucket.monitoring.utils._
 
 object LogBack {
+  val notFoundMessage = "Can not find logback configuration file."
+  val dosentConfigureMessage = "Dosen't configure Logback."
   val enableLogging = Java.getSystemProperties.contains("logback.configurationFile")
-  val confPath = Java.getSystemProperties.getOrElse("logback.configurationFile", "Can not find logback settings.xml")
-  val notFoundMessage = "Can not find logback settings.xml"
-  val dosentConfigureMessage = "Dosen't configure Logback"
+  val confPath = Java.getSystemProperties.getOrElse("logback.configurationFile", notFoundMessage)
+
   def getLogBackSettings: Either[String, String] = {
     if (enableLogging) {
       try {
@@ -24,6 +25,7 @@ object LogBack {
       Left(dosentConfigureMessage)
     }
   }
+
   def getLogBackInfo: LogBackInfo = {
     val logFilePath: Either[String, String] = {
       if (enableLogging) {

@@ -1,8 +1,7 @@
 package gitbucket.monitoring.models
 
 import scala.collection.JavaConversions._
-import scala.sys.process._
-import gitbucket.monitoring.utils._
+import gitbucket.monitoring.utils.Message
 
 object EnvironmentVariable {
   def valiables: Either[String, Map[String, String]] = {

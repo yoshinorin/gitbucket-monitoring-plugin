@@ -1,7 +1,7 @@
 package gitbucket.monitoring.controllers
 
 import gitbucket.core.util.AdminAuthenticator
-import gitbucket.monitoring.models.{SystemInformation, EnvironmentVariable ,MachineResources, Process}
+import gitbucket.monitoring.models._
 import gitbucket.monitoring.information._
 
 class IndexController extends MonitoringControllerBase with JavaController with LogController {
@@ -10,16 +10,14 @@ class IndexController extends MonitoringControllerBase with JavaController with 
     redirect(s"/admin/monitoring/systeminformation");
   })
 
-  val sysInfo = new SystemInformation
-
   get("/admin/monitoring/systeminformation")(adminOnly {
     html.system(
-      sysInfo.instance.timeZone.toString,
-      sysInfo.instance.nowTime.toString,
-      sysInfo.instance.zoneOffset.toString,
-      sysInfo.instance.dayOfWeek.toString,
-      sysInfo.instance.onDocker,
-      sysInfo.instance.getUpTime
+      os.timeZone.toString,
+      os.nowTime.toString,
+      os.zoneOffset.toString,
+      os.dayOfWeek.toString,
+      os.onDocker,
+      os.getUpTime
       );
   })
 
@@ -27,24 +25,20 @@ class IndexController extends MonitoringControllerBase with JavaController with 
     html.environmentValiable(EnvironmentVariable.valiables);
   })
 
-  val machineResources = new MachineResources
-
   get("/admin/monitoring/machineresources")(adminOnly {
     html.resources(
-      machineResources.instance.cpuCore,
-      machineResources.instance.getCpu,
-      machineResources.instance.getMemory,
-      machineResources.instance.getSwap,
-      machineResources.instance.getDiskSpace
+      os.cpuCore,
+      os.getCpu,
+      os.getMemory,
+      os.getSwap,
+      os.getDiskSpace
     );
   })
 
-  val process = new Process
-
   get("/admin/monitoring/process")(adminOnly {
     html.process(
-      process.instance.getTasks,
-      process.instance.getLoadAverage
+      os.getTasks,
+      os.getLoadAverage
     );
   })
 

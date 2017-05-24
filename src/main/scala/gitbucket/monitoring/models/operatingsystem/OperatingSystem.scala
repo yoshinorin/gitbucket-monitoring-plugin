@@ -1,4 +1,4 @@
-package gitbucket.monitoring.models
+package gitbucket.monitoring.models.operatingsystem
 
 import scala.sys.process._
 import gitbucket.monitoring.utils.Message
@@ -47,5 +47,12 @@ object OperatingSystem {
     case _ => {
       "-"
     }
+  }
+
+  def getInstance = osType match {
+    case OperatingSystem.Linux => new Linux
+    case OperatingSystem.Mac => new Mac
+    case OperatingSystem.Windows => new Windows
+    case _ => new Other
   }
 }

@@ -4,7 +4,7 @@ import java.nio.file._
 import scala.sys.process._
 import gitbucket.monitoring.utils._
 
-trait ProcessBase {
+trait ProcessInfo {
   def getTasks: Either[String, Tasks] = {
     try {
       val resouces = StringUtil.dropAndToArray(Process("top -b -n 1") #| Process("grep Tasks") !!,":" , ",")
@@ -19,6 +19,7 @@ trait ProcessBase {
       case e: Exception => Left(Message.error)
     }
   }
+
   def getLoadAverage: Either[String, LoadAverage] = {
     try {
       val result = Process("uptime") !!
@@ -30,51 +31,6 @@ trait ProcessBase {
       ))
     } catch {
       case e: Exception => Left(Message.error)
-    }
-  }
-}
-
-class Process extends ProcessBase {
-  val instance = OperatingSystem.osType match {
-    case OperatingSystem.Linux => new ProcessBase with Linux
-    case OperatingSystem.Mac => new ProcessBase with Mac
-    case OperatingSystem.Windows => new ProcessBase with Windows
-    case _ => new ProcessBase with Other
-  }
-
-  trait Linux extends ProcessBase {
-
-  }
-
-  trait Mac extends ProcessBase {
-    override def getTasks: Either[String, Tasks] = {
-      Left(Message.notSupported)
-    }
-  }
-
-  trait Windows extends ProcessBase {
-    override def getTasks: Either[String, Tasks] = {
-      Left(Message.notSupported)
-    }
-    override def getLoadAverage: Either[String, LoadAverage] = {
-      try {
-        Right(LoadAverage(
-          (Process("powershell -Command Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average | %{ $_.Average }") !!).toString,
-          Message.notSupported,
-          Message.notSupported
-        ))
-      } catch {
-        case e: Exception => Left(Message.error)
-      }
-    }
-  }
-
-  trait Other extends ProcessBase {
-    override def getTasks: Either[String, Tasks] = {
-      Left(Message.notSupported)
-    }
-    override def getLoadAverage: Either[String, LoadAverage] = {
-      Left(Message.notSupported)
     }
   }
 }

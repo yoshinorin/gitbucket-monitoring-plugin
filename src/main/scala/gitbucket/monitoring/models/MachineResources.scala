@@ -4,9 +4,11 @@ import java.nio.file._
 import scala.sys.process._
 import gitbucket.monitoring.utils._
 
-trait MachineResourcesBase {
+trait MachineResources {
   private val fileStore = Files.getFileStore(Paths.get("."))
+
   def cpuCore = Runtime.getRuntime().availableProcessors()
+
   def getCpu: Either[String, Cpu] = {
     try {
       val resouces = StringUtil.dropAndToArray(Process("top -b -n 1") #| Process("grep Cpu(s)") !! ,":" , ",")
@@ -29,6 +31,7 @@ trait MachineResourcesBase {
       case e: Exception => Left(Message.error)
     }
   }
+
   def getMemory: Either[String, Memory] = {
     try {
       //Estimated available memory
@@ -57,6 +60,7 @@ trait MachineResourcesBase {
       case e: Exception => Left(Message.error)
     }
   }
+
   def getSwap: Either[String, Swap] = {
     try {
       val swap =  StringUtil.dropAndToArray(Process("free -mt") #| Process("grep Swap") !! ,":" , "\\s+")
@@ -69,6 +73,7 @@ trait MachineResourcesBase {
       case e: Exception => Left(Message.error)
     }
   }
+
   def getDiskSpace: DiskSpace = {
     val totalSpace = UnitConverter.byteToGB(fileStore.getTotalSpace())
     val freeSpace = UnitConverter.byteToGB(fileStore.getUnallocatedSpace())
@@ -78,77 +83,6 @@ trait MachineResourcesBase {
       freeSpace.toString,
       usedSpace.toString
     )
-  }
-}
-
-class MachineResources extends MachineResourcesBase {
-  val instance = OperatingSystem.osType match {
-    case OperatingSystem.Linux => new MachineResourcesBase with Linux
-    case OperatingSystem.Mac => new MachineResourcesBase with Mac
-    case OperatingSystem.Windows => new MachineResourcesBase with Windows
-    case _ => new MachineResourcesBase with Other
-  }
-
-  trait Linux extends MachineResourcesBase {
-
-  }
-
-  trait Mac extends MachineResourcesBase {
-    override def getCpu: Either[String, Cpu] = {
-      Left(Message.notSupported)
-    }
-  }
-
-  trait Windows extends MachineResourcesBase {
-    override def getCpu: Either[String, Cpu] = {
-      try {
-        Right(Cpu(
-          "-",
-          "-",
-          "-",
-          "-",
-          "-",
-          "-",
-          "-",
-          "-",
-          (Process("powershell -Command Get-WmiObject Win32_PerfFormattedData_PerfOS_Processor | Where-Object {$_.Name -eq '_Total'} | %{ $_.PercentProcessorTime }") !!).toString
-        ))
-      } catch {
-        case e: Exception => Left(Message.error)
-      }
-    }
-    override def getMemory: Either[String, Memory] = {
-      try {
-        val totalMem = (Process("powershell -Command Get-WmiObject -Class Win32_PhysicalMemory | %{ $_.Capacity} | Measure-Object -Sum | %{ ($_.sum /1024/1024) }") !!).toDouble
-        val availableMem = (Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.AvailableMBytes}") !!).toDouble
-        Right(Memory(
-          totalMem.toString,
-          (totalMem - availableMem).toString,
-          Message.notSupported,
-          Message.notSupported,
-          //(Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.CacheBytes /1024/1024 }") !!),
-          Message.notSupported,
-          availableMem.toString
-        ))
-      } catch {
-        case e: Exception => Left(Message.error)
-      }
-    }
-    override def getSwap: Either[String, Swap] = {
-      Left(Message.notSupported)
-    }
-  }
-
-  trait Other extends MachineResourcesBase {
-    override def getCpu: Either[String, Cpu] = {
-      Left(Message.notSupported)
-    }
-    override def getMemory: Either[String, Memory] = {
-      Left(Message.notSupported)
-    }
-    override def getSwap: Either[String, Swap] = {
-      Left(Message.notSupported)
-    }
   }
 }
 
