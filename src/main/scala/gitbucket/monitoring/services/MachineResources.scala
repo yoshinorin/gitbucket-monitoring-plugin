@@ -8,7 +8,7 @@ import gitbucket.monitoring.utils._
 trait MachineResources {
   private val fileStore = Files.getFileStore(Paths.get("."))
 
-  def cpuCore = Runtime.getRuntime().availableProcessors()
+  val cpuCore = Runtime.getRuntime().availableProcessors()
 
   def getCpu: Either[String, Cpu] = {
     try {

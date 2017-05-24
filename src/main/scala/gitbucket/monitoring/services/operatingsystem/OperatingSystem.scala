@@ -12,8 +12,7 @@ object OperatingSystem {
 
   val osArch = System.getProperty("os.arch")
   val osName = System.getProperty("os.name")
-  
-  def osType: OSType = {
+  val osType: OSType = {
     if (osName.toLowerCase.contains("linux")) {
       Linux
     } else if (osName.toLowerCase.contains("windows")) {
@@ -25,7 +24,7 @@ object OperatingSystem {
     }
   }
 
-  def osVersion:String = osType match {
+  val osVersion:String = osType match {
     case Windows => {
       (Process("powershell -Command Get-WmiObject Win32_OperatingSystem | %{ $_.Version }") !!).toString
     }
@@ -34,7 +33,7 @@ object OperatingSystem {
     }
   }
 
-  def distribution: String = osType match {
+  val distribution: String = osType match {
     case Linux => {
       try {
         val result = Process("cat /etc/issue") !!
@@ -49,7 +48,7 @@ object OperatingSystem {
     }
   }
 
-  def getInstance = osType match {
+  val getInstance = osType match {
     case OperatingSystem.Linux => new Linux
     case OperatingSystem.Mac => new Mac
     case OperatingSystem.Windows => new Windows

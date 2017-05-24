@@ -7,12 +7,12 @@ import scala.sys.process._
 import gitbucket.monitoring.utils._
 
 trait SystemInformation {
-  def timeZone = ZoneId.systemDefault()
+  val timeZone = ZoneId.systemDefault()
   def nowTime = LocalDateTime.now()
   def zoneOffset = timeZone.getRules().getOffset(nowTime)
   def dayOfWeek = nowTime.getDayOfWeek()
 
-  def onDocker: Boolean = {
+  val onDocker: Boolean = {
     try {
       Files.exists(Paths.get("/.dockerenv"))
     } catch {
