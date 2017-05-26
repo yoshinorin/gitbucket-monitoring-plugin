@@ -11,8 +11,7 @@ object LogBack {
   val dosentConfigureMessage = "Dosen't configure Logback."
   val enableLogging = Java.getSystemProperties.contains("logback.configurationFile")
   val confPath = Java.getSystemProperties.getOrElse("logback.configurationFile", notFoundMessage)
-
-  def getLogBackSettings: Either[String, String] = {
+  val logBackSettingsFile: Either[String, String] = {
     if (enableLogging) {
       try {
         val bytes = Files.readAllBytes(Paths.get(confPath))
@@ -27,31 +26,29 @@ object LogBack {
     }
   }
 
-  def getLogBackInfo: LogBackInfo = {
-    val logFilePath: Either[String, String] = {
-      if (enableLogging) {
-        try {
-          val xml = getLogBackSettings match {
-            case Left(message) => message
-            case Right(s) => {
-              (XML.loadString(s) \\ "appender" \ "file" toString).replace("<file>","").replace("</file>","")
-            }
+  val logFilePath: Either[String, String] = {
+    if (enableLogging) {
+      try {
+        val xml = logBackSettingsFile match {
+          case Left(message) => message
+          case Right(s) => {
+            (XML.loadString(s) \\ "appender" \ "file" toString).replace("<file>","").replace("</file>","")
           }
-          if (xml.trim.length == 0) {
-            Left(Message.notFound)
-          } else {
-            (Right(
-              xml
-            ))
-          }
-        } catch {
-          case e: Exception => Left(Message.error)
         }
-      } else {
-        Left(dosentConfigureMessage)
+        if (xml.trim.length == 0) {
+          Left(Message.notFound)
+        } else {
+          Right(xml)
+        }
+      } catch {
+        case e: Exception => Left(Message.error)
       }
+    } else {
+      Left(dosentConfigureMessage)
     }
+  }
 
+  def getLogBackSettings: LogBackInfo = {
     LogBackInfo(
       Java.getSystemProperties.contains("logback.configurationFile"),
       Java.getSystemProperties.getOrElse("logback.configurationFile", notFoundMessage),

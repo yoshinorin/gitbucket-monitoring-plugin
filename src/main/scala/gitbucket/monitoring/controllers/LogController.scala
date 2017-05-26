@@ -7,7 +7,7 @@ trait LogController extends MonitoringControllerBase {
 
   get("/admin/monitoring/logs/logback")(adminOnly {
     gitbucket.monitoring.information.logs.html.logback(
-      LogBack.getLogBackInfo,
+      LogBack.logBackSettingsFile,
       LogBack.getLogBackSettings
     );
   })

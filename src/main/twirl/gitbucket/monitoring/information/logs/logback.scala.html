@@ -1,23 +1,23 @@
-@(logbackInfo: gitbucket.monitoring.models.LogBackInfo,
-  logbackSettings: Either[String, String])(implicit context: gitbucket.core.controller.Context)
+@(logbackSettingsFile: Either[String, String],
+  logbackSettings: gitbucket.monitoring.models.LogBackInfo)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)
     @gitbucket.monitoring.information.logs.html.tab(context)
     @gitbucket.monitoring.html.loading(context)
-    @if(logbackInfo.enableLogging) {
+    @if(logbackSettings.enableLogging) {
       <div class="panel panel-default">
         <div class="panel-body">
           <h6><span class="label label-primary">Enable</span></h6><hr>
           <div class="row">
             <label class="col-md-2">Config file's path</label>
-            <span class="col-md-10">@logbackInfo.confPath</span>
+            <span class="col-md-10">@logbackSettings.confPath</span>
           </div>
           <div class="row">
             <label class="col-md-2">Log file's path</label>
             <span class="col-md-10">
-            @logbackInfo.logFilePath match {
+            @logbackSettings.logFilePath match {
               case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
               case Right(p) => { @p }
             }
@@ -25,9 +25,9 @@
           </div>
         </div>
       </div>
-      @logbackSettings match {
+      @logbackSettingsFile match {
         case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
-        case Right(s) => { <div class="box-header"><span class="glyphicon glyphicon-file"><span class="label label-default ">@logbackInfo.confPath</span></span></div>
+        case Right(s) => { <div class="box-header"><span class="glyphicon glyphicon-file"><span class="label label-default ">@logbackSettings.confPath</span></span></div>
                            <div class="box-content-bottom"><pre class="prettyprint linenums blob">@s</pre></div>
         }
       }

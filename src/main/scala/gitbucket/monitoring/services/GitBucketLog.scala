@@ -10,7 +10,7 @@ object GitBucketLog {
 
   def getDefaultSettings: DefaultSettings = {
     DefaultSettings(
-      LogBack.getLogBackInfo,
+      LogBack.getLogBackSettings,
       1000,
       30000
     )
