@@ -53,8 +53,16 @@ trait MachineResources {
           mem(1),
           mem(2),
           mem(3),
-          (mem(4).toInt + mem(5).toInt).toString,
-          (mem(2).toInt + mem(4).toInt + mem(5).toInt).toString
+          try {
+            (mem(4).toInt + mem(5).toInt).toString
+          } catch {
+            case e: Exception => Message.error
+          },
+          try {
+            (mem(2).toInt + mem(4).toInt + mem(5).toInt).toString
+          } catch {
+            case e: Exception => Message.error
+          }
         ))
       }
     } catch {
