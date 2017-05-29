@@ -4,7 +4,9 @@
 
 # Features
 
-This plugin for display machine information, resources, processes, Java information and GitBucket's log for GitBucket Administrator.
+This plugin provides display machine information, resources, processes, Java information and GitBucket's log for [GitBucket](//github.com/gitbucket/gitbucket) Administrator.
+
+All features are below.
 
 * Operating System Information (OS, Distribution, Version, Architecture)
 * Uptime (When booted, Spent time after booted)
@@ -19,18 +21,20 @@ This plugin for display machine information, resources, processes, Java informat
 
 # Images
 
-![menu](/doc/images/menu.png)
-
 ||||
 |:-------:|:-------:|:-------:|
-|![system](/doc/images/system.png)|![envval](/doc/images/envval.png)|![resources](/doc/images/resources.png)|
-|![process](/doc/images/process.png)|![java-p](/doc/images/java-p.png)|![java-m](/doc/images/java-m.png)|
-|![logback](/doc/images/logback.png)|![gitbucketlog](/doc/images/gitbucketlog.png)||
+|![menu](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/menu.png)|![system](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/system.png)|![envval](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/envval.png)|
+|![resources](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master//doc/images/resources.png)|![process](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/process.png)|![java-p](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/java-p.png)|
+|![java-m](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/java-m.png)|![logback](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/logback.png)|![gitbucketlog](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/gitbucketlog.png)|
 
 # Download & Installation
 
 1. Download plugin jar file from [the release page](//github.com/YoshinoriN/gitbucket-monitoring-plugin/releases).
 2. Put plugin jar file into `GITBUCKET_HOME/plugins` and restart GitBucket.
+
+# UI Usage
+
+Goto the `System Administration` menu, you can see `Monitoring` section.
 
 # Version
 
