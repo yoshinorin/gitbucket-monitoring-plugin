@@ -40,7 +40,7 @@ Goto the `System Administration` menu, you can see `Monitoring` section.
 
 |Plugin version|GitBucket version|
 |:-------------:|:-------:|
-|1.0.0|4.10, 4.11, 4.12.x |
+|1.0.0|4.10, 4.11, 4.12.x, 4.13|
 
 # Supported OS
 
