@@ -6,7 +6,7 @@
 
 This plugin provides display machine information, resources, processes, Java information and GitBucket's log for [GitBucket](//github.com/gitbucket/gitbucket) Administrator.
 
-All features are below.
+All viewable informations are below.
 
 * Operating System Information (OS, Distribution, Version, Architecture)
 * Uptime (When booted, Spent time after booted)
@@ -36,7 +36,7 @@ All features are below.
 
 Goto the `System Administration` menu, you can see `Monitoring` section.
 
-# Version
+# Compatibility with GitBucket
 
 |Plugin version|GitBucket version|
 |:-------------:|:-------:|
