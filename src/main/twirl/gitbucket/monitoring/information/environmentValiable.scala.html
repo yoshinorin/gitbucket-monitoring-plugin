@@ -1,4 +1,4 @@
-@(env: Either[String, Map[String, String]])(implicit context: gitbucket.core.controller.Context)
+@(env: Map[String, String])(implicit context: gitbucket.core.controller.Context)
 @import context._
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
@@ -12,19 +12,11 @@
               <th>Value</th>
             </tr>
             <tr>
-              @env match {
-                case Left(message) => {
-                  <td> @gitbucket.monitoring.helper.html.coloring(message) </td>
-                  <td> @gitbucket.monitoring.helper.html.coloring(message) </td>
-                }
-                case Right(v) => {
-                  @for((key, value) <- v.toSeq.sortBy(_._1)) {
-                    <tr>
-                      <td> @key </td>
-                      <td> @value </td>
-                    </tr>
-                  }
-                }
+              @for((key, value) <- env.toSeq.sortBy(_._1)) {
+                <tr>
+                  <td> @key </td>
+                  <td> @value </td>
+                </tr>
               }
              </tr>
            </table>
