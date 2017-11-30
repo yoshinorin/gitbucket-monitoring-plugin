@@ -12,17 +12,12 @@ object OperatingSystem {
 
   val osArch = System.getProperty("os.arch")
   val osName = System.getProperty("os.name")
-  val osType: OSType = {
-    if (osName.toLowerCase.contains("linux")) {
-      Linux
-    } else if (osName.toLowerCase.contains("windows")) {
-      Windows
-    } else if (osName.toLowerCase.contains("mac")) {
-      Mac
-    } else {
-      Other
-    }
-  }
+
+  val osType: OSType =
+    if (osName.toLowerCase.contains("linux")) Linux
+    else if (osName.toLowerCase.contains("windows")) Windows
+    else if (osName.toLowerCase.contains("mac")) Mac
+    else Other
 
   val osVersion:String = osType match {
     case Windows => {
