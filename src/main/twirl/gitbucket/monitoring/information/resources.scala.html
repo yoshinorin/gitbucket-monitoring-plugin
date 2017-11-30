@@ -81,9 +81,9 @@
                   <div class="panel-heading strong">Buff/Cache</div>
                   <div class="panel-body text-right">
                     <!--HACK: For Windows. Not so good code...-->
-                    @m.buff_cache match {
-                      case Message.notSupported => { @gitbucket.monitoring.helper.html.coloring(m.buff_cache) }
-                      case _ => { @gitbucket.monitoring.helper.html.coloring(m.buff_cache) / @m.total MB }
+                    @m.buffCache match {
+                      case Message.notSupported => { @gitbucket.monitoring.helper.html.coloring(m.buffCache) }
+                      case _ => { @gitbucket.monitoring.helper.html.coloring(m.buffCache) / @m.total MB }
                     }
                   </div>
                 </div>

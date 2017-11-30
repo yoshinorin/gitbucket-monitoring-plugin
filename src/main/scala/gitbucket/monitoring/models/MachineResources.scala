@@ -17,7 +17,7 @@ case class Memory (
   used: String,
   free: String,
   shared: String,
-  buff_cache: String,
+  buffCache: String,
   available: String
 )
 
