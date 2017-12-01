@@ -1,5 +1,6 @@
 package gitbucket.monitoring.controllers
 
+import scala.util.Try
 import gitbucket.monitoring.services.{LogBack, GitBucketLog}
 import gitbucket.monitoring.information.logs._
 
@@ -16,19 +17,15 @@ trait LogController extends MonitoringControllerBase {
     val defaultSettings = GitBucketLog.getDefaultSettings
     val lineNum = request.getParameter("lines")
 
-    if (Option(lineNum) != None){
-      try {
-        val n = lineNum.toInt
-        if (n > defaultSettings.displayLimitLines) {
-          html.gitbucketlog(defaultSettings, os.getLog(defaultSettings.displayLimitLines));
-        } else {
-          html.gitbucketlog(defaultSettings, os.getLog(n));
-        }
-      } catch {
-        case e: Exception => html.gitbucketlog(defaultSettings, os.getLog());
+    if (Try(lineNum.toInt).toOption != None){
+      val n = lineNum.toInt
+      if (n > defaultSettings.displayLimitLines) {
+        html.gitbucketlog(defaultSettings, os.getLog(defaultSettings.displayLimitLines));
+      } else {
+        html.gitbucketlog(defaultSettings, os.getLog(n));
       }
     } else {
-      html.gitbucketlog(defaultSettings, os.getLog());
+      html.gitbucketlog(defaultSettings, os.getLog(defaultSettings.defaultDisplayLines));
     }
   })
 }
