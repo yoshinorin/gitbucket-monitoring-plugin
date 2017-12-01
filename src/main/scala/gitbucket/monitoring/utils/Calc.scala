@@ -19,15 +19,11 @@ object Time {
     minutes: Int
   )
 
-  def secondsToDateTime(seconds: Int): Either[String, DateTime] = {
-    try {
-      Right(DateTime(
+  def secondsToDateTime(seconds: Int): DateTime = {
+    DateTime(
         seconds / (60 * 60 * 24),
         ((seconds / (60 * 60)) % 24) % 60,
         (seconds / 60) % 60
-      ))
-    } catch {
-      case e: Exception => Left(Message.error)
-    }
+    )
   }
 }
