@@ -13,11 +13,7 @@ trait SystemInformation {
   def dayOfWeek = nowTime.getDayOfWeek()
 
   val onDocker: Boolean = {
-    try {
-      Files.exists(Paths.get("/.dockerenv"))
-    } catch {
-      case e: Exception => false
-    }
+    Files.exists(Paths.get("/.dockerenv"))
   }
 
   def getUpTime: Either[String, UpTime] = {
