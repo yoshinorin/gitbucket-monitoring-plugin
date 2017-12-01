@@ -1,7 +1,5 @@
 package gitbucket.monitoring.models
 
-import gitbucket.monitoring.models.{LogBackInfo}
-
 case class DefaultSettings (
   logBackInfo: LogBackInfo,
   defaultDisplayLines: Int,

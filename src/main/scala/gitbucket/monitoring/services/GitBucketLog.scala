@@ -1,6 +1,5 @@
 package gitbucket.monitoring.services
 
-import java.nio.file.{Files, Paths}
 import scala.sys.process._
 import gitbucket.monitoring.models.{LogBackInfo, DefaultSettings, Log}
 import gitbucket.monitoring.utils._

@@ -1,8 +1,5 @@
 package gitbucket.monitoring.services.operatingsystem
 
-import java.util._
-import java.time._
-import java.nio.file.{Paths, Files}
 import scala.sys.process._
 import gitbucket.monitoring.models._
 import gitbucket.monitoring.services._

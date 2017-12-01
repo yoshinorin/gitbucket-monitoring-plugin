@@ -1,6 +1,5 @@
 package gitbucket.monitoring.services
 
-import java.util._
 import java.time._
 import java.nio.file.{Paths, Files}
 import scala.sys.process._
