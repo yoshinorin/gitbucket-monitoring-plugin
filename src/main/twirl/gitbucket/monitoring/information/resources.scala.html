@@ -24,7 +24,7 @@
                   <div class="panel-body text-right">
                     @cpu match {
                       case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
-                      case Right(c) => { @c.usaga %}
+                      case Right(c) => { @c.usage %}
                     }
                   </div>
                 </div>

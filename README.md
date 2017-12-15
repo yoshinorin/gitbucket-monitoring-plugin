@@ -4,17 +4,17 @@
 
 # Features
 
-This plugin provides display machine information, resources, processes, Java information and GitBucket's log for [GitBucket](//github.com/gitbucket/gitbucket) Administrator.
+This plugin provides monitoring page which contains machine information, resources, processes, Java information and GitBucket's log for [GitBucket](//github.com/gitbucket/gitbucket) Administrator.
 
 All viewable informations are below.
 
 * Operating System Information (OS, Distribution, Version, Architecture)
 * Uptime (When booted, Spent time after booted)
-* Time (Now time, Time Zone, Zone offset, Day of Week)
-* Machine's enviroment valiables
-* Machine's resources (Cpu core, Cpu Usaga, Physical memory, Swap, Disk Usaga)
+* Time (Current Time, Time Zone, Zone offset, Day of Week)
+* Machine's environment variables
+* Machine's resources (Cpu Cores, Cpu Usage, Physical memory, Swap, Disk Usage)
 * Machine's Load average
-* Machine's Tasks (Running, Sleepling, Stopped, Zombie)
+* Machine's Tasks (Running, Sleeping, Stopped, Zombie)
 * Java system properties and memory
 * LogBack settings
 * GitBucket's log

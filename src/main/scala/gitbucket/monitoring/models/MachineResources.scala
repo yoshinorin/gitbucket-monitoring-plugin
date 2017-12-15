@@ -9,7 +9,7 @@ case class Cpu (
   hi: String,
   si: String,
   st: String,
-  usaga: String
+  usage: String
 )
 
 case class Memory (
