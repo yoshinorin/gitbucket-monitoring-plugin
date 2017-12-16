@@ -21,8 +21,8 @@ class IndexController extends MonitoringControllerBase with JavaController with 
       );
   })
 
-  get("/admin/monitoring/environmentvaliable")(adminOnly {
-    html.environmentValiable(EnvironmentVariable.valiables);
+  get("/admin/monitoring/environmentvariable")(adminOnly {
+    html.environmentVariable(EnvironmentVariable.variables);
   })
 
   get("/admin/monitoring/machineresources")(adminOnly {
