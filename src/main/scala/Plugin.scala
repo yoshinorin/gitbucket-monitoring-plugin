@@ -1,11 +1,8 @@
 import gitbucket.core.controller.Context
-import gitbucket.core.plugin.PluginRegistry
 import gitbucket.core.plugin._
-import gitbucket.core.service.SystemSettingsService.SystemSettings
 import gitbucket.monitoring.controllers.IndexController
 
 import io.github.gitbucket.solidbase.model.Version
-import javax.servlet.ServletContext
 
 class Plugin extends gitbucket.core.plugin.Plugin {
   override val pluginId: String = "monitoring"
