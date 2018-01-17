@@ -9,7 +9,7 @@
       <div class="panel-heading strong">Load Average</div>
         <div class="panel-body">
           @loadAve match {
-            case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
+            case Left(message) => { <div class="error"> @message </div> }
             case Right(l) => {
               <div class="row">
                 @OperatingSystem.osType match {
@@ -27,7 +27,7 @@
       <div class="panel-heading strong">Process</div>
         <div class="panel-body">
           @tasks match {
-            case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
+            case Left(message) => { <div class="error"> @message </div> }
             case Right(t) => {
               <div class="row">
                 @gitbucket.monitoring.bootstrapPanel.html.colsm2("Running", (t.running + "/" + t.total))

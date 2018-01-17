@@ -31,7 +31,7 @@
           <span class="strong"></span>Physical
         </label>
         @memory match {
-          case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
+        case Left(message) => { <div class="error"> @message </div> }
           case Right(m) => {
           <div class="row">
             @m.used match {
@@ -67,7 +67,7 @@
         </label>
         <div class="row">
           @swap match {
-            case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
+            case Left(message) => { <div class="error"> @message </div> }
             case Right(s) => {
               @gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", s.used + "/" + s.total + "MB")
               @gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", s.free + "/" + s.total + "MB")
