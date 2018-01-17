@@ -1,9 +1,21 @@
 @(implicit context: gitbucket.core.controller.Context)
 <ul class="nav nav-tabs" style="margin-bottom: 20px;">
-  <li @if(context.request.getRequestURI.endsWith("systeminformation")) {class="active"}><a href="@context.path/admin/monitoring/systeminformation">System</a></li>
-  <li @if(context.request.getRequestURI.endsWith("environmentvariable")) {class="active"}><a href="@context.path/admin/monitoring/environmentvariable">Environment Variable</a></li>
-  <li @if(context.request.getRequestURI.endsWith("machineresources")) {class="active"}><a href="@context.path/admin/monitoring/machineresources">Machine Resources</a></li>
-  <li @if(context.request.getRequestURI.endsWith("process")) {class="active"}><a href="@context.path/admin/monitoring/process">Process</a></li>
-  <li @if(context.request.getRequestURI.endsWith("java/systemproperties") || context.request.getRequestURI.endsWith("java/memory")) {class="active"}><a href="@context.path/admin/monitoring/java">Java</a></li>
-  <li @if(context.request.getRequestURI.endsWith("logs/logback")|| context.request.getRequestURI.endsWith("logs/gitbucketlog"))  {class="active"}><a href="@context.path/admin/monitoring/logs">Logs</a></li>
+  <li @if(context.request.getRequestURI.endsWith("systeminformation")) {class="active"}>
+    <a href="@context.path/admin/monitoring/systeminformation">System</a>
+  </li>
+  <li @if(context.request.getRequestURI.endsWith("environmentvariable")) {class="active"}>
+    <a href="@context.path/admin/monitoring/environmentvariable">Environment Variable</a>
+  </li>
+  <li @if(context.request.getRequestURI.endsWith("machineresources")) {class="active"}>
+    <a href="@context.path/admin/monitoring/machineresources">Machine Resources</a>
+  </li>
+  <li @if(context.request.getRequestURI.endsWith("process")) {class="active"}>
+    <a href="@context.path/admin/monitoring/process">Process</a>
+  </li>
+  <li @if(context.request.getRequestURI.endsWith("java/systemproperties") || context.request.getRequestURI.endsWith("java/memory")) {class="active"}>
+    <a href="@context.path/admin/monitoring/java">Java</a>
+  </li>
+  <li @if(context.request.getRequestURI.endsWith("logs/logback")|| context.request.getRequestURI.endsWith("logs/gitbucketlog")) {class="active"}>
+    <a href="@context.path/admin/monitoring/logs">Logs</a>
+  </li>
 </ul>
