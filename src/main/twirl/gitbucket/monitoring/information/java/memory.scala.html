@@ -5,30 +5,10 @@
     @gitbucket.monitoring.html.navigation(context)
     @gitbucket.monitoring.information.java.html.tab(context)
       <div class="row">
-        <div class="col-md-2">
-          <div class="panel panel-default">
-            <div class="panel-heading strong">Free</div>
-              <div class="panel-body text-right">@mem.free MB</div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="panel panel-default">
-            <div class="panel-heading strong">Used</div>
-            <div class="panel-body text-right">@mem.used MB</div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="panel panel-default">
-            <div class="panel-heading strong">Total</div>
-            <div class="panel-body text-right">@mem.total MB</div>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="panel panel-default">
-            <div class="panel-heading strong">Max</div>
-            <div class="panel-body text-right">@mem.max MB</div>
-          </div>
-        </div>
+        @gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", mem.free + "MB")
+        @gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", mem.used + "MB")
+        @gitbucket.monitoring.bootstrapPanel.html.colsm2("Total", mem.total + "MB")
+        @gitbucket.monitoring.bootstrapPanel.html.colsm2("Max", mem.max + "MB")
       </div>
   }
 }

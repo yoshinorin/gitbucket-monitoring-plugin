@@ -12,137 +12,76 @@
       <div class="panel-heading strong">CPU</div>
         <div class="panel-body">
           <div class="row">
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Core</div>
-                <div class="panel-body text-right">@core</div>
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Used</div>
-                  <div class="panel-body text-right">
-                    @cpu match {
-                      case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
-                      case Right(c) => { @c.usage %}
-                    }
-                  </div>
-                </div>
-            </div>
+            @gitbucket.monitoring.bootstrapPanel.html.colsm2("Core", core.toString)
+            @cpu match {
+              case Left(message) => {
+                @gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", message)
+              }
+              case Right(c) => { @gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", c.usage + "%")}
+            }
           </div>
         </div>
     </div>
     <div class="panel panel-default">
-      <div class="panel-heading strong">Memory</div>
-        <div class="panel-body">
-          <label><span class="strong"></span>Physical</label>
-          @memory match {
-            case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
-            case Right(m) => {
-              <div class="row">
-                <div class="col-sm-2">
-                  <div class="panel panel-default">
-                    <div class="panel-heading strong">Used</div>
-                    <div class="panel-body text-right">
-                      <!--HACK: For Windows. Not so good code...-->
-                      @m.used match {
-                        case Message.notSupported => { @gitbucket.monitoring.helper.html.coloring(m.used) }
-                        case _ => { @gitbucket.monitoring.helper.html.coloring(m.used) / @m.total MB }
-                      }
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="panel panel-default">
-                    <div class="panel-heading strong">Free</div>
-                    <div class="panel-body text-right">
-                      <!--HACK: For Windows. Not so good code...-->
-                      @m.free match {
-                        case Message.notSupported => { @gitbucket.monitoring.helper.html.coloring(m.free) }
-                        case _ => { @gitbucket.monitoring.helper.html.coloring(m.free) / @m.total MB }
-                      }
-                    </div>
-                </div>
-              </div>
-              <div class="col-sm-2">
-                <div class="panel panel-default">
-                  <div class="panel-heading strong">Shared</div>
-                  <div class="panel-body text-right">
-                    <!--HACK: For Windows. Not so good code...-->
-                    @m.shared match {
-                      case Message.notSupported => { @gitbucket.monitoring.helper.html.coloring(m.shared) }
-                      case _ => { @gitbucket.monitoring.helper.html.coloring(m.shared) / @m.total MB }
-                    }
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-2">
-                <div class="panel panel-default">
-                  <div class="panel-heading strong">Buff/Cache</div>
-                  <div class="panel-body text-right">
-                    <!--HACK: For Windows. Not so good code...-->
-                    @m.buffCache match {
-                      case Message.notSupported => { @gitbucket.monitoring.helper.html.coloring(m.buffCache) }
-                      case _ => { @gitbucket.monitoring.helper.html.coloring(m.buffCache) / @m.total MB }
-                    }
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-2">
-                <div class="panel panel-default">
-                  <div class="panel-heading strong">Available</div>
-                  <div class="panel-body text-right">
-                    @gitbucket.monitoring.helper.html.coloring(m.available) / @m.total MB
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div class="panel-heading strong">
+        Memory
+      </div>
+      <div class="panel-body">
+        <label>
+          <span class="strong"></span>Physical
+        </label>
+        @memory match {
+          case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
+          case Right(m) => {
+          <div class="row">
+            @m.used match {
+              case Message.notSupported => {
+                @gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", m.used)
+              }
+              case _ => { @gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", m.used + "/" + m.total + "MB")}
             }
+            @m.used match {
+              case Message.notSupported => {
+                @gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", m.free)
+              }
+              case _ => { @gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", m.free + "/" + m.total + "MB")}
+            }
+            @m.used match {
+              case Message.notSupported => {
+                @gitbucket.monitoring.bootstrapPanel.html.colsm2("Shared", m.shared)
+              }
+              case _ => { @gitbucket.monitoring.bootstrapPanel.html.colsm2("Shared", m.shared + "/" + m.total + "MB")}
+            }
+            @m.used match {
+              case Message.notSupported => {
+                @gitbucket.monitoring.bootstrapPanel.html.colsm2("Buff/Cache", m.buffCache)
+              }
+              case _ => { @gitbucket.monitoring.bootstrapPanel.html.colsm2("Buff/Cache", m.buffCache + "/" + m.total + "MB")}
+            }
+            @gitbucket.monitoring.bootstrapPanel.html.colsm2("Available", m.available + "/" + m.available + "MB")
+          </div>
           }
-        </div>
-        <div class="panel-body">
-          <label><span class="strong">Swap</span></label>
+        }
+        <label>
+          <span class="strong">Swap</span>
+        </label>
+        <div class="row">
           @swap match {
             case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
             case Right(s) => {
-              <div class="row">
-                <div class="col-sm-2">
-                  <div class="panel panel-default">
-                    <div class="panel-heading strong">Used</div>
-                    <div class="panel-body text-right">
-                      @s.used / @s.total MB
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="panel panel-default">
-                    <div class="panel-heading strong">Free</div>
-                    <div class="panel-body text-right">
-                      @s.free / @s.total MB
-                    </div>
-                  </div>
-                </div>
-              </div>
+              @gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", s.used + "/" + s.total + "MB")
+              @gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", s.free + "/" + s.total + "MB")
             }
           }
         </div>
+      </div>
     </div>
     <div class="panel panel-default">
       <div class="panel-heading strong">Disk (Only current partition)</div>
         <div class="panel-body">
           <div class="row">
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Used</div>
-                <div class="panel-body text-right">@diskSpace.usedSpace / @diskSpace.totalSpace GB</div>
-              </div>
-            </div>
-            <div class="col-sm-2">
-              <div class="panel panel-default">
-                <div class="panel-heading strong">Free</div>
-                <div class="panel-body text-right">@diskSpace.freeSpace / @diskSpace.totalSpace GB</div>
-              </div>
-            </div>
+            @gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", diskSpace.usedSpace + "/" + diskSpace.totalSpace + "GB")
+            @gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", diskSpace.freeSpace + "/" + diskSpace.totalSpace + "GB")
           </div>
         </div>
     </div>

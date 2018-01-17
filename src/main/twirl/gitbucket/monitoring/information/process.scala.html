@@ -12,33 +12,12 @@
             case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
             case Right(l) => {
               <div class="row">
-                <div class="col-sm-2">
-                  <div class="panel panel-default">
-                    @OperatingSystem.osType match {
-                      case OperatingSystem.Windows => { <div class="panel-heading strong">Current</div> }
-                      case _ => { <div class="panel-heading strong">Recent 1min</div> }
-                    }
-                    <div class="panel-body text-right">
-                      @gitbucket.monitoring.helper.html.coloring(l.oneMin)
-                    </div>
-                  </div>
-                </div>
-              <div class="col-sm-2">
-                <div class="panel panel-default">
-                  <div class="panel-heading strong">Recent 5min</div>
-                  <div class="panel-body text-right">
-                      @gitbucket.monitoring.helper.html.coloring(l.fiveMin)
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-2">
-                <div class="panel panel-default">
-                  <div class="panel-heading strong">Recent 15min</div>
-                    <div class="panel-body text-right">
-                      @gitbucket.monitoring.helper.html.coloring(l.fifteenMin)
-                    </div>
-                </div>
-              </div>
+                @OperatingSystem.osType match {
+                  case OperatingSystem.Windows => { @gitbucket.monitoring.bootstrapPanel.html.colsm2("Current", l.oneMin) }
+                  case _ => { @gitbucket.monitoring.bootstrapPanel.html.colsm2("Recent 1min", l.oneMin) }
+                }
+                @gitbucket.monitoring.bootstrapPanel.html.colsm2("Recent 5min", l.fiveMin)
+                @gitbucket.monitoring.bootstrapPanel.html.colsm2("Recent 15min", l.fifteenMin)
             </div>
             }
           }
@@ -51,38 +30,10 @@
             case Left(message) => { @gitbucket.monitoring.helper.html.coloring(message) }
             case Right(t) => {
               <div class="row">
-                <div class="col-sm-2">
-                  <div class="panel panel-default">
-                    <div class="panel-heading strong">Running</div>
-                    <div class="panel-body text-right">
-                      @t.running / @t.total
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="panel panel-default">
-                    <div class="panel-heading strong">Sleeping</div>
-                    <div class="panel-body text-right">
-                      @t.sleeping / @t.total
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="panel panel-default">
-                    <div class="panel-heading strong">Stopped</div>
-                    <div class="panel-body text-right">
-                      @t.stopped / @t.total
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-2">
-                  <div class="panel panel-default">
-                    <div class="panel-heading strong">Zombie</div>
-                    <div class="panel-body text-right">
-                      @t.zombie / @t.total
-                    </div>
-                  </div>
-                </div>
+                @gitbucket.monitoring.bootstrapPanel.html.colsm2("Running", (t.running + "/" + t.total))
+                @gitbucket.monitoring.bootstrapPanel.html.colsm2("Sleeping", (t.sleeping + "/" + t.total))
+                @gitbucket.monitoring.bootstrapPanel.html.colsm2("Stopped", (t.stopped + "/" + t.total))
+                @gitbucket.monitoring.bootstrapPanel.html.colsm2("Zombie", (t.zombie + "/" + t.total))
               </div>
             }
           }

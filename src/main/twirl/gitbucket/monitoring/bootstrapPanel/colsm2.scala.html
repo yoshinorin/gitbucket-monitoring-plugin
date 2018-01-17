@@ -1,0 +1,20 @@
+@(title: String, content: String)(implicit context: gitbucket.core.controller.Context)
+@import gitbucket.monitoring.utils.Message
+@import gitbucket.monitoring.services.GitBucketLog
+@import gitbucket.monitoring.services.LogBack
+<div class="col-sm-2">
+  <div class="panel panel-default">
+    <div class="panel-heading strong">@title</div>
+      <div class="panel-body text-right">
+        @content match {
+          case Message.notSupported => { <div class="error"> @content </div> }
+          case Message.error => { <div class="error"> @content </div> }
+          case Message.notFound => { <div class="error"> @content </div> }
+          case GitBucketLog.disableMessage => { <div class="error"> @content </div> }
+          case LogBack.notFoundMessage => { <div class="error"> @content </div> }
+          case LogBack.dosentConfigureMessage => { <div class="error"> @content </div> }
+          case _ => { @content }
+        }
+      </div>
+  </div>
+</div>
