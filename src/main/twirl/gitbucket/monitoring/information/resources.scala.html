@@ -40,25 +40,25 @@
               }
               case _ => { @gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", m.used + "/" + m.total + "MB")}
             }
-            @m.used match {
+            @m.free match {
               case Message.notSupported => {
                 @gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", m.free)
               }
               case _ => { @gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", m.free + "/" + m.total + "MB")}
             }
-            @m.used match {
+            @m.shared match {
               case Message.notSupported => {
                 @gitbucket.monitoring.bootstrapPanel.html.colsm2("Shared", m.shared)
               }
               case _ => { @gitbucket.monitoring.bootstrapPanel.html.colsm2("Shared", m.shared + "/" + m.total + "MB")}
             }
-            @m.used match {
+            @m.buffCache match {
               case Message.notSupported => {
                 @gitbucket.monitoring.bootstrapPanel.html.colsm2("Buff/Cache", m.buffCache)
               }
               case _ => { @gitbucket.monitoring.bootstrapPanel.html.colsm2("Buff/Cache", m.buffCache + "/" + m.total + "MB")}
             }
-            @gitbucket.monitoring.bootstrapPanel.html.colsm2("Available", m.available + "/" + m.available + "MB")
+            @gitbucket.monitoring.bootstrapPanel.html.colsm2("Available", m.available + "/" + m.total + "MB")
           </div>
           }
         }
