@@ -4,7 +4,6 @@
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @gitbucket.monitoring.html.navigation(context)
-    @gitbucket.monitoring.information.logs.html.tab(context)
     @gitbucket.monitoring.html.loading(context)
     @log match {
       case Left(message) => { <div class="error"> @message </div> }
