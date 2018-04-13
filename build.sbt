@@ -7,5 +7,5 @@ lazy val root = project in file(".")
 name := Name
 organization := Organization
 version := Version
-gitbucketVersion := "4.22.0"
 scalaVersion := "2.12.5"
+gitbucketVersion := "4.23.0"
