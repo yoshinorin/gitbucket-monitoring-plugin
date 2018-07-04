@@ -10,4 +10,10 @@ version := Version
 scalaVersion := "2.12.6"
 gitbucketVersion := "4.23.0"
 
+scalacOptions ++= Seq(
+  "-deprecation",
+  "-feature",
+  "-unchecked"
+)
+
 scalafmtOnCompile := true
