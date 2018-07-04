@@ -1,5 +1,6 @@
 package net.yoshinorin.gitbucket.monitoring.services.operatingsystem
 
+import java.io.IOException
 import scala.sys.process._
 import net.yoshinorin.gitbucket.monitoring.utils.Message
 
@@ -21,7 +22,7 @@ object OperatingSystem {
 
   val osVersion: String = osType match {
     case Windows => {
-      (Process("powershell -Command Get-WmiObject Win32_OperatingSystem | %{ $_.Version }") !!).toString
+      Process("powershell -Command Get-WmiObject Win32_OperatingSystem | %{ $_.Version }").!!.toString
     }
     case _ => {
       System.getProperty("os.version")
@@ -31,11 +32,9 @@ object OperatingSystem {
   val distribution: String = osType match {
     case Linux => {
       try {
-        val result = Process("cat /etc/issue") !!
-        val d = result.replace("\\n", "").replace("\\l", "").replace(" ", "")
-        d
+        Process("cat /etc/issue").!!.replace("\\n", "").replace("\\l", "").replace(" ", "")
       } catch {
-        case e: Exception => Message.error
+        case e: IOException => Message.error
       }
     }
     case _ => {

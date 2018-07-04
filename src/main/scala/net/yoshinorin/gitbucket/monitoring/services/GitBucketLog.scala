@@ -26,7 +26,7 @@ trait GitBucketLog {
           try {
             Right(
               Log(
-                Process(s"tail -n $lines $p") !!,
+                Process(s"tail -n $lines $p").!!,
                 lines
               ))
           } catch {

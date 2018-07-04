@@ -24,7 +24,7 @@ trait ProcessInfo {
 
   def getLoadAverage: Either[String, LoadAverage] = {
     try {
-      val result = Process("uptime") !!
+      val result = Process("uptime").!!
       val list = result.drop(result.indexOf("average:") + 8).split(",")
       Right(
         LoadAverage(

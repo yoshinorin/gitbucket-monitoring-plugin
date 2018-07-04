@@ -11,9 +11,9 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo w
     try {
       Right(
         UpTime(
-          (Process(
-            "powershell -Command \"&{$os=Get-WmiObject win32_operatingsystem;$time=((Get-Date) - $os.ConvertToDateTime($os.lastbootuptime)); $time.Days.ToString() + \\\" days \\\" +  $time.Hours.ToString() + \\\" hours \\\" + $time.Minutes.ToString() + \\\" minutes \\\"}\"") !!),
-          (Process("powershell -Command [Management.ManagementDateTimeConverter]::ToDateTime((Get-WmiObject Win32_OperatingSystem).LastBootUpTime)") !!)
+          Process(
+            "powershell -Command \"&{$os=Get-WmiObject win32_operatingsystem;$time=((Get-Date) - $os.ConvertToDateTime($os.lastbootuptime)); $time.Days.ToString() + \\\" days \\\" +  $time.Hours.ToString() + \\\" hours \\\" + $time.Minutes.ToString() + \\\" minutes \\\"}\"").!!,
+          Process("powershell -Command [Management.ManagementDateTimeConverter]::ToDateTime((Get-WmiObject Win32_OperatingSystem).LastBootUpTime)").!!
         ))
     } catch {
       case e: IOException => Left(Message.error)
@@ -32,7 +32,7 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo w
           "-",
           "-",
           "-",
-          (Process("powershell -Command Get-WmiObject Win32_PerfFormattedData_PerfOS_Processor | Where-Object {$_.Name -eq '_Total'} | %{ $_.PercentProcessorTime }") !!).toString
+          Process("powershell -Command Get-WmiObject Win32_PerfFormattedData_PerfOS_Processor | Where-Object {$_.Name -eq '_Total'} | %{ $_.PercentProcessorTime }").!!
         ))
     } catch {
       case e: IOException => Left(Message.error)
@@ -41,8 +41,8 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo w
 
   override def getMemory: Either[String, Memory] = {
     try {
-      val totalMem = (Process("powershell -Command Get-WmiObject -Class Win32_PhysicalMemory | %{ $_.Capacity} | Measure-Object -Sum | %{ ($_.sum /1024/1024) }") !!).toDouble
-      val availableMem = (Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.AvailableMBytes}") !!).toDouble
+      val totalMem = Process("powershell -Command Get-WmiObject -Class Win32_PhysicalMemory | %{ $_.Capacity} | Measure-Object -Sum | %{ ($_.sum /1024/1024) }").!!.toDouble
+      val availableMem = Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.AvailableMBytes}").!!.toDouble
       Right(
         Memory(
           totalMem.toString,
@@ -70,7 +70,7 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo w
     try {
       Right(
         LoadAverage(
-          (Process("powershell -Command Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average | %{ $_.Average }") !!).toString,
+          Process("powershell -Command Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average | %{ $_.Average }").!!,
           Message.notSupported,
           Message.notSupported
         ))
@@ -87,7 +87,7 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo w
           try {
             Right(
               Log(
-                Process(s"powershell -Command Get-Content -Path $p -Tail $lines") !!,
+                Process(s"powershell -Command Get-Content -Path $p -Tail $lines").!!,
                 lines
               ))
           } catch {

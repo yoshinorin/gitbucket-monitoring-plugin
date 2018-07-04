@@ -18,12 +18,12 @@ trait SystemInformation {
 
   def getUpTime: Either[String, UpTime] = {
     try {
-      val result = Process("uptime") !!
+      val result = Process("uptime").!!
       val list = result.drop(result.indexOf("up") + 2).split(",")
       Right(
         UpTime(
           list(0),
-          Process("uptime -s") !!
+          Process("uptime -s").!!
         ))
     } catch {
       case e: IOException => Left(Message.error)
