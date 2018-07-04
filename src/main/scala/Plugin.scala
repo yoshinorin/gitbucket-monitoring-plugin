@@ -1,6 +1,6 @@
 import gitbucket.core.controller.Context
 import gitbucket.core.plugin._
-import gitbucket.monitoring.controllers.IndexController
+import net.yoshinorin.gitbucket.monitoring.controllers.IndexController
 
 import io.github.gitbucket.solidbase.model.Version
 

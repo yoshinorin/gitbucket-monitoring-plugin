@@ -1,0 +1,80 @@
+@(timeZone: String,
+  nowTime: String,
+  zoneOffset: String,
+  dayOfWeek: String,
+  onDocker: Boolean,
+  upTime: Either[String, net.yoshinorin.gitbucket.monitoring.services.UpTime])(implicit context: gitbucket.core.controller.Context)
+@import context._
+@import net.yoshinorin.gitbucket.monitoring.services.operatingsystem.OperatingSystem
+@gitbucket.core.html.main("Monitoring") {
+  @gitbucket.core.admin.html.menu("monitoring") {
+    @net.yoshinorin.gitbucket.monitoring.html.navigation(context)
+    @if(onDocker) {
+      <h6><span class="label label-primary">On Docker</span></h6>
+      <hr>
+    }
+    <div class="panel panel-default">
+      <div class="panel-heading strong">Operating System</div>
+        <div class="panel-body">
+          <div class="row">
+            <label class="col-md-2">OS</label>
+            <span class="col-md-10">@OperatingSystem.osName</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Distribution</label>
+            <span class="col-md-10">@OperatingSystem.distribution</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Version</label>
+            <span class="col-md-10">@OperatingSystem.osVersion</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Architecture</label>
+            <span class="col-md-10">@OperatingSystem.osArch</span>
+          </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading strong">UpTime</div>
+        <div class="panel-body">
+          <div class="row">
+            <label class="col-md-2">StartTime</label>
+            <span class="col-md-10">@upTime match {
+                case Left(message) => { <div class="error"> @message </div> }
+                case Right(u) => { @u.startTime }
+              }
+            </span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">UpTime</label>
+            <span class="col-md-10">@upTime match {
+                case Left(message) => { <div class="error"> @message </div> }
+                case Right(u) => { @u.uptime }
+              }
+            </span>
+          </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading strong">Time</div>
+        <div class="panel-body">
+          <div class="row">
+            <label class="col-md-2">Current Time</label>
+            <span class="col-md-10">@nowTime</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Time Zone</label>
+            <span class="col-md-10">@timeZone</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Zone Offset</label>
+            <span class="col-md-10">@zoneOffset</span>
+          </div>
+          <div class="row">
+            <label class="col-md-2">Day Of Week</label>
+            <span class="col-md-10">@dayOfWeek</span>
+          </div>
+        </div>
+    </div>
+  }
+}

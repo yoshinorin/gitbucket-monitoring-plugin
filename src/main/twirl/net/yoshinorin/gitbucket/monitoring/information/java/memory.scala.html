@@ -1,0 +1,13 @@
+@(mem: net.yoshinorin.gitbucket.monitoring.services.Java.Memory)(implicit context: gitbucket.core.controller.Context)
+@import context._
+@gitbucket.core.html.main("Monitoring") {
+  @gitbucket.core.admin.html.menu("monitoring") {
+    @net.yoshinorin.gitbucket.monitoring.html.navigation(context)
+      <div class="row">
+        @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", mem.free + "MB")
+        @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", mem.used + "MB")
+        @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Total", mem.total + "MB")
+        @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Max", mem.max + "MB")
+      </div>
+  }
+}

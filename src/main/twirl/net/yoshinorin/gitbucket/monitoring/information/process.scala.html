@@ -1,0 +1,43 @@
+@(tasks: Either[String, net.yoshinorin.gitbucket.monitoring.models.Tasks],
+  loadAve: Either[String, net.yoshinorin.gitbucket.monitoring.models.LoadAverage])(implicit context: gitbucket.core.controller.Context)
+@import context._
+@import net.yoshinorin.gitbucket.monitoring.services.operatingsystem.OperatingSystem
+@gitbucket.core.html.main("Monitoring") {
+  @gitbucket.core.admin.html.menu("monitoring") {
+    @net.yoshinorin.gitbucket.monitoring.html.navigation(context)
+    <div class="panel panel-default">
+      <div class="panel-heading strong">Load Average</div>
+        <div class="panel-body">
+          @loadAve match {
+            case Left(message) => { <div class="error"> @message </div> }
+            case Right(l) => {
+              <div class="row">
+                @OperatingSystem.osType match {
+                  case OperatingSystem.Windows => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Current", l.oneMin) }
+                  case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Recent 1min", l.oneMin) }
+                }
+                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Recent 5min", l.fiveMin)
+                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Recent 15min", l.fifteenMin)
+            </div>
+            }
+          }
+        </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading strong">Process</div>
+        <div class="panel-body">
+          @tasks match {
+            case Left(message) => { <div class="error"> @message </div> }
+            case Right(t) => {
+              <div class="row">
+                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Running", (t.running + "/" + t.total))
+                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Sleeping", (t.sleeping + "/" + t.total))
+                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Stopped", (t.stopped + "/" + t.total))
+                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Zombie", (t.zombie + "/" + t.total))
+              </div>
+            }
+          }
+        </div>
+    </div>
+  }
+}

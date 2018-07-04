@@ -1,0 +1,89 @@
+@(core: Int,
+  cpu: Either[String, net.yoshinorin.gitbucket.monitoring.models.Cpu],
+  memory: Either[String, net.yoshinorin.gitbucket.monitoring.models.Memory],
+  swap: Either[String, net.yoshinorin.gitbucket.monitoring.models.Swap],
+  diskSpace: net.yoshinorin.gitbucket.monitoring.models.DiskSpace)(implicit context: gitbucket.core.controller.Context)
+@import context._
+@import net.yoshinorin.gitbucket.monitoring.utils.Message
+@gitbucket.core.html.main("Monitoring") {
+  @gitbucket.core.admin.html.menu("monitoring") {
+    @net.yoshinorin.gitbucket.monitoring.html.navigation(context)
+    <div class="panel panel-default">
+      <div class="panel-heading strong">CPU</div>
+        <div class="panel-body">
+          <div class="row">
+            @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Core", core.toString)
+            @cpu match {
+              case Left(message) => {
+                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", message)
+              }
+              case Right(c) => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", c.usage + "%")}
+            }
+          </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading strong">
+        Memory
+      </div>
+      <div class="panel-body">
+        <label>
+          <span class="strong"></span>Physical
+        </label>
+        @memory match {
+        case Left(message) => { <div class="error"> @message </div> }
+          case Right(m) => {
+          <div class="row">
+            @m.used match {
+              case Message.notSupported => {
+                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", m.used)
+              }
+              case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", m.used + "/" + m.total + "MB")}
+            }
+            @m.free match {
+              case Message.notSupported => {
+                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", m.free)
+              }
+              case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", m.free + "/" + m.total + "MB")}
+            }
+            @m.shared match {
+              case Message.notSupported => {
+                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Shared", m.shared)
+              }
+              case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Shared", m.shared + "/" + m.total + "MB")}
+            }
+            @m.buffCache match {
+              case Message.notSupported => {
+                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Buff/Cache", m.buffCache)
+              }
+              case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Buff/Cache", m.buffCache + "/" + m.total + "MB")}
+            }
+            @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Available", m.available + "/" + m.total + "MB")
+          </div>
+          }
+        }
+        <label>
+          <span class="strong">Swap</span>
+        </label>
+        <div class="row">
+          @swap match {
+            case Left(message) => { <div class="error"> @message </div> }
+            case Right(s) => {
+              @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", s.used + "/" + s.total + "MB")
+              @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", s.free + "/" + s.total + "MB")
+            }
+          }
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading strong">Disk (Only current partition)</div>
+        <div class="panel-body">
+          <div class="row">
+            @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", diskSpace.usedSpace + "/" + diskSpace.totalSpace + "GB")
+            @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", diskSpace.freeSpace + "/" + diskSpace.totalSpace + "GB")
+          </div>
+        </div>
+    </div>
+  }
+}
