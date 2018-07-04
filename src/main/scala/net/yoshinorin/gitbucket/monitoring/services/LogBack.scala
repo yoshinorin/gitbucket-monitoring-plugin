@@ -3,7 +3,7 @@ package net.yoshinorin.gitbucket.monitoring.services
 import java.nio.file.{Files, Paths}
 import scala.xml.XML
 import gitbucket.core.util.StringUtil
-import net.yoshinorin.gitbucket.monitoring.models.{LogBackInfo}
+import net.yoshinorin.gitbucket.monitoring.models.LogBackInfo
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 object LogBack {

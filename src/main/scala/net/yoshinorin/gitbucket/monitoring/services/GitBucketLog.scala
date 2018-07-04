@@ -1,7 +1,7 @@
 package net.yoshinorin.gitbucket.monitoring.services
 
 import scala.sys.process._
-import net.yoshinorin.gitbucket.monitoring.models.{LogBackInfo, DefaultSettings, Log}
+import net.yoshinorin.gitbucket.monitoring.models.{DefaultSettings, Log}
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 object GitBucketLog {
