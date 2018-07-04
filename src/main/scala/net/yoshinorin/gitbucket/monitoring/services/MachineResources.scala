@@ -1,5 +1,6 @@
 package net.yoshinorin.gitbucket.monitoring.services
 
+import java.io.IOException
 import java.nio.file._
 import scala.sys.process._
 import net.yoshinorin.gitbucket.monitoring.models.{Cpu, Memory, Swap, DiskSpace}
@@ -30,7 +31,7 @@ trait MachineResources {
           }
         ))
     } catch {
-      case e: Exception => Left(Message.error)
+      case e: IOException => Left(Message.error)
     }
   }
 
@@ -69,7 +70,7 @@ trait MachineResources {
           ))
       }
     } catch {
-      case e: Exception => Left(Message.error)
+      case e: IOException => Left(Message.error)
     }
   }
 
@@ -83,7 +84,7 @@ trait MachineResources {
           swap(2)
         ))
     } catch {
-      case e: Exception => Left(Message.error)
+      case e: IOException => Left(Message.error)
     }
   }
 

@@ -1,5 +1,6 @@
 package net.yoshinorin.gitbucket.monitoring.services
 
+import java.io.IOException
 import scala.sys.process._
 import net.yoshinorin.gitbucket.monitoring.models.{DefaultSettings, Log}
 import net.yoshinorin.gitbucket.monitoring.utils._
@@ -29,7 +30,7 @@ trait GitBucketLog {
                 lines
               ))
           } catch {
-            case e: Exception => Left(Message.error)
+            case e: IOException => Left(Message.error)
           }
         }
       }

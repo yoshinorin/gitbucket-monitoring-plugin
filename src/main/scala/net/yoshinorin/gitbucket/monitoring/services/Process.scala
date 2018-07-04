@@ -1,5 +1,6 @@
 package net.yoshinorin.gitbucket.monitoring.services
 
+import java.io.IOException
 import scala.sys.process._
 import net.yoshinorin.gitbucket.monitoring.models.{Tasks, LoadAverage}
 import net.yoshinorin.gitbucket.monitoring.utils._
@@ -17,7 +18,7 @@ trait ProcessInfo {
           resouces.filter(c => c.contains("zombie")).headOption.getOrElse("-").replace("zombie", "")
         ))
     } catch {
-      case e: Exception => Left(Message.error)
+      case e: IOException => Left(Message.error)
     }
   }
 
@@ -32,7 +33,7 @@ trait ProcessInfo {
           list(2)
         ))
     } catch {
-      case e: Exception => Left(Message.error)
+      case e: IOException => Left(Message.error)
     }
   }
 }

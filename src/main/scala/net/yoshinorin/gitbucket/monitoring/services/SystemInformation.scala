@@ -1,5 +1,6 @@
 package net.yoshinorin.gitbucket.monitoring.services
 
+import java.io.IOException
 import java.time._
 import java.nio.file.{Paths, Files}
 import scala.sys.process._
@@ -25,7 +26,7 @@ trait SystemInformation {
           Process("uptime -s") !!
         ))
     } catch {
-      case e: Exception => Left(Message.error)
+      case e: IOException => Left(Message.error)
     }
   }
 }

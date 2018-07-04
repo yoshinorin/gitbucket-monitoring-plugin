@@ -1,5 +1,6 @@
 package net.yoshinorin.gitbucket.monitoring.services.operatingsystem
 
+import java.io.IOException
 import scala.sys.process._
 import net.yoshinorin.gitbucket.monitoring.models._
 import net.yoshinorin.gitbucket.monitoring.services._
@@ -15,7 +16,7 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo w
           (Process("powershell -Command [Management.ManagementDateTimeConverter]::ToDateTime((Get-WmiObject Win32_OperatingSystem).LastBootUpTime)") !!)
         ))
     } catch {
-      case e: Exception => Left(Message.error)
+      case e: IOException => Left(Message.error)
     }
   }
 
@@ -34,7 +35,7 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo w
           (Process("powershell -Command Get-WmiObject Win32_PerfFormattedData_PerfOS_Processor | Where-Object {$_.Name -eq '_Total'} | %{ $_.PercentProcessorTime }") !!).toString
         ))
     } catch {
-      case e: Exception => Left(Message.error)
+      case e: IOException => Left(Message.error)
     }
   }
 
@@ -74,7 +75,7 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo w
           Message.notSupported
         ))
     } catch {
-      case e: Exception => Left(Message.error)
+      case e: IOException => Left(Message.error)
     }
   }
 
@@ -90,7 +91,7 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo w
                 lines
               ))
           } catch {
-            case e: Exception => Left(Message.error)
+            case e: IOException => Left(Message.error)
           }
         }
       }
