@@ -31,6 +31,6 @@ trait SystemInformation {
 }
 
 case class UpTime(
-  uptime: String,
+  upTime: String,
   startTime: String
 )
