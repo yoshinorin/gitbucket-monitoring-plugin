@@ -2,7 +2,7 @@ package net.yoshinorin.gitbucket.monitoring.services
 
 import java.io.IOException
 import java.time._
-import java.nio.file.{Paths, Files}
+import java.nio.file.{Files, Paths}
 import scala.sys.process._
 import net.yoshinorin.gitbucket.monitoring.utils._
 

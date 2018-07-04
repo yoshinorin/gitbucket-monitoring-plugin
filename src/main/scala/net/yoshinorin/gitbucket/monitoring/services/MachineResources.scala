@@ -3,7 +3,7 @@ package net.yoshinorin.gitbucket.monitoring.services
 import java.io.IOException
 import java.nio.file._
 import scala.sys.process._
-import net.yoshinorin.gitbucket.monitoring.models.{Cpu, Memory, Swap, DiskSpace}
+import net.yoshinorin.gitbucket.monitoring.models.{Cpu, DiskSpace, Memory, Swap}
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 trait MachineResources {
