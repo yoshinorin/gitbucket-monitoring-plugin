@@ -9,3 +9,5 @@ organization := Organization
 version := Version
 scalaVersion := "2.12.6"
 gitbucketVersion := "4.23.0"
+
+scalafmtOnCompile := true
