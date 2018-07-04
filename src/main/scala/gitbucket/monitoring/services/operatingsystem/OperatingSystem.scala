@@ -19,7 +19,7 @@ object OperatingSystem {
     else if (osName.toLowerCase.contains("mac")) Mac
     else Other
 
-  val osVersion:String = osType match {
+  val osVersion: String = osType match {
     case Windows => {
       (Process("powershell -Command Get-WmiObject Win32_OperatingSystem | %{ $_.Version }") !!).toString
     }
@@ -32,7 +32,7 @@ object OperatingSystem {
     case Linux => {
       try {
         val result = Process("cat /etc/issue") !!
-        val d = result.replace("\\n","").replace("\\l","").replace(" ","")
+        val d = result.replace("\\n", "").replace("\\l", "").replace(" ", "")
         d
       } catch {
         case e: Exception => Message.error

@@ -1,6 +1,6 @@
 package gitbucket.monitoring.models
 
-case class Cpu (
+case class Cpu(
   us: String,
   sy: String,
   ni: String,
@@ -12,7 +12,7 @@ case class Cpu (
   usage: String
 )
 
-case class Memory (
+case class Memory(
   total: String,
   used: String,
   free: String,
@@ -21,13 +21,13 @@ case class Memory (
   available: String
 )
 
-case class Swap (
+case class Swap(
   total: String,
   used: String,
   free: String
 )
 
-case class DiskSpace (
+case class DiskSpace(
   totalSpace: String,
   freeSpace: String,
   usedSpace: String

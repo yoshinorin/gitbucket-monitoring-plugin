@@ -23,10 +23,11 @@ trait GitBucketLog {
         case Left(message) => Left(Message.notFound)
         case Right(p) => {
           try {
-            Right(Log(
-              Process(s"tail -n $lines $p") !!,
-              lines
-            ))
+            Right(
+              Log(
+                Process(s"tail -n $lines $p") !!,
+                lines
+              ))
           } catch {
             case e: Exception => Left(Message.error)
           }

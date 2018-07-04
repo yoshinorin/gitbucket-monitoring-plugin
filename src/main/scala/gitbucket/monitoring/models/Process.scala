@@ -1,6 +1,6 @@
 package gitbucket.monitoring.models
 
-case class Tasks (
+case class Tasks(
   total: String,
   running: String,
   sleeping: String,
@@ -8,7 +8,7 @@ case class Tasks (
   zombie: String
 )
 
-case class LoadAverage (
+case class LoadAverage(
   oneMin: String,
   fiveMin: String,
   fifteenMin: String

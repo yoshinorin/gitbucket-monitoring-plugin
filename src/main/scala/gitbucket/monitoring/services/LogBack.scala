@@ -32,7 +32,7 @@ object LogBack {
         val xml = logBackSettingsFile match {
           case Left(message) => message
           case Right(s) => {
-            (XML.loadString(s) \\ "appender" \ "file" toString).replace("<file>","").replace("</file>","")
+            (XML.loadString(s) \\ "appender" \ "file" toString).replace("<file>", "").replace("</file>", "")
           }
         }
         if (xml.trim.length == 0) {

@@ -1,12 +1,12 @@
 package gitbucket.monitoring.models
 
-case class DefaultSettings (
+case class DefaultSettings(
   logBackInfo: LogBackInfo,
   defaultDisplayLines: Int,
   displayLimitLines: Int
 )
 
-case class Log (
+case class Log(
   log: String,
   displayedLines: Int
 )

@@ -19,17 +19,18 @@ trait SystemInformation {
     try {
       val result = Process("uptime") !!
       val list = result.drop(result.indexOf("up") + 2).split(",")
-      Right(UpTime(
-        list(0),
-        Process("uptime -s") !!
-      ))
+      Right(
+        UpTime(
+          list(0),
+          Process("uptime -s") !!
+        ))
     } catch {
       case e: Exception => Left(Message.error)
     }
   }
 }
 
-case class UpTime (
+case class UpTime(
   uptime: String,
   startTime: String
 )

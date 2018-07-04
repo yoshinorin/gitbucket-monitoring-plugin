@@ -17,7 +17,7 @@ trait LogController extends MonitoringControllerBase {
     val defaultSettings = GitBucketLog.getDefaultSettings
     val lineNum = request.getParameter("lines")
 
-    if (Try(lineNum.toInt).toOption != None){
+    if (Try(lineNum.toInt).toOption != None) {
       val n = lineNum.toInt
       if (n > defaultSettings.displayLimitLines) {
         html.gitbucketlog(defaultSettings, os.getLog(defaultSettings.displayLimitLines));

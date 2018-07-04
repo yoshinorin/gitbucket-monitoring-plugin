@@ -18,7 +18,7 @@ class IndexController extends MonitoringControllerBase with JavaController with 
       os.dayOfWeek.toString,
       os.onDocker,
       os.getUpTime
-      );
+    );
   })
 
   get("/admin/monitoring/environmentvariable")(adminOnly {
