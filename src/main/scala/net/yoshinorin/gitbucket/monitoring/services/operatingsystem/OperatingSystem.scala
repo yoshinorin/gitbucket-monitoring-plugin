@@ -5,6 +5,7 @@ import scala.sys.process._
 import net.yoshinorin.gitbucket.monitoring.utils.Message
 
 object OperatingSystem {
+
   sealed abstract class OSType
   case object Linux extends OSType
   case object Windows extends OSType
@@ -48,4 +49,5 @@ object OperatingSystem {
     case OperatingSystem.Windows => new Windows
     case _ => new Other
   }
+
 }

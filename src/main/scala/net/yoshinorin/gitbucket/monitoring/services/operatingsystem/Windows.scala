@@ -7,6 +7,7 @@ import net.yoshinorin.gitbucket.monitoring.services._
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 class Windows extends SystemInformation with MachineResources with ProcessInfo {
+
   override def getUpTime: Either[String, UpTime] = {
     try {
       Right(
@@ -78,4 +79,5 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo {
       case e: IOException => Left(Message.error)
     }
   }
+
 }

@@ -7,6 +7,7 @@ import net.yoshinorin.gitbucket.monitoring.models.{Cpu, DiskSpace, Memory, Swap}
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 trait MachineResources {
+
   private val fileStore = Files.getFileStore(Paths.get("."))
 
   val cpuCore = Runtime.getRuntime().availableProcessors()
@@ -98,4 +99,5 @@ trait MachineResources {
       usedSpace.toString
     )
   }
+
 }

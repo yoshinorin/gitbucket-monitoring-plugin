@@ -7,6 +7,7 @@ import scala.sys.process._
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 trait SystemInformation {
+
   val timeZone = ZoneId.systemDefault()
   def nowTime = LocalDateTime.now()
   def zoneOffset = timeZone.getRules().getOffset(nowTime)
@@ -29,6 +30,7 @@ trait SystemInformation {
       case e: IOException => Left(Message.error)
     }
   }
+
 }
 
 case class UpTime(

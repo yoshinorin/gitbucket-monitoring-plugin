@@ -4,6 +4,7 @@ import scala.collection.JavaConverters._
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 object Java {
+
   val memTotal = (UnitConverter.byteToMB(Runtime.getRuntime().totalMemory()))
   val memMax = (UnitConverter.byteToMB(Runtime.getRuntime().maxMemory()))
 
@@ -25,4 +26,5 @@ object Java {
     free: String,
     used: String
   )
+
 }

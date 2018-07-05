@@ -6,7 +6,9 @@ import net.yoshinorin.gitbucket.monitoring.services._
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 class Linux extends SystemInformation with MachineResources with ProcessInfo {
+
   override def getUpTime: Either[String, UpTime] = {
+
     try {
       val ut = Process("cat /proc/uptime").!!.split(" ")
       val dt = Time.secondsToDateTime(Rounding.ceil(BigDecimal(ut(0)), 0).toInt)
@@ -19,4 +21,5 @@ class Linux extends SystemInformation with MachineResources with ProcessInfo {
       case e: IOException => Left(Message.error)
     }
   }
+
 }

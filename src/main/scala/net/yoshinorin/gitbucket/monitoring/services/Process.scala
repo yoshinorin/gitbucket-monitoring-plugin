@@ -6,6 +6,7 @@ import net.yoshinorin.gitbucket.monitoring.models.{Tasks, LoadAverage}
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 trait ProcessInfo {
+
   def getTasks: Either[String, Tasks] = {
     try {
       val resouces = StringUtil.dropAndToArray((Process("top -b -n 1") #| Process("grep Tasks")).!!, ":", ",")
@@ -36,4 +37,5 @@ trait ProcessInfo {
       case e: IOException => Left(Message.error)
     }
   }
+
 }

@@ -5,6 +5,7 @@ import net.yoshinorin.gitbucket.monitoring.models.{Cpu, Tasks}
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 class Mac extends SystemInformation with MachineResources with ProcessInfo {
+
   override def getTasks: Either[String, Tasks] = {
     Left(Message.notSupported)
   }
@@ -12,4 +13,5 @@ class Mac extends SystemInformation with MachineResources with ProcessInfo {
   override def getCpu: Either[String, Cpu] = {
     Left(Message.notSupported)
   }
+
 }

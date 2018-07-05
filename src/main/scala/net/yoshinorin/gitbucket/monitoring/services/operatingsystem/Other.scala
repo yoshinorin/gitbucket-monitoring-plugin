@@ -5,6 +5,7 @@ import net.yoshinorin.gitbucket.monitoring.services._
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 class Other extends SystemInformation with MachineResources with ProcessInfo {
+
   override def getUpTime: Either[String, UpTime] = {
     Left(Message.notSupported)
   }
