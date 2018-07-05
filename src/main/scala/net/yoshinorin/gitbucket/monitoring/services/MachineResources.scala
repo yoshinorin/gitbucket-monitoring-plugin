@@ -87,11 +87,9 @@ trait MachineResources {
     }
   }
 
-  private val fileStore = Files.getFileStore(Paths.get("."))
-
   def getDiskSpace: DiskSpace = {
-    val totalSpace = UnitConverter.byteToGB(fileStore.getTotalSpace())
-    val freeSpace = UnitConverter.byteToGB(fileStore.getUnallocatedSpace())
+    val totalSpace = UnitConverter.byteToGB(Files.getFileStore(Paths.get(".")).getTotalSpace())
+    val freeSpace = UnitConverter.byteToGB(Files.getFileStore(Paths.get(".")).getUnallocatedSpace())
     val usedSpace = totalSpace - freeSpace
     DiskSpace(
       totalSpace.toString,

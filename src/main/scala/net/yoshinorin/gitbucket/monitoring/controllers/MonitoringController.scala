@@ -16,9 +16,9 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   get("/admin/monitoring/systeminformation")(adminOnly {
     html.system(
       os.timeZone.toString,
-      os.nowTime.toString,
-      os.zoneOffset.toString,
-      os.dayOfWeek.toString,
+      os.getCurrentTime.toString,
+      os.getZoneOffset.toString,
+      os.getDayOfWeek.toString,
       os.onDocker,
       os.getUpTime
     );

@@ -5,8 +5,8 @@ import net.yoshinorin.gitbucket.monitoring.utils._
 
 object Java {
 
-  val memTotal = (UnitConverter.byteToMB(Runtime.getRuntime().totalMemory()))
-  val memMax = (UnitConverter.byteToMB(Runtime.getRuntime().maxMemory()))
+  private val memTotal = UnitConverter.byteToMB(Runtime.getRuntime().totalMemory())
+  private val memMax = UnitConverter.byteToMB(Runtime.getRuntime().maxMemory())
 
   def getSystemProperties: Map[String, String] = System.getProperties().asScala.toMap
 
