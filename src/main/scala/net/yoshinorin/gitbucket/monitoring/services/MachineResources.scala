@@ -8,8 +8,6 @@ import net.yoshinorin.gitbucket.monitoring.utils._
 
 trait MachineResources {
 
-  private val fileStore = Files.getFileStore(Paths.get("."))
-
   val cpuCore = Runtime.getRuntime().availableProcessors()
 
   def getCpu: Either[String, Cpu] = {
@@ -88,6 +86,8 @@ trait MachineResources {
       case e: IOException => Left(Message.error)
     }
   }
+
+  private val fileStore = Files.getFileStore(Paths.get("."))
 
   def getDiskSpace: DiskSpace = {
     val totalSpace = UnitConverter.byteToGB(fileStore.getTotalSpace())

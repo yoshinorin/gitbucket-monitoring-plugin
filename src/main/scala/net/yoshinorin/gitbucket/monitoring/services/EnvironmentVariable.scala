@@ -4,7 +4,7 @@ import scala.collection.JavaConverters._
 
 object EnvironmentVariable {
 
-  def variables: Map[String, String] = {
+  def getVariables: Map[String, String] = {
     System.getenv().asScala.toMap
   }
 

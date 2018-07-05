@@ -23,7 +23,7 @@ object OperatingSystem {
 
   val osVersion: String = osType match {
     case Windows => {
-      Process("powershell -Command Get-WmiObject Win32_OperatingSystem | %{ $_.Version }").!!.toString
+      Process("powershell -Command Get-WmiObject Win32_OperatingSystem | %{ $_.Version }").!!
     }
     case _ => {
       System.getProperty("os.version")

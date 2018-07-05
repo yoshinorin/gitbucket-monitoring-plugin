@@ -21,7 +21,7 @@ class IndexController extends MonitoringControllerBase with JavaController {
   })
 
   get("/admin/monitoring/environmentvariable")(adminOnly {
-    html.environmentVariable(EnvironmentVariable.variables);
+    html.environmentVariable(EnvironmentVariable.getVariables);
   })
 
   get("/admin/monitoring/machineresources")(adminOnly {
