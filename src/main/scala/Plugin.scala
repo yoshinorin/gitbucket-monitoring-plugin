@@ -1,6 +1,6 @@
 import gitbucket.core.controller.Context
 import gitbucket.core.plugin._
-import net.yoshinorin.gitbucket.monitoring.controllers.IndexController
+import net.yoshinorin.gitbucket.monitoring.controllers.MonitoringController
 
 import io.github.gitbucket.solidbase.model.Version
 
@@ -22,6 +22,6 @@ class Plugin extends gitbucket.core.plugin.Plugin {
   override val assetsMappings = Seq("/monitoring" -> "/gitbucket/monitoring/assets")
 
   override val controllers = Seq(
-    "/*" -> new IndexController
+    "/*" -> new MonitoringController
   )
 }

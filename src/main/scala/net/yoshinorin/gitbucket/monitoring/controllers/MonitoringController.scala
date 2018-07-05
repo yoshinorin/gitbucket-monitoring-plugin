@@ -1,9 +1,13 @@
 package net.yoshinorin.gitbucket.monitoring.controllers
 
+import gitbucket.core.controller.ControllerBase
+import gitbucket.core.util.AdminAuthenticator
 import net.yoshinorin.gitbucket.monitoring.services._
 import net.yoshinorin.gitbucket.monitoring.information._
 
-class IndexController extends MonitoringControllerBase with JavaController {
+class MonitoringController extends ControllerBase with AdminAuthenticator {
+
+  val os = net.yoshinorin.gitbucket.monitoring.services.operatingsystem.OperatingSystem.getInstance
 
   get("/admin/monitoring")(adminOnly {
     redirect(s"/admin/monitoring/systeminformation");
@@ -40,4 +44,17 @@ class IndexController extends MonitoringControllerBase with JavaController {
       os.getLoadAverage
     );
   })
+
+  get("/admin/monitoring/java")(adminOnly {
+    redirect(s"/admin/monitoring/java/systemproperties");
+  })
+
+  get("/admin/monitoring/java/systemproperties")(adminOnly {
+    java.html.systemproperties(Java.getSystemProperties);
+  })
+
+  get("/admin/monitoring/java/memory")(adminOnly {
+    java.html.memory(Java.getMemoryInfo);
+  })
+
 }
