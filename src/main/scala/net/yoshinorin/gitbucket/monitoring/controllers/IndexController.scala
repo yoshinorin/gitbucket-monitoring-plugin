@@ -1,6 +1,5 @@
 package net.yoshinorin.gitbucket.monitoring.controllers
 
-import gitbucket.core.util.AdminAuthenticator
 import net.yoshinorin.gitbucket.monitoring.services._
 import net.yoshinorin.gitbucket.monitoring.information._
 
