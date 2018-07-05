@@ -8,7 +8,7 @@ import net.yoshinorin.gitbucket.monitoring.utils._
 trait ProcessInfo {
   def getTasks: Either[String, Tasks] = {
     try {
-      val resouces = StringUtil.dropAndToArray(Process("top -b -n 1") #| Process("grep Tasks") !!, ":", ",")
+      val resouces = StringUtil.dropAndToArray((Process("top -b -n 1") #| Process("grep Tasks")).!!, ":", ",")
       Right(
         Tasks(
           resouces.filter(c => c.contains("total")).headOption.getOrElse("-").replace("total", ""),
