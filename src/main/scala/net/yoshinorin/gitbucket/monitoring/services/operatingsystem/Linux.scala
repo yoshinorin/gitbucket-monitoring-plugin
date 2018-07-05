@@ -1,7 +1,7 @@
 package net.yoshinorin.gitbucket.monitoring.services.operatingsystem
 
 import java.io.IOException
-import scala.sys.process._
+import scala.sys.process.Process
 import net.yoshinorin.gitbucket.monitoring.services._
 import net.yoshinorin.gitbucket.monitoring.utils._
 

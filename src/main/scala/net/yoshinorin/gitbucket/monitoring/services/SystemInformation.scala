@@ -3,7 +3,7 @@ package net.yoshinorin.gitbucket.monitoring.services
 import java.io.IOException
 import java.time._
 import java.nio.file.{Files, Paths}
-import scala.sys.process._
+import scala.sys.process.Process
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 trait SystemInformation {

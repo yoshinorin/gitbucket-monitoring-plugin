@@ -1,7 +1,7 @@
 package net.yoshinorin.gitbucket.monitoring.services
 
 import java.io.IOException
-import scala.sys.process._
+import scala.sys.process.Process
 import net.yoshinorin.gitbucket.monitoring.models.{Tasks, LoadAverage}
 import net.yoshinorin.gitbucket.monitoring.utils._
 
