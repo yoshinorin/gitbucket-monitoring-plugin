@@ -5,7 +5,7 @@ import scala.sys.process._
 import net.yoshinorin.gitbucket.monitoring.services._
 import net.yoshinorin.gitbucket.monitoring.utils._
 
-class Linux extends SystemInformation with MachineResources with ProcessInfo with GitBucketLog {
+class Linux extends SystemInformation with MachineResources with ProcessInfo {
   override def getUpTime: Either[String, UpTime] = {
     try {
       val ut = Process("cat /proc/uptime").!!.split(" ")

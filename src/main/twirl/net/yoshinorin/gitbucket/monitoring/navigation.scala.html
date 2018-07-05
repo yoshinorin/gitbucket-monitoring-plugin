@@ -25,13 +25,4 @@
       </li>
     </ul>
   </li>
-  <li role="presentation" class="dropdown" @if(context.request.getRequestURI.endsWith("logs/logback")|| context.request.getRequestURI.endsWith("logs/gitbucketlog")) {class="active"}>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-      Logs<span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu">
-      <li><a href="@context.path/admin/monitoring/logs/logback">LogBack Settings</a></li>
-      <li><a href="@context.path/admin/monitoring/logs/gitbucketlog">GitBucket Log</a></li>
-    </ul>
-  </li>
 </ul>

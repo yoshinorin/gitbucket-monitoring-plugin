@@ -3,7 +3,7 @@ package net.yoshinorin.gitbucket.monitoring.controllers
 import net.yoshinorin.gitbucket.monitoring.services._
 import net.yoshinorin.gitbucket.monitoring.information._
 
-class IndexController extends MonitoringControllerBase with JavaController with LogController {
+class IndexController extends MonitoringControllerBase with JavaController {
 
   get("/admin/monitoring")(adminOnly {
     redirect(s"/admin/monitoring/systeminformation");
@@ -39,9 +39,5 @@ class IndexController extends MonitoringControllerBase with JavaController with 
       os.getTasks,
       os.getLoadAverage
     );
-  })
-
-  get("/admin/monitoring/logs")(adminOnly {
-    redirect(s"/admin/monitoring/logs/logback");
   })
 }

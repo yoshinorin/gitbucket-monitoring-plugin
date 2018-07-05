@@ -16,8 +16,10 @@ All viewable informations are below.
 * Machine's Load average
 * Machine's Tasks (Running, Sleeping, Stopped, Zombie)
 * Java system properties and memory
-* LogBack settings
-* GitBucket's log
+* **(Deprecated)** LogBack settings
+    * Will be deleted in the next version. Please use [gitbucket-logs-plugin](https://github.com/YoshinoriN/gitbucket-logs-plugin).
+* **(Deprecated)** GitBucket's log
+    * Will be deleted in the next version. Please use [gitbucket-logs-plugin](https://github.com/YoshinoriN/gitbucket-logs-plugin).
 
 # Images
 

@@ -6,7 +6,7 @@ import net.yoshinorin.gitbucket.monitoring.models._
 import net.yoshinorin.gitbucket.monitoring.services._
 import net.yoshinorin.gitbucket.monitoring.utils._
 
-class Windows extends SystemInformation with MachineResources with ProcessInfo with GitBucketLog {
+class Windows extends SystemInformation with MachineResources with ProcessInfo {
   override def getUpTime: Either[String, UpTime] = {
     try {
       Right(
@@ -76,27 +76,6 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo w
         ))
     } catch {
       case e: IOException => Left(Message.error)
-    }
-  }
-
-  override def getLog(lines: Int = GitBucketLog.getDefaultSettings.defaultDisplayLines): Either[String, Log] = {
-    if (GitBucketLog.getDefaultSettings.logBackInfo.enableLogging) {
-      GitBucketLog.getDefaultSettings.logBackInfo.logFilePath match {
-        case Left(message) => Left(Message.notFound)
-        case Right(p) => {
-          try {
-            Right(
-              Log(
-                Process(s"powershell -Command Get-Content -Path $p -Tail $lines").!!,
-                lines
-              ))
-          } catch {
-            case e: IOException => Left(Message.error)
-          }
-        }
-      }
-    } else {
-      Left(GitBucketLog.disableMessage)
     }
   }
 }
