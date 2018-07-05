@@ -16,7 +16,7 @@ class Plugin extends gitbucket.core.plugin.Plugin {
   )
 
   override val systemSettingMenus: Seq[(Context) => Option[Link]] = Seq(
-    (context: Context) => Some(Link("monitoring", "Monitoring", "admin/monitoring"))
+    (context: Context) => Some(Link("monitoring", "Monitoring", "admin/monitoring", Some("server")))
   )
 
   override val assetsMappings = Seq("/monitoring" -> "/gitbucket/monitoring/assets")
