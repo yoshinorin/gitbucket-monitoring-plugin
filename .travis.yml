@@ -6,3 +6,7 @@ jdk:
   - oraclejdk8
 script:
   - sbt package
+cache:
+  directories:
+  - $HOME/.ivy2/cache
+  - $HOME/.sbt/launchers
