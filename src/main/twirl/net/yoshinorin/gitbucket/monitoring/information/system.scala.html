@@ -41,7 +41,7 @@
           <div class="row">
             <label class="col-md-2">StartTime</label>
             <span class="col-md-10">@upTime match {
-                case Left(message) => { <div class="error"> @message.message </div> }
+                case Left(error) => { <div class="error"> @error.message </div> }
                 case Right(u) => { @u.startTime }
               }
             </span>
@@ -49,7 +49,7 @@
           <div class="row">
             <label class="col-md-2">UpTime</label>
             <span class="col-md-10">@upTime match {
-                case Left(message) => { <div class="error"> @message.message </div> }
+                case Left(error) => { <div class="error"> @error.message </div> }
                 case Right(u) => { @u.upTime }
               }
             </span>

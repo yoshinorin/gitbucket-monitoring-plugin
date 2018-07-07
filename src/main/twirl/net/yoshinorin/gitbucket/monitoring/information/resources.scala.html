@@ -14,8 +14,8 @@
           <div class="row">
             @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Core", core.toString)
             @cpu match {
-              case Left(message) => {
-                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", message.message)
+              case Left(error) => {
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", error.message)
               }
               case Right(c) => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", c.usage + "%")}
             }
@@ -31,7 +31,7 @@
           <span class="strong"></span>Physical
         </label>
         @memory match {
-          case Left(message) => { <div class="error"> @message.message </div> }
+          case Left(error) => { <div class="error"> @error.message </div> }
           case Right(m) => {
           <div class="row">
             @m.used match {
@@ -67,7 +67,7 @@
         </label>
         <div class="row">
           @swap match {
-            case Left(message) => { <div class="error"> @message.message </div> }
+            case Left(error) => { <div class="error"> @error.message </div> }
             case Right(s) => {
               @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", s.used + "/" + s.total + "MB")
               @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Free", s.free + "/" + s.total + "MB")
