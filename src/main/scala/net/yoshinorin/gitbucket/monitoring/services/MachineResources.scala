@@ -4,6 +4,7 @@ import java.nio.file._
 import scala.sys.process.Process
 import scala.util.Try
 import net.yoshinorin.gitbucket.monitoring.models.{Cpu, DiskSpace, Memory, Swap}
+import net.yoshinorin.gitbucket.monitoring.utils.Converter.{byteConverter, dropAndToArray}
 import net.yoshinorin.gitbucket.monitoring.utils._
 
 trait MachineResources {
@@ -11,7 +12,7 @@ trait MachineResources {
   val cpuCore = Runtime.getRuntime().availableProcessors()
 
   def getCpu: Try[Option[Cpu]] = Try {
-    val resouces = StringUtil.dropAndToArray((Process("top -b -n 1") #| Process("grep Cpu(s)")).!!, ":", ",")
+    val resouces = (Process("top -b -n 1") #| Process("grep Cpu(s)")).!!.dropAndToArray(":", ",")
     Some(
       Cpu(
         resouces.filter(c => c.contains("us")).headOption.getOrElse("-").replace("us", ""),
@@ -34,7 +35,7 @@ trait MachineResources {
   def getMemory: Try[Option[Memory]] = Try {
     //Estimated available memory
     //https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773
-    val mem = StringUtil.dropAndToArray((Process("free -mt") #| Process("grep Mem")).!!, ":", "\\s+")
+    val mem = (Process("free -mt") #| Process("grep Mem")).!!.dropAndToArray(":", "\\s+")
     if ((Process("free") #| Process("grep available") #| Process("wc -l")).!!.trim != "0") {
       Some(Memory(mem(0), mem(1), mem(2), mem(3), mem(4), mem(5)))
     } else {
@@ -60,13 +61,13 @@ trait MachineResources {
   }
 
   def getSwap: Try[Option[Swap]] = Try {
-    val swap = StringUtil.dropAndToArray((Process("free -mt") #| Process("grep Swap")).!!, ":", "\\s+")
+    val swap = (Process("free -mt") #| Process("grep Swap")).!!.dropAndToArray(":", "\\s+")
     Some(Swap(swap(0), swap(1), swap(2)))
   }
 
   def getDiskSpace: DiskSpace = {
-    val totalSpace = UnitConverter.byteToGB(Files.getFileStore(Paths.get(".")).getTotalSpace())
-    val freeSpace = UnitConverter.byteToGB(Files.getFileStore(Paths.get(".")).getUnallocatedSpace())
+    val totalSpace = Files.getFileStore(Paths.get(".")).getTotalSpace().byteToGB
+    val freeSpace = Files.getFileStore(Paths.get(".")).getUnallocatedSpace().byteToGB
     val usedSpace = totalSpace - freeSpace
 
     DiskSpace(

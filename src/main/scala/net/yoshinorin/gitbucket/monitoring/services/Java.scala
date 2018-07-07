@@ -1,17 +1,17 @@
 package net.yoshinorin.gitbucket.monitoring.services
 
 import scala.collection.JavaConverters._
-import net.yoshinorin.gitbucket.monitoring.utils._
+import net.yoshinorin.gitbucket.monitoring.utils.Converter.byteConverter
 
 object Java {
 
-  private val memTotal = UnitConverter.byteToMB(Runtime.getRuntime().totalMemory())
-  private val memMax = UnitConverter.byteToMB(Runtime.getRuntime().maxMemory())
+  private val memTotal = Runtime.getRuntime().totalMemory().byteToMB
+  private val memMax = Runtime.getRuntime().maxMemory().byteToMB
 
   def getSystemProperties: Map[String, String] = System.getProperties().asScala.toMap
 
   def getMemoryInfo: Memory = {
-    val memFree = UnitConverter.byteToMB(Runtime.getRuntime().freeMemory())
+    val memFree = Runtime.getRuntime().freeMemory().byteToMB
     Memory(
       memTotal.toString,
       memMax.toString,

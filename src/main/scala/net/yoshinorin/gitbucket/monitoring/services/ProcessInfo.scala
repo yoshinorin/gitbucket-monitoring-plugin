@@ -3,12 +3,12 @@ package net.yoshinorin.gitbucket.monitoring.services
 import scala.util.Try
 import scala.sys.process.Process
 import net.yoshinorin.gitbucket.monitoring.models.{LoadAverage, Tasks}
-import net.yoshinorin.gitbucket.monitoring.utils._
+import net.yoshinorin.gitbucket.monitoring.utils.Converter.dropAndToArray
 
 trait ProcessInfo {
 
   def getTasks: Try[Option[Tasks]] = Try {
-    val resouces = StringUtil.dropAndToArray((Process("top -b -n 1") #| Process("grep Tasks")).!!, ":", ",")
+    val resouces = (Process("top -b -n 1") #| Process("grep Tasks")).!!.dropAndToArray(":", ",")
     Some(
       Tasks(
         resouces.filter(c => c.contains("total")).headOption.getOrElse("-").replace("total", ""),
