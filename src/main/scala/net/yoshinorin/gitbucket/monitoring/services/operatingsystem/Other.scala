@@ -1,33 +1,33 @@
 package net.yoshinorin.gitbucket.monitoring.services.operatingsystem
 
+import scala.util.Try
 import net.yoshinorin.gitbucket.monitoring.models._
 import net.yoshinorin.gitbucket.monitoring.services._
-import net.yoshinorin.gitbucket.monitoring.utils._
 
 class Other extends SystemInformation with MachineResources with ProcessInfo {
 
-  override def getUpTime: Either[String, UpTime] = {
-    Left(Message.notSupported)
+  override def getUpTime: Try[Option[UpTime]] = Try {
+    None
   }
 
-  override def getCpu: Either[String, Cpu] = {
-    Left(Message.notSupported)
+  override def getCpu: Try[Option[Cpu]] = Try {
+    None
   }
 
-  override def getMemory: Either[String, Memory] = {
-    Left(Message.notSupported)
+  override def getMemory: Try[Option[Memory]] = Try {
+    None
   }
 
-  override def getSwap: Either[String, Swap] = {
-    Left(Message.notSupported)
+  override def getSwap: Try[Option[Swap]] = Try {
+    None
   }
 
-  override def getTasks: Either[String, Tasks] = {
-    Left(Message.notSupported)
+  override def getTasks: Try[Option[Tasks]] = Try {
+    None
   }
 
-  override def getLoadAverage: Either[String, LoadAverage] = {
-    Left(Message.notSupported)
+  override def getLoadAverage: Try[Option[LoadAverage]] = Try {
+    None
   }
 
 }

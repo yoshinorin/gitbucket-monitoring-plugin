@@ -1,10 +1,12 @@
 package net.yoshinorin.gitbucket.monitoring.controllers
 
 import scala.collection.JavaConverters._
+import scala.util.{Failure, Success}
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
 import net.yoshinorin.gitbucket.monitoring.services._
 import net.yoshinorin.gitbucket.monitoring.information._
+import net.yoshinorin.gitbucket.monitoring.models.{Cpu, LoadAverage, Memory, Swap, Tasks}
 
 class MonitoringController extends ControllerBase with AdminAuthenticator {
 
@@ -15,14 +17,25 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   })
 
   get("/admin/monitoring/systeminformation")(adminOnly {
+
+    val upTime: Either[String, UpTime] = os.getUpTime match {
+      case Success(s) =>
+        s match {
+          case Some(s) => Right(s)
+          case None => Left("NOT SUPPORT")
+        }
+      case Failure(f) => Left("ERROR")
+    }
+
     html.system(
       os.timeZone.toString,
       os.getCurrentTime.toString,
       os.getZoneOffset.toString,
       os.getDayOfWeek.toString,
       os.onDocker,
-      os.getUpTime
+      upTime
     )
+
   })
 
   get("/admin/monitoring/environmentvariable")(adminOnly {
@@ -30,19 +43,66 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   })
 
   get("/admin/monitoring/machineresources")(adminOnly {
+
+    val cpu: Either[String, Cpu] = os.getCpu match {
+      case Success(s) =>
+        s match {
+          case Some(s) => Right(s)
+          case None => Left("NOT SUPPORT")
+        }
+      case Failure(f) => Left("ERROR")
+    }
+
+    val swap: Either[String, Swap] = os.getSwap match {
+      case Success(s) =>
+        s match {
+          case Some(s) => Right(s)
+          case None => Left("NOT SUPPORT")
+        }
+      case Failure(f) => Left("ERROR")
+    }
+
+    val memory: Either[String, Memory] = os.getMemory match {
+      case Success(s) =>
+        s match {
+          case Some(s) => Right(s)
+          case None => Left("NOT SUPPORT")
+        }
+      case Failure(f) => Left("ERROR")
+    }
+
     html.resources(
       os.cpuCore,
-      os.getCpu,
-      os.getMemory,
-      os.getSwap,
+      cpu,
+      memory,
+      swap,
       os.getDiskSpace
     )
   })
 
   get("/admin/monitoring/process")(adminOnly {
+
+    val tasks: Either[String, Tasks] = os.getTasks match {
+      case Success(s) =>
+        s match {
+          case Some(s) => Right(s)
+          case None => Left("NOT SUPPORT")
+        }
+      case Failure(f) => Left("ERROR")
+    }
+
+    val loadAve: Either[String, LoadAverage] = os.getLoadAverage match {
+      case Success(s) =>
+        s match {
+          case Some(s) => Right(s)
+          case None => Left("NOT SUPPORT")
+        }
+      case Failure(f) => Left("ERROR")
+    }
+
     html.process(
-      os.getTasks,
-      os.getLoadAverage
+      tasks,
+      loadAve
     )
 
   })

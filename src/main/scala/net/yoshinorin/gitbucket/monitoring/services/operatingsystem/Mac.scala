@@ -1,17 +1,17 @@
 package net.yoshinorin.gitbucket.monitoring.services.operatingsystem
 
+import scala.util.Try
 import net.yoshinorin.gitbucket.monitoring.services._
 import net.yoshinorin.gitbucket.monitoring.models.{Cpu, Tasks}
-import net.yoshinorin.gitbucket.monitoring.utils._
 
 class Mac extends SystemInformation with MachineResources with ProcessInfo {
 
-  override def getTasks: Either[String, Tasks] = {
-    Left(Message.notSupported)
+  override def getTasks: Try[Option[Tasks]] = Try {
+    None
   }
 
-  override def getCpu: Either[String, Cpu] = {
-    Left(Message.notSupported)
+  override def getCpu: Try[Option[Cpu]] = Try {
+    None
   }
 
 }
