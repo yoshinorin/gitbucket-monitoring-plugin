@@ -8,7 +8,7 @@ name := Name
 organization := Organization
 version := Version
 scalaVersion := "2.12.6"
-gitbucketVersion := "4.23.0"
+gitbucketVersion := "4.25.0"
 
 scalacOptions ++= Seq(
   "-deprecation",
