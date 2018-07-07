@@ -14,11 +14,11 @@
             case Right(l) => {
               <div class="row">
                 @OperatingSystem.osType match {
-                  case OperatingSystem.Windows => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Current", l.oneMin) }
-                  case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Recent 1min", l.oneMin) }
+                  case OperatingSystem.Windows => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Current", l.oneMin) }
+                  case _ => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Recent 1min", l.oneMin) }
                 }
-                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Recent 5min", l.fiveMin)
-                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Recent 15min", l.fifteenMin)
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Recent 5min", l.fiveMin)
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Recent 15min", l.fifteenMin)
             </div>
             }
           }
@@ -31,10 +31,10 @@
             case Left(message) => { <div class="error"> @message.message </div> }
             case Right(t) => {
               <div class="row">
-                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Running", (t.running + "/" + t.total))
-                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Sleeping", (t.sleeping + "/" + t.total))
-                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Stopped", (t.stopped + "/" + t.total))
-                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Zombie", (t.zombie + "/" + t.total))
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Running", (t.running + "/" + t.total))
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Sleeping", (t.sleeping + "/" + t.total))
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Stopped", (t.stopped + "/" + t.total))
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Zombie", (t.zombie + "/" + t.total))
               </div>
             }
           }

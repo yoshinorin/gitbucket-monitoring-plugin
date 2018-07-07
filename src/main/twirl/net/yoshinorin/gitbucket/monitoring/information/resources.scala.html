@@ -12,12 +12,12 @@
       <div class="panel-heading strong">CPU</div>
         <div class="panel-body">
           <div class="row">
-            @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Core", core.toString)
+            @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Core", core.toString)
             @cpu match {
               case Left(message) => {
-                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", message.message)
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", message.message)
               }
-              case Right(c) => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", c.usage + "%")}
+              case Right(c) => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", c.usage + "%")}
             }
           </div>
         </div>
@@ -36,29 +36,29 @@
           <div class="row">
             @m.used match {
               case Error.NOTSUPPORTED.message => {
-                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", m.used)
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", m.used)
               }
-              case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", m.used + "/" + m.total + "MB")}
+              case _ => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", m.used + "/" + m.total + "MB")}
             }
             @m.free match {
               case Error.NOTSUPPORTED.message => {
-                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", m.free)
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Free", m.free)
               }
-              case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", m.free + "/" + m.total + "MB")}
+              case _ => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Free", m.free + "/" + m.total + "MB")}
             }
             @m.shared match {
               case Error.NOTSUPPORTED.message => {
-                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Shared", m.shared)
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Shared", m.shared)
               }
-              case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Shared", m.shared + "/" + m.total + "MB")}
+              case _ => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Shared", m.shared + "/" + m.total + "MB")}
             }
             @m.buffCache match {
               case Error.NOTSUPPORTED.message => {
-                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Buff/Cache", m.buffCache)
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Buff/Cache", m.buffCache)
               }
-              case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Buff/Cache", m.buffCache + "/" + m.total + "MB")}
+              case _ => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Buff/Cache", m.buffCache + "/" + m.total + "MB")}
             }
-            @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Available", m.available + "/" + m.total + "MB")
+            @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Available", m.available + "/" + m.total + "MB")
           </div>
           }
         }
@@ -69,8 +69,8 @@
           @swap match {
             case Left(message) => { <div class="error"> @message.message </div> }
             case Right(s) => {
-              @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", s.used + "/" + s.total + "MB")
-              @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", s.free + "/" + s.total + "MB")
+              @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", s.used + "/" + s.total + "MB")
+              @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Free", s.free + "/" + s.total + "MB")
             }
           }
         </div>
@@ -80,8 +80,8 @@
       <div class="panel-heading strong">Disk (Only current partition)</div>
         <div class="panel-body">
           <div class="row">
-            @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", diskSpace.usedSpace + "/" + diskSpace.totalSpace + "GB")
-            @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", diskSpace.freeSpace + "/" + diskSpace.totalSpace + "GB")
+            @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", diskSpace.usedSpace + "/" + diskSpace.totalSpace + "GB")
+            @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Free", diskSpace.freeSpace + "/" + diskSpace.totalSpace + "GB")
           </div>
         </div>
     </div>
