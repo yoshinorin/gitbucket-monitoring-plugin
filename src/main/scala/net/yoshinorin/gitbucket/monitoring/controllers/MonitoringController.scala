@@ -7,6 +7,7 @@ import gitbucket.core.util.AdminAuthenticator
 import net.yoshinorin.gitbucket.monitoring.services._
 import net.yoshinorin.gitbucket.monitoring.information._
 import net.yoshinorin.gitbucket.monitoring.models.{Cpu, LoadAverage, Memory, Swap, Tasks}
+import net.yoshinorin.gitbucket.monitoring.utils.Error
 
 class MonitoringController extends ControllerBase with AdminAuthenticator {
 
@@ -18,13 +19,13 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
 
   get("/admin/monitoring/systeminformation")(adminOnly {
 
-    val upTime: Either[String, UpTime] = instance.getUpTime match {
+    val upTime: Either[Error, UpTime] = instance.getUpTime match {
       case Success(s) =>
         s match {
           case Some(s) => Right(s)
-          case None => Left("NOT SUPPORT")
+          case None => Left(Error.NOTSUPPORTED)
         }
-      case Failure(f) => Left("ERROR")
+      case Failure(f) => Left(Error.FAILURE)
     }
 
     html.system(
@@ -44,31 +45,31 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
 
   get("/admin/monitoring/machineresources")(adminOnly {
 
-    val cpu: Either[String, Cpu] = instance.getCpu match {
+    val cpu: Either[Error, Cpu] = instance.getCpu match {
       case Success(s) =>
         s match {
           case Some(s) => Right(s)
-          case None => Left("NOT SUPPORT")
+          case None => Left(Error.NOTSUPPORTED)
         }
-      case Failure(f) => Left("ERROR")
+      case Failure(f) => Left(Error.FAILURE)
     }
 
-    val swap: Either[String, Swap] = instance.getSwap match {
+    val swap: Either[Error, Swap] = instance.getSwap match {
       case Success(s) =>
         s match {
           case Some(s) => Right(s)
-          case None => Left("NOT SUPPORT")
+          case None => Left(Error.NOTSUPPORTED)
         }
-      case Failure(f) => Left("ERROR")
+      case Failure(f) => Left(Error.FAILURE)
     }
 
-    val memory: Either[String, Memory] = instance.getMemory match {
+    val memory: Either[Error, Memory] = instance.getMemory match {
       case Success(s) =>
         s match {
           case Some(s) => Right(s)
-          case None => Left("NOT SUPPORT")
+          case None => Left(Error.NOTSUPPORTED)
         }
-      case Failure(f) => Left("ERROR")
+      case Failure(f) => Left(Error.FAILURE)
     }
 
     html.resources(
@@ -82,22 +83,22 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
 
   get("/admin/monitoring/process")(adminOnly {
 
-    val tasks: Either[String, Tasks] = instance.getTasks match {
+    val tasks: Either[Error, Tasks] = instance.getTasks match {
       case Success(s) =>
         s match {
           case Some(s) => Right(s)
-          case None => Left("NOT SUPPORT")
+          case None => Left(Error.NOTSUPPORTED)
         }
-      case Failure(f) => Left("ERROR")
+      case Failure(f) => Left(Error.FAILURE)
     }
 
-    val loadAve: Either[String, LoadAverage] = instance.getLoadAverage match {
+    val loadAve: Either[Error, LoadAverage] = instance.getLoadAverage match {
       case Success(s) =>
         s match {
           case Some(s) => Right(s)
-          case None => Left("NOT SUPPORT")
+          case None => Left(Error.NOTSUPPORTED)
         }
-      case Failure(f) => Left("ERROR")
+      case Failure(f) => Left(Error.FAILURE)
     }
 
     html.process(

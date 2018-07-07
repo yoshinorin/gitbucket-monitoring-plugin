@@ -1,7 +1,8 @@
-@(tasks: Either[String, net.yoshinorin.gitbucket.monitoring.models.Tasks],
-  loadAve: Either[String, net.yoshinorin.gitbucket.monitoring.models.LoadAverage])(implicit context: gitbucket.core.controller.Context)
+@(tasks: Either[net.yoshinorin.gitbucket.monitoring.utils.Error, net.yoshinorin.gitbucket.monitoring.models.Tasks],
+  loadAve: Either[net.yoshinorin.gitbucket.monitoring.utils.Error, net.yoshinorin.gitbucket.monitoring.models.LoadAverage])(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import net.yoshinorin.gitbucket.monitoring.services.operatingsystem.OperatingSystem
+@import net.yoshinorin.gitbucket.monitoring.utils.Error
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @net.yoshinorin.gitbucket.monitoring.html.navigation(context)
@@ -9,7 +10,7 @@
       <div class="panel-heading strong">Load Average</div>
         <div class="panel-body">
           @loadAve match {
-            case Left(message) => { <div class="error"> @message </div> }
+            case Left(message) => { <div class="error"> @message.message </div> }
             case Right(l) => {
               <div class="row">
                 @OperatingSystem.osType match {
@@ -27,7 +28,7 @@
       <div class="panel-heading strong">Process</div>
         <div class="panel-body">
           @tasks match {
-            case Left(message) => { <div class="error"> @message </div> }
+            case Left(message) => { <div class="error"> @message.message </div> }
             case Right(t) => {
               <div class="row">
                 @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Running", (t.running + "/" + t.total))

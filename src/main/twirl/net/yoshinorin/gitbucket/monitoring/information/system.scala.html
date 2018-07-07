@@ -3,9 +3,10 @@
   zoneOffset: String,
   dayOfWeek: String,
   onDocker: Boolean,
-  upTime: Either[String, net.yoshinorin.gitbucket.monitoring.services.UpTime])(implicit context: gitbucket.core.controller.Context)
+  upTime: Either[net.yoshinorin.gitbucket.monitoring.utils.Error, net.yoshinorin.gitbucket.monitoring.services.UpTime])(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import net.yoshinorin.gitbucket.monitoring.services.operatingsystem.OperatingSystem
+@import net.yoshinorin.gitbucket.monitoring.utils.Error
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @net.yoshinorin.gitbucket.monitoring.html.navigation(context)
@@ -40,7 +41,7 @@
           <div class="row">
             <label class="col-md-2">StartTime</label>
             <span class="col-md-10">@upTime match {
-                case Left(message) => { <div class="error"> @message </div> }
+                case Left(message) => { <div class="error"> @message.message </div> }
                 case Right(u) => { @u.startTime }
               }
             </span>
@@ -48,7 +49,7 @@
           <div class="row">
             <label class="col-md-2">UpTime</label>
             <span class="col-md-10">@upTime match {
-                case Left(message) => { <div class="error"> @message </div> }
+                case Left(message) => { <div class="error"> @message.message </div> }
                 case Right(u) => { @u.upTime }
               }
             </span>

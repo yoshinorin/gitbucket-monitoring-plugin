@@ -1,10 +1,11 @@
 @(core: Int,
-  cpu: Either[String, net.yoshinorin.gitbucket.monitoring.models.Cpu],
-  memory: Either[String, net.yoshinorin.gitbucket.monitoring.models.Memory],
-  swap: Either[String, net.yoshinorin.gitbucket.monitoring.models.Swap],
+  cpu: Either[net.yoshinorin.gitbucket.monitoring.utils.Error, net.yoshinorin.gitbucket.monitoring.models.Cpu],
+  memory: Either[net.yoshinorin.gitbucket.monitoring.utils.Error, net.yoshinorin.gitbucket.monitoring.models.Memory],
+  swap: Either[net.yoshinorin.gitbucket.monitoring.utils.Error, net.yoshinorin.gitbucket.monitoring.models.Swap],
   diskSpace: net.yoshinorin.gitbucket.monitoring.models.DiskSpace)(implicit context: gitbucket.core.controller.Context)
 @import context._
 @import net.yoshinorin.gitbucket.monitoring.utils.Message
+@import net.yoshinorin.gitbucket.monitoring.utils.Error
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
     @net.yoshinorin.gitbucket.monitoring.html.navigation(context)
@@ -15,7 +16,7 @@
             @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Core", core.toString)
             @cpu match {
               case Left(message) => {
-                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", message)
+                @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", message.message)
               }
               case Right(c) => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", c.usage + "%")}
             }
@@ -31,7 +32,7 @@
           <span class="strong"></span>Physical
         </label>
         @memory match {
-        case Left(message) => { <div class="error"> @message </div> }
+          case Left(message) => { <div class="error"> @message.message </div> }
           case Right(m) => {
           <div class="row">
             @m.used match {
@@ -67,7 +68,7 @@
         </label>
         <div class="row">
           @swap match {
-            case Left(message) => { <div class="error"> @message </div> }
+            case Left(message) => { <div class="error"> @message.message </div> }
             case Right(s) => {
               @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", s.used + "/" + s.total + "MB")
               @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", s.free + "/" + s.total + "MB")
