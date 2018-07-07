@@ -10,7 +10,7 @@ import net.yoshinorin.gitbucket.monitoring.models.{Cpu, LoadAverage, Memory, Swa
 
 class MonitoringController extends ControllerBase with AdminAuthenticator {
 
-  private val os = net.yoshinorin.gitbucket.monitoring.services.operatingsystem.OperatingSystem.getInstance
+  private val instance = net.yoshinorin.gitbucket.monitoring.services.operatingsystem.OperatingSystem.getInstance
 
   get("/admin/monitoring")(adminOnly {
     redirect(s"/admin/monitoring/systeminformation")
@@ -18,7 +18,7 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
 
   get("/admin/monitoring/systeminformation")(adminOnly {
 
-    val upTime: Either[String, UpTime] = os.getUpTime match {
+    val upTime: Either[String, UpTime] = instance.getUpTime match {
       case Success(s) =>
         s match {
           case Some(s) => Right(s)
@@ -28,11 +28,11 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
     }
 
     html.system(
-      os.timeZone.toString,
-      os.getCurrentTime.toString,
-      os.getZoneOffset.toString,
-      os.getDayOfWeek.toString,
-      os.onDocker,
+      instance.timeZone.toString,
+      instance.getCurrentTime.toString,
+      instance.getZoneOffset.toString,
+      instance.getDayOfWeek.toString,
+      instance.onDocker,
       upTime
     )
 
@@ -44,7 +44,7 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
 
   get("/admin/monitoring/machineresources")(adminOnly {
 
-    val cpu: Either[String, Cpu] = os.getCpu match {
+    val cpu: Either[String, Cpu] = instance.getCpu match {
       case Success(s) =>
         s match {
           case Some(s) => Right(s)
@@ -53,7 +53,7 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
       case Failure(f) => Left("ERROR")
     }
 
-    val swap: Either[String, Swap] = os.getSwap match {
+    val swap: Either[String, Swap] = instance.getSwap match {
       case Success(s) =>
         s match {
           case Some(s) => Right(s)
@@ -62,7 +62,7 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
       case Failure(f) => Left("ERROR")
     }
 
-    val memory: Either[String, Memory] = os.getMemory match {
+    val memory: Either[String, Memory] = instance.getMemory match {
       case Success(s) =>
         s match {
           case Some(s) => Right(s)
@@ -72,17 +72,17 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
     }
 
     html.resources(
-      os.cpuCore,
+      instance.cpuCore,
       cpu,
       memory,
       swap,
-      os.getDiskSpace
+      instance.getDiskSpace
     )
   })
 
   get("/admin/monitoring/process")(adminOnly {
 
-    val tasks: Either[String, Tasks] = os.getTasks match {
+    val tasks: Either[String, Tasks] = instance.getTasks match {
       case Success(s) =>
         s match {
           case Some(s) => Right(s)
@@ -91,7 +91,7 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
       case Failure(f) => Left("ERROR")
     }
 
-    val loadAve: Either[String, LoadAverage] = os.getLoadAverage match {
+    val loadAve: Either[String, LoadAverage] = instance.getLoadAverage match {
       case Success(s) =>
         s match {
           case Some(s) => Right(s)
