@@ -1,5 +1,6 @@
 package net.yoshinorin.gitbucket.monitoring.controllers
 
+import scala.collection.JavaConverters._
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator
 import net.yoshinorin.gitbucket.monitoring.services._
@@ -25,7 +26,7 @@ class MonitoringController extends ControllerBase with AdminAuthenticator {
   })
 
   get("/admin/monitoring/environmentvariable")(adminOnly {
-    html.environmentVariable(EnvironmentVariable.getVariables);
+    html.environmentVariable(System.getenv().asScala.toMap);
   })
 
   get("/admin/monitoring/machineresources")(adminOnly {
