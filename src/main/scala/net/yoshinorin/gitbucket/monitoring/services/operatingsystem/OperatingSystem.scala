@@ -2,6 +2,7 @@ package net.yoshinorin.gitbucket.monitoring.services.operatingsystem
 
 import java.io.IOException
 import scala.sys.process.Process
+import scala.util.Try
 import net.yoshinorin.gitbucket.monitoring.utils.Error
 
 object OperatingSystem {
@@ -21,26 +22,30 @@ object OperatingSystem {
     else if (osName.toLowerCase.contains("mac")) Mac
     else Other
 
-  val osVersion: String = osType match {
-    case Windows => {
-      Process("powershell -Command Get-WmiObject Win32_OperatingSystem | %{ $_.Version }").!!
-    }
-    case _ => {
-      System.getProperty("os.version")
-    }
-  }
-
-  val distribution: String = osType match {
-    case Linux => {
-      try {
-        Process("cat /etc/issue").!!.replace("\\n", "").replace("\\l", "").replace(" ", "")
-      } catch {
+  val osVersion: Try[String] = osType match {
+    case Windows =>
+      Try {
+        Process("powershell -Command Get-WmiObject Win32_OperatingSystem | %{ $_.Version }").!!
+      }.recover {
         case e: IOException => Error.FAILURE.message
       }
-    }
-    case _ => {
-      "-"
-    }
+    case _ =>
+      Try {
+        System.getProperty("os.version")
+      }
+  }
+
+  val distribution: Try[String] = osType match {
+    case Linux =>
+      Try {
+        Process("cat /etc/issue").!!.replace("\\n", "").replace("\\l", "").replace(" ", "")
+      }.recover {
+        case e: IOException => Error.FAILURE.message
+      }
+    case _ =>
+      Try {
+        "-"
+      }
   }
 
   val getInstance = osType match {
