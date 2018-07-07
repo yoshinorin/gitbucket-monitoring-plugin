@@ -4,7 +4,6 @@
   swap: Either[net.yoshinorin.gitbucket.monitoring.utils.Error, net.yoshinorin.gitbucket.monitoring.models.Swap],
   diskSpace: net.yoshinorin.gitbucket.monitoring.models.DiskSpace)(implicit context: gitbucket.core.controller.Context)
 @import context._
-@import net.yoshinorin.gitbucket.monitoring.utils.Message
 @import net.yoshinorin.gitbucket.monitoring.utils.Error
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
@@ -36,25 +35,25 @@
           case Right(m) => {
           <div class="row">
             @m.used match {
-              case Message.notSupported => {
+              case Error.NOTSUPPORTED.message => {
                 @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", m.used)
               }
               case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Used", m.used + "/" + m.total + "MB")}
             }
             @m.free match {
-              case Message.notSupported => {
+              case Error.NOTSUPPORTED.message => {
                 @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", m.free)
               }
               case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Free", m.free + "/" + m.total + "MB")}
             }
             @m.shared match {
-              case Message.notSupported => {
+              case Error.NOTSUPPORTED.message => {
                 @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Shared", m.shared)
               }
               case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Shared", m.shared + "/" + m.total + "MB")}
             }
             @m.buffCache match {
-              case Message.notSupported => {
+              case Error.NOTSUPPORTED.message => {
                 @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Buff/Cache", m.buffCache)
               }
               case _ => { @net.yoshinorin.gitbucket.monitoring.bootstrapPanel.html.colsm2("Buff/Cache", m.buffCache + "/" + m.total + "MB")}

@@ -2,7 +2,7 @@ package net.yoshinorin.gitbucket.monitoring.services.operatingsystem
 
 import java.io.IOException
 import scala.sys.process.Process
-import net.yoshinorin.gitbucket.monitoring.utils.Message
+import net.yoshinorin.gitbucket.monitoring.utils.Error
 
 object OperatingSystem {
 
@@ -35,7 +35,7 @@ object OperatingSystem {
       try {
         Process("cat /etc/issue").!!.replace("\\n", "").replace("\\l", "").replace(" ", "")
       } catch {
-        case e: IOException => Message.error
+        case e: IOException => Error.FAILURE.message
       }
     }
     case _ => {

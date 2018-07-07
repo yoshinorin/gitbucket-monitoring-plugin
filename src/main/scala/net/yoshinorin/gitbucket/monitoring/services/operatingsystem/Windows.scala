@@ -38,7 +38,15 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo {
     val totalMem = Process("powershell -Command Get-WmiObject -Class Win32_PhysicalMemory | %{ $_.Capacity} | Measure-Object -Sum | %{ ($_.sum /1024/1024) }").!!.toDouble
     val availableMem = Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.AvailableMBytes}").!!.toDouble
 
-    Some(Memory(totalMem.toString, (totalMem - availableMem).toString, Message.notSupported, Message.notSupported, Message.notSupported, availableMem.toString))
+    Some(
+      Memory(
+        totalMem.toString,
+        (totalMem - availableMem).toString,
+        Error.NOTSUPPORTED.message,
+        Error.NOTSUPPORTED.message,
+        Error.NOTSUPPORTED.message,
+        availableMem.toString
+      ))
   }
 
   override def getSwap: Try[Option[Swap]] = Try {
@@ -53,8 +61,8 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo {
     Some(
       LoadAverage(
         Process("powershell -Command Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average | %{ $_.Average }").!!,
-        Message.notSupported,
-        Message.notSupported
+        Error.NOTSUPPORTED.message,
+        Error.NOTSUPPORTED.message
       )
     )
   }

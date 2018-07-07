@@ -1,12 +1,12 @@
 @(title: String, content: String)(implicit context: gitbucket.core.controller.Context)
-@import net.yoshinorin.gitbucket.monitoring.utils.Message
+@import net.yoshinorin.gitbucket.monitoring.utils.Error
 <div class="col-sm-2">
   <div class="panel panel-default">
     <div class="panel-heading strong">@title</div>
       <div class="panel-body text-right">
         @content match {
-          case Message.notSupported => { <div class="error"> @content </div> }
-          case Message.error => { <div class="error"> @content </div> }
+          case Error.NOTSUPPORTED.message => { <div class="error"> @content </div> }
+          case Error.FAILURE.message => { <div class="error"> @content </div> }
           case _ => { @content }
         }
       </div>
