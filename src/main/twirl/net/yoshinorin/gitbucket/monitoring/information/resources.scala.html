@@ -14,9 +14,7 @@
           <div class="row">
             @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Core", core.toString)
             @cpu match {
-              case Left(error) => {
-                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", error.message)
-              }
+              case Left(error) => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", error.message)}
               case Right(c) => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", c.usage + "%")}
             }
           </div>
@@ -35,27 +33,19 @@
           case Right(m) => {
           <div class="row">
             @m.used match {
-              case Error.NOTSUPPORTED.message => {
-                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", m.used)
-              }
+              case Error.NOTSUPPORTED.message => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", m.used)}
               case _ => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", m.used + "/" + m.total + "MB")}
             }
             @m.free match {
-              case Error.NOTSUPPORTED.message => {
-                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Free", m.free)
-              }
+              case Error.NOTSUPPORTED.message => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Free", m.free)}
               case _ => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Free", m.free + "/" + m.total + "MB")}
             }
             @m.shared match {
-              case Error.NOTSUPPORTED.message => {
-                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Shared", m.shared)
-              }
+              case Error.NOTSUPPORTED.message => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Shared", m.shared)}
               case _ => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Shared", m.shared + "/" + m.total + "MB")}
             }
             @m.buffCache match {
-              case Error.NOTSUPPORTED.message => {
-                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Buff/Cache", m.buffCache)
-              }
+              case Error.NOTSUPPORTED.message => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Buff/Cache", m.buffCache)}
               case _ => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Buff/Cache", m.buffCache + "/" + m.total + "MB")}
             }
             @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Available", m.available + "/" + m.total + "MB")
