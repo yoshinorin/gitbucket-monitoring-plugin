@@ -7,7 +7,6 @@
         @content match {
           case Message.notSupported => { <div class="error"> @content </div> }
           case Message.error => { <div class="error"> @content </div> }
-          case Message.notFound => { <div class="error"> @content </div> }
           case _ => { @content }
         }
       </div>

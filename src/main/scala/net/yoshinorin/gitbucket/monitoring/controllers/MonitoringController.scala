@@ -8,7 +8,7 @@ import net.yoshinorin.gitbucket.monitoring.information._
 
 class MonitoringController extends ControllerBase with AdminAuthenticator {
 
-  val os = net.yoshinorin.gitbucket.monitoring.services.operatingsystem.OperatingSystem.getInstance
+  private val os = net.yoshinorin.gitbucket.monitoring.services.operatingsystem.OperatingSystem.getInstance
 
   get("/admin/monitoring")(adminOnly {
     redirect(s"/admin/monitoring/systeminformation");
