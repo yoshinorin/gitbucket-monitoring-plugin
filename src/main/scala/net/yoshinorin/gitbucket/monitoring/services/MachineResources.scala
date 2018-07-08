@@ -2,7 +2,7 @@ package net.yoshinorin.gitbucket.monitoring.services
 
 import java.nio.file._
 import scala.sys.process.Process
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 import net.yoshinorin.gitbucket.monitoring.models.{Cpu, DiskSpace, Memory, Swap}
 import net.yoshinorin.gitbucket.monitoring.utils.Converter.{byteConverter, dropAndToArray}
 import net.yoshinorin.gitbucket.monitoring.utils._
@@ -23,10 +23,11 @@ trait MachineResources {
         resouces.filter(c => c.contains("hi")).headOption.getOrElse("-").replace("hi", ""),
         resouces.filter(c => c.contains("si")).headOption.getOrElse("-").replace("si", ""),
         resouces.filter(c => c.contains("st")).headOption.getOrElse("-").replace("st", ""),
-        try {
+        Try {
           Rounding.ceil(100 - resouces.filter(c => c.contains("id")).headOption.getOrElse("-").replace("id", "").toDouble).toString
-        } catch {
-          case e: NumberFormatException => Error.FAILURE.message
+        } match {
+          case Success(s) => s
+          case Failure(f) => Error.FAILURE.message
         }
       )
     )
@@ -45,15 +46,17 @@ trait MachineResources {
           mem(1),
           mem(2),
           mem(3),
-          try {
+          Try {
             (mem(4).toInt + mem(5).toInt).toString
-          } catch {
-            case e: NumberFormatException => Error.FAILURE.message
+          } match {
+            case Success(s) => s
+            case Failure(f) => Error.FAILURE.message
           },
-          try {
+          Try {
             (mem(2).toInt + mem(4).toInt + mem(5).toInt).toString
-          } catch {
-            case e: NumberFormatException => Error.FAILURE.message
+          } match {
+            case Success(s) => s
+            case Failure(f) => Error.FAILURE.message
           }
         )
       )
