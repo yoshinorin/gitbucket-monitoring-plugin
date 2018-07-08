@@ -1,11 +1,11 @@
 package net.yoshinorin.gitbucket.monitoring.services
 
-import java.nio.file._
+import java.nio.file.{Files, Paths}
 import scala.sys.process.Process
 import scala.util.{Failure, Success, Try}
 import net.yoshinorin.gitbucket.monitoring.models.{Cpu, DiskSpace, Memory, Swap}
 import net.yoshinorin.gitbucket.monitoring.utils.Converter.{byteConverter, dropAndToArray}
-import net.yoshinorin.gitbucket.monitoring.utils._
+import net.yoshinorin.gitbucket.monitoring.utils.Error
 
 trait MachineResources {
 
@@ -24,7 +24,7 @@ trait MachineResources {
         resouces.filter(c => c.contains("si")).headOption.getOrElse("-").replace("si", ""),
         resouces.filter(c => c.contains("st")).headOption.getOrElse("-").replace("st", ""),
         Try {
-          Rounding.ceil(100 - resouces.filter(c => c.contains("id")).headOption.getOrElse("-").replace("id", "").toDouble).toString
+          "%1.2f".format((100 - resouces.filter(c => c.contains("id")).headOption.getOrElse("-").replace("id", "").toDouble))
         } match {
           case Success(s) => s
           case Failure(f) => Error.FAILURE.message

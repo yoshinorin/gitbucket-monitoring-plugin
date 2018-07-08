@@ -26,12 +26,6 @@ object Converter {
 
 }
 
-object Rounding {
-  def ceil(num: BigDecimal, digit: Int = 2): BigDecimal = {
-    num.setScale(digit, scala.math.BigDecimal.RoundingMode.CEILING)
-  }
-}
-
 case class DateTime(
   days: Int,
   hours: Int,
