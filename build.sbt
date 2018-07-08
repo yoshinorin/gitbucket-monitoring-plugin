@@ -1,6 +1,6 @@
 val Name = "gitbucket-monitorting-plugin"
 val Organization = "net.yoshinorin"
-val Version = "2.0.0"
+val Version = "3.0.0"
 
 lazy val root = project in file(".")
 
