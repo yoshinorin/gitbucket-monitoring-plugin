@@ -4,11 +4,7 @@
   <div class="panel panel-default">
     <div class="panel-heading strong">@title</div>
       <div class="panel-body text-right">
-        @content match {
-          case Error.NOTSUPPORTED.message => { <div class="error"> @content </div> }
-          case Error.FAILURE.message => { <div class="error"> @content </div> }
-          case _ => { @content }
-        }
+        @content
       </div>
   </div>
 </div>

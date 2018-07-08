@@ -29,7 +29,7 @@
           <span class="strong"></span>Physical
         </label>
         @memory match {
-          case Left(error) => { <div class="error"> @error.message </div> }
+          case Left(error) => { @error.message }
           case Right(m) => {
           <div class="row">
             @m.used match {
@@ -57,7 +57,7 @@
         </label>
         <div class="row">
           @swap match {
-            case Left(error) => { <div class="error"> @error.message </div> }
+            case Left(error) => { @error.message }
             case Right(s) => {
               @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", s.used + "/" + s.total + "MB")
               @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Free", s.free + "/" + s.total + "MB")
