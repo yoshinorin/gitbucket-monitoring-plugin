@@ -11,10 +11,10 @@ All viewable informations are below.
 * Operating System Information (OS, Distribution, Version, Architecture)
 * Uptime (When booted, Spent time after booted)
 * Time (Current Time, Time Zone, Zone offset, Day of Week)
-* Machine's environment variables
-* Machine's resources (Cpu Cores, Cpu Usage, Physical memory, Swap, Disk Usage)
-* Machine's Load average
-* Machine's Tasks (Running, Sleeping, Stopped, Zombie)
+* Environment variables
+* Resources (Cpu Cores, Cpu Statistics, Physical memory, Swap, Disk Usage)
+* Load average
+* Tasks (Running, Sleeping, Stopped, Zombie)
 * Java system properties and memory
 * **(Obsolete)** ~~LogBack settings~~ Please use [gitbucket-logs-plugin](https://github.com/YoshinoriN/gitbucket-logs-plugin).
 * **(Obsolete)** ~~GitBucket's log~~ Please use [gitbucket-logs-plugin](https://github.com/YoshinoriN/gitbucket-logs-plugin).
@@ -24,8 +24,8 @@ All viewable informations are below.
 ||||
 |:-------:|:-------:|:-------:|
 |![menu](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/menu.png)|![system](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/system.png)|![envval](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/envval.png)|
-|![resources](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master//doc/images/resources.png)|![process](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/process.png)|![java-p](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/java-p.png)|
-|![java-m](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/java-m.png)|||
+|![resources](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master//doc/images/resources.png)|![linux-cpu](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/linux-cpus.png)|![process](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/process.png)|
+|![java-p](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/java-p.png)|![java-m](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/java-m.png)||
 
 # Download & Installation
 
@@ -40,7 +40,8 @@ Goto the `System Administration` menu, you can see `Monitoring` section.
 
 |Plugin version|GitBucket version|
 |:-------------:|:-------:|
-|3.0.0|4.25.0 - |
+|3.1.0|4.25.0 - 4.26.0|
+|3.0.0|4.25.0 - 4.26.0|
 |2.0.0|4.23 - 4.25.0|
 |1.2.0|4.10 - 4.22.0|
 |1.1.0|4.10 - 4.21.x|
