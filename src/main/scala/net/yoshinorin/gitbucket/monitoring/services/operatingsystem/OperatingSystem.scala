@@ -21,7 +21,7 @@ object OperatingSystem {
     else if (osName.toLowerCase.contains("mac")) Mac
     else Other
 
-  val osVersion: String = osType match {
+  val version: String = osType match {
     case Windows =>
       Try {
         Process("powershell -Command Get-WmiObject Win32_OperatingSystem | %{ $_.Version }").!!
