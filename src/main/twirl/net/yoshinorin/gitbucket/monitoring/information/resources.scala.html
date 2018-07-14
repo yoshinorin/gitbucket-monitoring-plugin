@@ -4,6 +4,7 @@
   swap: Either[net.yoshinorin.gitbucket.monitoring.utils.Error, net.yoshinorin.gitbucket.monitoring.models.Swap],
   diskSpace: net.yoshinorin.gitbucket.monitoring.models.DiskSpace)(implicit context: gitbucket.core.controller.Context)
 @import context._
+@import net.yoshinorin.gitbucket.monitoring.services.operatingsystem.OperatingSystem
 @import net.yoshinorin.gitbucket.monitoring.utils.Error
 @gitbucket.core.html.main("Monitoring") {
   @gitbucket.core.admin.html.menu("monitoring") {
@@ -15,8 +16,59 @@
             @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Core", core.toString)
             @cpu match {
               case Left(error) => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", error.message)}
-              case Right(c) => { @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", c.usage + "%")}
-            }
+              case Right(c) => {
+                @net.yoshinorin.gitbucket.monitoring.helper.html.colsm2("Used", c.usage + "%")
+                  @OperatingSystem.osType match {
+                    case OperatingSystem.Linux => {
+                      <table class="table table-hover">
+                        <tr>
+                          <tr>
+                            <td>user</td>
+                            <td>@c.us %</td>
+                            <td>time running un-niced user processes</td>
+                          </tr>
+                          <tr>
+                            <td>system</td>
+                            <td>@c.sy %</td>
+                            <td>time running kernel processes</td>
+                          </tr>
+                          <tr>
+                            <td>nice</td>
+                            <td>@c.ni %</td>
+                            <td>time running niced user processes</td>
+                          </tr>
+                          <tr>
+                            <td>idle</td>
+                            <td>@c.id %</td>
+                            <td>time spent in the kernel idle handler</td>
+                          </tr>
+                          <tr>
+                            <td>I/O wait</td>
+                            <td>@c.wa %</td>
+                            <td>time waiting for I/O completion</td>
+                          </tr>
+                          <tr>
+                            <td>hi</td>
+                            <td>@c.hi %</td>
+                            <td>time spent servicing hardware interrupts</td>
+                          </tr>
+                          <tr>
+                            <td>si</td>
+                            <td>@c.si %</td>
+                            <td>time spent servicing software interrupts</td>
+                          </tr>
+                          <tr>
+                            <td>st</td>
+                            <td>@c.st %</td>
+                            <td>time stolen from this vm by the hypervisor</td>
+                          </tr>
+                        </tr>
+                      </table>
+                    }
+                    case _ => {}
+                  }
+                }
+              }
           </div>
         </div>
     </div>
