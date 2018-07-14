@@ -12,7 +12,7 @@ trait MachineResources {
   val cpuCore = Runtime.getRuntime().availableProcessors()
 
   def getCpu: Try[Option[Cpu]] = Try {
-    val resouces = (Process("top -b -n 1") #| Process("grep Cpu(s)")).!!.dropAndToArray(":", ",")
+    val resouces = (Process("top -d 0.2 -b -n 5") #| Process("grep Cpu(s)") #| Process("tail -n 1")).!!.dropAndToArray(":", ",")
     Some(
       Cpu(
         resouces.filter(c => c.contains("us")).headOption.getOrElse("-").replace("us", ""),
