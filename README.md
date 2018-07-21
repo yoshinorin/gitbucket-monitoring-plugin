@@ -16,8 +16,8 @@ All viewable informations are below.
 * Load average
 * Tasks (Running, Sleeping, Stopped, Zombie)
 * Java system properties and memory
-* **(Obsolete)** ~~LogBack settings~~ Please use [gitbucket-logs-plugin](https://github.com/YoshinoriN/gitbucket-logs-plugin).
-* **(Obsolete)** ~~GitBucket's log~~ Please use [gitbucket-logs-plugin](https://github.com/YoshinoriN/gitbucket-logs-plugin).
+* **(Obsolete)** ~~LogBack settings~~ Please use [gitbucket-application-logs-plugin](https://github.com/YoshinoriN/gitbucket-application-logs-plugin).
+* **(Obsolete)** ~~GitBucket's log~~ Please use [gitbucket-application-logs-plugin](https://github.com/YoshinoriN/gitbucket-application-logs-plugin).
 
 # Images
 
