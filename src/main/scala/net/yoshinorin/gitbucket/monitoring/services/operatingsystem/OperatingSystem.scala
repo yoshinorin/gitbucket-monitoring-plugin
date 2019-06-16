@@ -1,5 +1,7 @@
 package net.yoshinorin.gitbucket.monitoring.services.operatingsystem
 
+import net.yoshinorin.gitbucket.monitoring.services.SystemInformation
+
 import scala.sys.process.Process
 import scala.util.{Failure, Success, Try}
 import net.yoshinorin.gitbucket.monitoring.utils.Error
@@ -12,8 +14,8 @@ object OperatingSystem {
   case object Mac extends OSType
   case object Other extends OSType
 
-  val osArch = System.getProperty("os.arch")
-  val osName = System.getProperty("os.name")
+  val osArch: String = System.getProperty("os.arch")
+  val osName: String = System.getProperty("os.name")
 
   val osType: OSType =
     if (osName.toLowerCase.contains("linux")) Linux

@@ -8,7 +8,7 @@ import net.yoshinorin.gitbucket.monitoring.utils.Converter.dropAndToArray
 trait ProcessInfo {
 
   def getTasks: Try[Option[Tasks]] = Try {
-    val resouces = (Process("top -b -n 1") #| Process("grep Tasks")).!!.dropAndToArray(":", ",")
+    val resouces: Array[String] = (Process("top -b -n 1") #| Process("grep Tasks")).!!.dropAndToArray(":", ",")
     Some(
       Tasks(
         resouces.filter(c => c.contains("total")).headOption.getOrElse("-").replace("total", ""),

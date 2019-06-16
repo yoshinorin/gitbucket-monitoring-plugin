@@ -9,10 +9,10 @@ import net.yoshinorin.gitbucket.monitoring.utils.Error
 
 trait MachineResources {
 
-  val cpuCore = Runtime.getRuntime().availableProcessors()
+  val cpuCore: Int = Runtime.getRuntime().availableProcessors()
 
   def getCpu: Try[Option[Cpu]] = Try {
-    val resouces = (Process("top -d 0.3 -b -n 2") #| Process("grep Cpu(s)") #| Process("tail -n 1")).!!.dropAndToArray(":", ",")
+    val resouces: Array[String] = (Process("top -d 0.3 -b -n 2") #| Process("grep Cpu(s)") #| Process("tail -n 1")).!!.dropAndToArray(":", ",")
     Some(
       Cpu(
         resouces.filter(c => c.contains("us")).headOption.getOrElse("-").replace("us", ""),
@@ -36,7 +36,7 @@ trait MachineResources {
   def getMemory: Try[Option[Memory]] = Try {
     //Estimated available memory
     //https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773
-    val mem = (Process("free -mt") #| Process("grep Mem")).!!.dropAndToArray(":", "\\s+")
+    val mem: Array[String] = (Process("free -mt") #| Process("grep Mem")).!!.dropAndToArray(":", "\\s+")
     if ((Process("free") #| Process("grep available") #| Process("wc -l")).!!.trim != "0") {
       Some(Memory(mem(0), mem(1), mem(2), mem(3), mem(4), mem(5)))
     } else {
@@ -64,14 +64,14 @@ trait MachineResources {
   }
 
   def getSwap: Try[Option[Swap]] = Try {
-    val swap = (Process("free -mt") #| Process("grep Swap")).!!.dropAndToArray(":", "\\s+")
+    val swap: Array[String] = (Process("free -mt") #| Process("grep Swap")).!!.dropAndToArray(":", "\\s+")
     Some(Swap(swap(0), swap(1), swap(2)))
   }
 
   def getDiskSpace: DiskSpace = {
-    val totalSpace = Files.getFileStore(Paths.get(".")).getTotalSpace().byteToGB
-    val freeSpace = Files.getFileStore(Paths.get(".")).getUnallocatedSpace().byteToGB
-    val usedSpace = totalSpace - freeSpace
+    val totalSpace: Long = Files.getFileStore(Paths.get(".")).getTotalSpace().byteToGB
+    val freeSpace: Long = Files.getFileStore(Paths.get(".")).getUnallocatedSpace().byteToGB
+    val usedSpace: Long = totalSpace - freeSpace
 
     DiskSpace(
       totalSpace.toString,

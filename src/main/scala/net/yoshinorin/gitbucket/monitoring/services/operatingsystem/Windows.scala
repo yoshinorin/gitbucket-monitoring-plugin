@@ -35,8 +35,8 @@ class Windows extends SystemInformation with MachineResources with ProcessInfo {
   }
 
   override def getMemory: Try[Option[Memory]] = Try {
-    val totalMem = Process("powershell -Command Get-WmiObject -Class Win32_PhysicalMemory | %{ $_.Capacity} | Measure-Object -Sum | %{ ($_.sum /1024/1024) }").!!.toDouble
-    val availableMem = Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.AvailableMBytes}").!!.toDouble
+    val totalMem: Double = Process("powershell -Command Get-WmiObject -Class Win32_PhysicalMemory | %{ $_.Capacity} | Measure-Object -Sum | %{ ($_.sum /1024/1024) }").!!.toDouble
+    val availableMem: Double = Process("powershell -Command Get-WmiObject -Class Win32_PerfFormattedData_PerfOS_Memory | %{ $_.AvailableMBytes}").!!.toDouble
 
     Some(
       Memory(
