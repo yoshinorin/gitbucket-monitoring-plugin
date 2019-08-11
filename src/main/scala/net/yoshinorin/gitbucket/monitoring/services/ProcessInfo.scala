@@ -11,11 +11,11 @@ trait ProcessInfo {
     val resouces: Array[String] = (Process("top -b -n 1") #| Process("grep Tasks")).!!.dropAndToArray(":", ",")
     Some(
       Tasks(
-        resouces.filter(c => c.contains("total")).headOption.getOrElse("-").replace("total", ""),
-        resouces.filter(c => c.contains("running")).headOption.getOrElse("-").replace("running", ""),
-        resouces.filter(c => c.contains("sleeping")).headOption.getOrElse("-").replace("sleeping", ""),
-        resouces.filter(c => c.contains("stopped")).headOption.getOrElse("-").replace("stopped", ""),
-        resouces.filter(c => c.contains("zombie")).headOption.getOrElse("-").replace("zombie", "")
+        resouces.find(c => c.contains("total")).getOrElse("-").replace("total", ""),
+        resouces.find(c => c.contains("running")).getOrElse("-").replace("running", ""),
+        resouces.find(c => c.contains("sleeping")).getOrElse("-").replace("sleeping", ""),
+        resouces.find(c => c.contains("stopped")).getOrElse("-").replace("stopped", ""),
+        resouces.find(c => c.contains("zombie")).getOrElse("-").replace("zombie", "")
       )
     )
   }

@@ -15,16 +15,16 @@ trait MachineResources {
     val resouces: Array[String] = (Process("top -d 0.3 -b -n 2") #| Process("grep Cpu(s)") #| Process("tail -n 1")).!!.dropAndToArray(":", ",")
     Some(
       Cpu(
-        resouces.filter(c => c.contains("us")).headOption.getOrElse("-").replace("us", ""),
-        resouces.filter(c => c.contains("sy")).headOption.getOrElse("-").replace("sy", ""),
-        resouces.filter(c => c.contains("ni")).headOption.getOrElse("-").replace("ni", ""),
-        resouces.filter(c => c.contains("id")).headOption.getOrElse("-").replace("id", ""),
-        resouces.filter(c => c.contains("wa")).headOption.getOrElse("-").replace("wa", ""),
-        resouces.filter(c => c.contains("hi")).headOption.getOrElse("-").replace("hi", ""),
-        resouces.filter(c => c.contains("si")).headOption.getOrElse("-").replace("si", ""),
-        resouces.filter(c => c.contains("st")).headOption.getOrElse("-").replace("st", ""),
+        resouces.find(c => c.contains("us")).getOrElse("-").replace("us", ""),
+        resouces.find(c => c.contains("sy")).getOrElse("-").replace("sy", ""),
+        resouces.find(c => c.contains("ni")).getOrElse("-").replace("ni", ""),
+        resouces.find(c => c.contains("id")).getOrElse("-").replace("id", ""),
+        resouces.find(c => c.contains("wa")).getOrElse("-").replace("wa", ""),
+        resouces.find(c => c.contains("hi")).getOrElse("-").replace("hi", ""),
+        resouces.find(c => c.contains("si")).getOrElse("-").replace("si", ""),
+        resouces.find(c => c.contains("st")).getOrElse("-").replace("st", ""),
         Try {
-          "%1.2f".format((100 - resouces.filter(c => c.contains("id")).headOption.getOrElse("-").replace("id", "").toDouble))
+          "%1.2f".format((100 - resouces.find(c => c.contains("id")).getOrElse("-").replace("id", "").toDouble))
         } match {
           case Success(s) => s
           case Failure(f) => Error.FAILURE.message
