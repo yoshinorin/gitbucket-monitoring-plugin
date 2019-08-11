@@ -1,6 +1,6 @@
 package net.yoshinorin.gitbucket.monitoring.services.operatingsystem
 
-import net.yoshinorin.gitbucket.monitoring.services.SystemInformation
+import net.yoshinorin.gitbucket.monitoring.services.{MachineResources, ProcessInfo, SystemInformation}
 
 import scala.sys.process.Process
 import scala.util.{Failure, Success, Try}
