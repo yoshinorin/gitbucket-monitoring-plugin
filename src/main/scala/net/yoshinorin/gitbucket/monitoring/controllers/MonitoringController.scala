@@ -1,6 +1,6 @@
 package net.yoshinorin.gitbucket.monitoring.controllers
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.{Failure, Success}
 import gitbucket.core.controller.ControllerBase
 import gitbucket.core.util.AdminAuthenticator

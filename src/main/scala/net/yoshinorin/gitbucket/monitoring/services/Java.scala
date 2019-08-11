@@ -1,6 +1,6 @@
 package net.yoshinorin.gitbucket.monitoring.services
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import net.yoshinorin.gitbucket.monitoring.utils.Converter.byteConverter
 
 object Java {
