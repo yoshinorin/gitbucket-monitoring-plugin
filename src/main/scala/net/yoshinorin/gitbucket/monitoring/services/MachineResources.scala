@@ -9,7 +9,7 @@ import net.yoshinorin.gitbucket.monitoring.utils.Error
 
 trait MachineResources {
 
-  val cpuCore: Int = Runtime.getRuntime().availableProcessors()
+  val cpuCore: Int = Runtime.getRuntime.availableProcessors()
 
   def getCpu: Try[Option[Cpu]] = Try {
     val resouces: Array[String] = (Process("top -d 0.3 -b -n 2") #| Process("grep Cpu(s)") #| Process("tail -n 1")).!!.dropAndToArray(":", ",")
@@ -69,8 +69,8 @@ trait MachineResources {
   }
 
   def getDiskSpace: DiskSpace = {
-    val totalSpace: Long = Files.getFileStore(Paths.get(".")).getTotalSpace().byteToGB
-    val freeSpace: Long = Files.getFileStore(Paths.get(".")).getUnallocatedSpace().byteToGB
+    val totalSpace: Long = Files.getFileStore(Paths.get(".")).getTotalSpace.byteToGB
+    val freeSpace: Long = Files.getFileStore(Paths.get(".")).getUnallocatedSpace.byteToGB
     val usedSpace: Long = totalSpace - freeSpace
 
     DiskSpace(

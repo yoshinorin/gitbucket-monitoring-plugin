@@ -13,8 +13,8 @@ trait SystemInformation {
   }
 
   def getCurrentTime: LocalDateTime = LocalDateTime.now()
-  def getZoneOffset: ZoneOffset = timeZone.getRules().getOffset(getCurrentTime)
-  def getDayOfWeek: DayOfWeek = getCurrentTime.getDayOfWeek()
+  def getZoneOffset: ZoneOffset = timeZone.getRules.getOffset(getCurrentTime)
+  def getDayOfWeek: DayOfWeek = getCurrentTime.getDayOfWeek
 
   def getUpTime: Try[Option[UpTime]] = Try {
     val result = Process("uptime").!!
