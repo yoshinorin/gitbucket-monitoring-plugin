@@ -45,7 +45,7 @@ object OperatingSystem {
     case _ => "-"
   }
 
-  val getInstance = osType match {
+  val getInstance: SystemInformation with MachineResources with ProcessInfo = osType match {
     case OperatingSystem.Linux => new Linux
     case OperatingSystem.Mac => new Mac
     case OperatingSystem.Windows => new Windows
