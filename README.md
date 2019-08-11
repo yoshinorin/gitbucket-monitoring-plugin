@@ -55,10 +55,10 @@ I confirm work it only `Debian GNU/Linux 8`, `Ubuntu 16.04` and `Windows10`.  Bu
 # Build from source
 
 ```sh
-sbt package
+sbt assembly
 ```
 
-The built package will be created at `/target/scala-2.12/gitbucket-monitorting-plugin_2.12-{plugin-version}.jar`
+The built package will be created at `/target/scala-2.13/gitbucket-monitorting-plugin{plugin-version}.jar`
 
 # License
 
