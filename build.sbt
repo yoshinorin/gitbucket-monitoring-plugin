@@ -7,8 +7,8 @@ lazy val root = project in file(".")
 name := Name
 organization := Organization
 version := Version
-scalaVersion := "2.13.1"
-gitbucketVersion := "4.35.0"
+scalaVersion := "2.13.8"
+gitbucketVersion := "4.37.2"
 
 scalacOptions ++= Seq(
   "-deprecation",
