@@ -1,6 +1,6 @@
 # gitbucket-monitoring-plugin
 
-[![build](https://github.com/YoshinoriN/gitbucket-monitoring-plugin/workflows/build/badge.svg?branch=master)](https://github.com/YoshinoriN/gitbucket-monitoring-plugin/actions) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/677a69ed2e5f4137ba35986dbb02995f)](https://www.codacy.com/app/YoshinoriN/gitbucket-monitoring-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=YoshinoriN/gitbucket-monitoring-plugin&amp;utm_campaign=Badge_Grade)
+[![build](https://github.com/yoshinorin/gitbucket-monitoring-plugin/workflows/build/badge.svg?branch=master)](https://github.com/yoshinorin/gitbucket-monitoring-plugin/actions) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/677a69ed2e5f4137ba35986dbb02995f)](https://www.codacy.com/app/yoshinorin/gitbucket-monitoring-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=yoshinorin/gitbucket-monitoring-plugin&amp;utm_campaign=Badge_Grade)
 
 # Features
 
@@ -16,20 +16,20 @@ All viewable informations are below.
 * Load average
 * Tasks (Running, Sleeping, Stopped, Zombie)
 * Java system properties and memory
-* **(Obsolete)** ~~LogBack settings~~ Please use [gitbucket-application-logs-plugin](https://github.com/YoshinoriN/gitbucket-application-logs-plugin).
-* **(Obsolete)** ~~GitBucket's log~~ Please use [gitbucket-application-logs-plugin](https://github.com/YoshinoriN/gitbucket-application-logs-plugin).
+* **(Obsolete)** ~~LogBack settings~~ Please use [gitbucket-application-logs-plugin](https://github.com/yoshinorin/gitbucket-application-logs-plugin).
+* **(Obsolete)** ~~GitBucket's log~~ Please use [gitbucket-application-logs-plugin](https://github.com/yoshinorin/gitbucket-application-logs-plugin).
 
 # Images
 
 ||||
 |:-------:|:-------:|:-------:|
-|![menu](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/menu.png)|![system](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/system.png)|![envval](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/envval.png)|
-|![resources](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master//doc/images/resources.png)|![linux-cpu](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/linux-cpus.png)|![process](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/process.png)|
-|![java-p](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/java-p.png)|![java-m](https://raw.githubusercontent.com/YoshinoriN/gitbucket-monitoring-plugin/master/doc/images/java-m.png)||
+|![menu](https://raw.githubusercontent.com/yoshinorin/gitbucket-monitoring-plugin/master/doc/images/menu.png)|![system](https://raw.githubusercontent.com/yoshinorin/gitbucket-monitoring-plugin/master/doc/images/system.png)|![envval](https://raw.githubusercontent.com/yoshinorin/gitbucket-monitoring-plugin/master/doc/images/envval.png)|
+|![resources](https://raw.githubusercontent.com/yoshinorin/gitbucket-monitoring-plugin/master//doc/images/resources.png)|![linux-cpu](https://raw.githubusercontent.com/yoshinorin/gitbucket-monitoring-plugin/master/doc/images/linux-cpus.png)|![process](https://raw.githubusercontent.com/yoshinorin/gitbucket-monitoring-plugin/master/doc/images/process.png)|
+|![java-p](https://raw.githubusercontent.com/yoshinorin/gitbucket-monitoring-plugin/master/doc/images/java-p.png)|![java-m](https://raw.githubusercontent.com/yoshinorin/gitbucket-monitoring-plugin/master/doc/images/java-m.png)||
 
 # Download & Installation
 
-1. Download plugin jar file from [the release page](//github.com/YoshinoriN/gitbucket-monitoring-plugin/releases).
+1. Download plugin jar file from [the release page](//github.com/yoshinorin/gitbucket-monitoring-plugin/releases).
 2. Put plugin jar file into `GITBUCKET_HOME/plugins` and restart GitBucket.
 
 # UI Usage
