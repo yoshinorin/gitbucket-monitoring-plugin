@@ -1,6 +1,6 @@
 # gitbucket-monitoring-plugin
 
-[![build](https://github.com/yoshinorin/gitbucket-monitoring-plugin/workflows/build/badge.svg?branch=master)](https://github.com/yoshinorin/gitbucket-monitoring-plugin/actions) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/677a69ed2e5f4137ba35986dbb02995f)](https://www.codacy.com/app/yoshinorin/gitbucket-monitoring-plugin?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=yoshinorin/gitbucket-monitoring-plugin&amp;utm_campaign=Badge_Grade)
+[![build](https://github.com/yoshinorin/gitbucket-monitoring-plugin/workflows/build/badge.svg?branch=master)](https://github.com/yoshinorin/gitbucket-monitoring-plugin/actions)
 
 # Features
 
